@@ -1,0 +1,3 @@
+rootProject.name = 'debtCollector'
+
+include ':app'
