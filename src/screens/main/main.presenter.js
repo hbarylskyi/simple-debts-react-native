@@ -14,7 +14,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchDebts: () => dispatch(ApiActions.fetchDebts()),
   selectDebt: debtId => dispatch(DebtActions.selectDebt(debtId)),
-  goToDebt: debtId => dispatch(NavActions.goToDebtScreen(debtId))
+  goToDebt: userName => dispatch(NavActions.goToDebtScreen(userName))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
