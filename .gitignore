@@ -1,3 +1,5 @@
+keys/.*/.*
+
 # OSX
 #
 .DS_Store

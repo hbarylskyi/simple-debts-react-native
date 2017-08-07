@@ -3,10 +3,14 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addNavigationHelpers, StackNavigator } from "react-navigation";
 
-import SlidesContainerScreen from "./slides-container/slides-container.screen";
+import LoginScreen from "./login/login.presenter";
+import MainScreen from "./main/main.presenter";
+import DebtScreen from "./debt/debt.presenter";
 
 export const AppNavigator = StackNavigator({
-  Slides: { screen: SlidesContainerScreen }
+  LoginScreen: { screen: LoginScreen },
+  MainScreen: { screen: MainScreen },
+  DebtScreen: { screen: DebtScreen }
 });
 
 const AppWithNavigationState = ({ dispatch, nav }) =>
