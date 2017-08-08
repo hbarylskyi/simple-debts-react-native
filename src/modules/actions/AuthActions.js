@@ -61,9 +61,7 @@ export const fbLogin = () => dispatch => {
   );
 };
 
-export const loginCheck = () => dispatch => {
-  dispatch(loginCheckAction());
-};
+export const loginCheck = () => dispatch => dispatch(loginCheckAction());
 
 export const logout = () => dispatch => {
   LoginManager.logOut();

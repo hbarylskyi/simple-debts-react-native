@@ -18,6 +18,10 @@ export default class MainScreen extends Component {
     this.props.goToDebt(userName);
   }
 
+  logout = () => {
+    this.props.logout();
+  };
+
   renderSummary = () => {
     const { toGive, toTake } = this.props.summary;
 
@@ -34,6 +38,11 @@ export default class MainScreen extends Component {
       </View>
     );
   };
+
+  renderForeground = () =>
+    <View style={styles.logoutButton}>
+      <Button title="Logout" onPress={this.logout} />
+    </View>;
 
   renderDebt = debt => {
     const { name, picture } = debt.user;
@@ -73,6 +82,7 @@ export default class MainScreen extends Component {
           parallaxHeaderHeight={300}
           backgroundColor="white"
           renderBackground={this.renderSummary}
+          renderForeground={this.renderForeground}
         >
           <View style={styles.listContainer}>
             {debts.map(this.renderDebt)}

@@ -1,4 +1,4 @@
-import { FETCH_DEBTS } from "../actions/ApiActions";
+import { FETCH_DEBTS } from "../actions/DebtsActions";
 import { LOGOUT } from "../actions/AuthActions";
 import { REHYDRATE } from "redux-persist/constants";
 

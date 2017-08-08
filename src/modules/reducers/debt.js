@@ -32,10 +32,6 @@ export default (state = initialState, action) => {
       nextState = { ...state, debt: action.payload };
       break;
 
-    case `${OPERATION_DECLINE}_SUCCESS`:
-      nextState = { ...state, debt: action.payload };
-      break;
-
     case SELECT_DEBT:
       nextState = { ...state, currentDebtId: action.payload.debtId };
       break;

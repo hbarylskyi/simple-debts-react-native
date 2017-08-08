@@ -55,6 +55,13 @@ export default (state = initialNavState, action) => {
       );
 
       break;
+    case "Navigation/BACK":
+      nextState = AppNavigator.router.getStateForAction(
+        NavigationActions.back(),
+        state
+      );
+
+      break;
   }
 
   return nextState || state;

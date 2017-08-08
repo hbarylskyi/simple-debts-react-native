@@ -20,9 +20,8 @@ const mapDispatchToProps = dispatch => ({
       DebtActions.newOperation(debtId, val, uid, "hardcoded description")
     ),
 
-  accept: operationId => dispatch(DebtActions.operationDecline(operationId)),
-
-  decline: operationId => dispatch(DebtActions.operationAccept(operationId))
+  acceptOperation: (operationId, accepted) =>
+    dispatch(DebtActions.processOperation(operationId, accepted))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DebtScreen);

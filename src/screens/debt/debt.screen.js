@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { View, Text, Button, Image, Modal, TextInput } from "react-native";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import { MKTextField, MKButton } from "react-native-material-kit";
-import Icon from "react-native-vector-icons";
 import styles from "./debt.styles";
 import TouchableArea from "../../components/TouchableArea/TouchableArea";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export default class DebtScreen extends Component {
   constructor() {
@@ -38,7 +38,7 @@ export default class DebtScreen extends Component {
 
   give = val => {
     const { debt } = this.props;
-    this.props.give(debt.id, val, debt.user._id).then(response => {
+    this.props.give(debt.id, val, debt.user.id).then(response => {
       if (response.error) {
         alert(
           `Error: ${response.payload.message}` +
@@ -52,8 +52,8 @@ export default class DebtScreen extends Component {
     });
   };
 
-  acceptOperation = oid => {
-    accept(oid).then(response => {
+  acceptOperation = (oid, accepted) => {
+    this.props.acceptOperation(oid, accepted).then(response => {
       if (response.error) {
         alert(
           `Error: ${response.payload.message}` +
@@ -61,17 +61,6 @@ export default class DebtScreen extends Component {
         );
       }
     });
-  };
-
-  declineOperation = oid => {
-    decline(oid);.then(response => {
-      if (response.error) {
-        alert(
-          `Error: ${response.payload.message}` +
-            `Response: ${JSON.stringify(response.payload.response)}`
-        );
-      }
-    })
   };
 
   // TODO modal to separate file
@@ -93,6 +82,9 @@ export default class DebtScreen extends Component {
             style={styles.textInput}
             keyboardType="numeric"
             placeholder="Debt value"
+            onChangeText={text => {
+              this.state.takeValue = parseInt(text);
+            }}
           />
 
           <Button
@@ -196,7 +188,7 @@ export default class DebtScreen extends Component {
   renderOperation = operation => {
     const { name, picture } = this.props.debt.user;
     const { status } = operation;
-    const oid = operation._id;
+    const oid = operation.id;
 
     const textColorStyle =
       operation.moneyReceiver === this.props.userId
@@ -207,25 +199,37 @@ export default class DebtScreen extends Component {
       <View key={oid} style={styles.operation}>
         <View style={styles.personContainer}>
           <Image style={styles.avatar} source={{ uri: picture }} />
-          <Text>
-            {name}
-          </Text>
-          <Text>
-            {} {status}
-          </Text>
+          <View>
+            <Text>
+              {name}
+            </Text>
+            <Text>
+              {status}
+            </Text>
+          </View>
         </View>
 
-        <Text style={textColorStyle}>
-          {operation.moneyAmount }
-        </Text>
+        <MKButton
+          style={styles.acceptanceButton}
+          onPress={() => this.acceptOperation(oid, true)}
+        >
+          <Icon name="check-circle" size={30} color="#17840C" />
+        </MKButton>
+        <MKButton
+          style={styles.acceptanceButton}
+          onPress={() => this.acceptOperation(oid, false)}
+        >
+          <Icon name="times-circle" size={30} color="#9E0E15" />
+        </MKButton>
 
-        <MKButton onPress={this.acceptOperation(oid)} />
-        <MKButton onPress={this.declineOperation(oid)} />
+        <Text style={textColorStyle}>
+          {operation.moneyAmount}
+        </Text>
       </View>
     );
   };
 
-  renderForeground = ()=>
+  renderForeground = () =>
     <View style={styles.foreground} pointerEvents="none" />;
 
   render() {

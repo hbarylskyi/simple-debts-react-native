@@ -2,7 +2,9 @@ import { REHYDRATE } from "redux-persist/constants";
 import { LOGIN_CHECK, loginCheck, logout } from "../actions/AuthActions";
 import { goToMainScreen } from "../actions/NavActions";
 import { goToLoginScreen } from "../actions/NavActions";
+import { createDebts } from "../actions/DebtsActions";
 import SplashScreen from "react-native-splash-screen";
+import { NavigationActions } from "react-navigation";
 
 export default store => next => action => {
   // init loginCheck when auth state is persisted from local storage

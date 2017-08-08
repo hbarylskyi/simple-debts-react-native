@@ -77,5 +77,10 @@ export default StyleSheet.create({
     width: 50,
     borderRadius: 50,
     marginRight: 10
+  },
+
+  acceptanceButton: {
+    marginLeft: 5,
+    marginRight: 5
   }
 });

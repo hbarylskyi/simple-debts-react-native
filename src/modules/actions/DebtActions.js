@@ -2,16 +2,14 @@ import { CALL_API } from "redux-api-middleware";
 
 // TODO global var
 const baseUrl = "https://simple-debts.herokuapp.com";
-const debtEndpoint = "/debts/";
+const debtsEndpoint = "/debts/";
 const operationEndpoint = "/operation";
-const operationAcceptEndpoint = "/operation/creation-accept";
-const operationDeclineEndpoint = "/operation/creation-decline";
+const operationAcceptEndpoint = "/operation/creation";
 
 export const FETCH_DEBT = "FETCH_DEBT";
 export const SELECT_DEBT = "SELECT_DEBT";
 export const NEW_OPERATION = "NEW_OPERATION";
-export const OPERATION_ACCEPT = "OPERATION_ACCEPT";
-export const OPERATION_DECLINE = "OPERATION_DECLINE";
+export const OPERATION_ACCEPT = "OPERATION_ACCEPTANCE";
 
 const fetchDebtTypes = [
   `${FETCH_DEBT}_REQUEST`,
@@ -31,12 +29,6 @@ const operationAcceptTypes = [
   `${OPERATION_ACCEPT}_FAILURE`
 ];
 
-const operationDeclineTypes = [
-  `${OPERATION_DECLINE}_REQUEST`,
-  `${OPERATION_DECLINE}_SUCCESS`,
-  `${OPERATION_DECLINE}_FAILURE`
-];
-
 const selectDebtAction = debtId => ({
   type: SELECT_DEBT,
   payload: { debtId }
@@ -44,7 +36,7 @@ const selectDebtAction = debtId => ({
 
 const fetchDebtAction = debtId => ({
   [CALL_API]: {
-    endpoint: baseUrl + debtEndpoint + debtId,
+    endpoint: baseUrl + debtsEndpoint + debtId,
     method: "GET",
     types: fetchDebtTypes
   }
@@ -58,7 +50,7 @@ const newOperationAction = (
 ) => ({
   [CALL_API]: {
     endpoint: baseUrl + operationEndpoint,
-    method: "POST",
+    method: "PUT",
     types: newOperationTypes,
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -70,29 +62,19 @@ const newOperationAction = (
   }
 });
 
-const operationAcceptAction = operationId => ({
-  [CALL_API]: {
-    endpoint: baseUrl + operationAcceptEndpoint,
-    method: "POST",
-    types: operationAcceptTypes,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      operationId
-    })
-  }
-});
-
-const operationDeclineAction = operationId => ({
-  [CALL_API]: {
-    endpoint: baseUrl + operationDeclineEndpoint,
-    method: "POST",
-    types: operationDeclineTypes,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      operationId
-    })
-  }
-});
+const operationAcceptAction = (operationId, accepted) => {
+  return {
+    [CALL_API]: {
+      endpoint: baseUrl + operationAcceptEndpoint,
+      method: accepted ? "POST" : "DELETE",
+      types: operationAcceptTypes,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        operationId
+      })
+    }
+  };
+};
 
 export const fetchDebt = debtId => dispatch => {
   dispatch(fetchDebtAction(debtId));
@@ -112,8 +94,5 @@ export const newOperation = (
     newOperationAction(debtsId, moneyAmount, moneyReceiver, description)
   );
 
-export const operationAccept = operationId => dispatch =>
-  dispatch(operationAcceptAction(operationId));
-
-export const operationDecline = operationId => dispatch =>
-  dispatch(operationDeclineAction(operationId));
+export const processOperation = (operationId, accepted) => dispatch =>
+  dispatch(operationAcceptAction(operationId, accepted));

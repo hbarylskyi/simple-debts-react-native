@@ -29,7 +29,7 @@ const fetchDebtsAction = () => ({
 const createDebtsAction = userId => ({
   [CALL_API]: {
     endpoint: baseUrl + debtsEndpoint,
-    method: "POST",
+    method: "PUT",
     types: createDebtsTypes,
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ userId })
