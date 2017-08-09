@@ -12,6 +12,12 @@ export default StyleSheet.create({
     height: 300
   },
 
+  logoutButton: {
+    width: 100,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+
   debtContainer: {
     flex: 1,
     flexDirection: "row",

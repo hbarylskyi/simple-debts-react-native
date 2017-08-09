@@ -13,10 +13,14 @@ export default class MainScreen extends Component {
     this.props.fetchDebts();
   }
 
-  goToDebt(debtId) {
+  goToDebt(debtId, userName) {
     this.props.selectDebt(debtId);
-    this.props.goToDebt(debtId);
+    this.props.goToDebt(userName);
   }
+
+  logout = () => {
+    this.props.logout();
+  };
 
   renderSummary = () => {
     const { toGive, toTake } = this.props.summary;
@@ -35,6 +39,11 @@ export default class MainScreen extends Component {
     );
   };
 
+  renderForeground = () =>
+    <View style={styles.logoutButton}>
+      <Button title="Logout" onPress={this.logout} />
+    </View>;
+
   renderDebt = debt => {
     const { name, picture } = debt.user;
     const textColorStyle =
@@ -43,7 +52,10 @@ export default class MainScreen extends Component {
         : styles.toGiveValue;
 
     return (
-      <TouchableArea key={debt.id} onPress={() => this.goToDebt(debt.id)}>
+      <TouchableArea
+        key={debt.id}
+        onPress={() => this.goToDebt(debt.id, debt.user.name)}
+      >
         <View style={styles.debtContainer}>
           <View style={styles.personContainer}>
             <Image style={styles.avatar} source={{ uri: picture }} />
@@ -70,6 +82,7 @@ export default class MainScreen extends Component {
           parallaxHeaderHeight={300}
           backgroundColor="white"
           renderBackground={this.renderSummary}
+          renderForeground={this.renderForeground}
         >
           <View style={styles.listContainer}>
             {debts.map(this.renderDebt)}

@@ -12,12 +12,14 @@ const mainScreenAction = () => ({
   type: GO_TO_MAIN_SCREEN
 });
 
-const debtScreenAction = () => ({
-  type: GO_TO_DEBT_SCREEN
+const debtScreenAction = name => ({
+  type: GO_TO_DEBT_SCREEN,
+  payload: { name }
 });
 
 export const goToLoginScreen = () => dispatch => dispatch(loginScreenAction());
 
 export const goToMainScreen = () => dispatch => dispatch(mainScreenAction());
 
-export const goToDebtScreen = () => dispatch => dispatch(debtScreenAction());
+export const goToDebtScreen = name => dispatch =>
+  dispatch(debtScreenAction(name));

@@ -47,7 +47,17 @@ export default (state = initialNavState, action) => {
 
     case NavActions.GO_TO_DEBT_SCREEN:
       nextState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: "DebtScreen" }),
+        NavigationActions.navigate({
+          routeName: "DebtScreen",
+          params: { name: action.payload.name }
+        }),
+        state
+      );
+
+      break;
+    case "Navigation/BACK":
+      nextState = AppNavigator.router.getStateForAction(
+        NavigationActions.back(),
         state
       );
 
