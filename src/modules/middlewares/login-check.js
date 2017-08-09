@@ -9,7 +9,7 @@ import { NavigationActions } from "react-navigation";
 export default store => next => action => {
   // init loginCheck when auth state is persisted from local storage
   if (action.type === REHYDRATE) {
-    if (action.payload.auth.id) {
+    if (action.payload.auth) {
       store.dispatch(loginCheck());
     } else {
       SplashScreen.hide();
