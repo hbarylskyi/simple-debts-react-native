@@ -17,7 +17,10 @@ export default store => next => action => {
   }
 
   // logout if loginCheck returned 'authentication: false'
-  if (action.type === `${LOGIN_CHECK}_SUCCESS`) {
+  if (
+    action.type === `${LOGIN_CHECK}_SUCCESS` ||
+    action.type === `${LOGIN_CHECK}_FAILURE`
+  ) {
     SplashScreen.hide();
 
     if (!action.payload.authenticated) {

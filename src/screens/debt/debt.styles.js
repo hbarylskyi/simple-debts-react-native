@@ -47,17 +47,6 @@ export default StyleSheet.create({
     color: "#17840C"
   },
 
-  modal: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-
-  textInput: {
-    width: 100,
-    margin: 10
-  },
-
   personContainer: {
     flex: 1,
     flexDirection: "row",

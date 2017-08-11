@@ -5,6 +5,7 @@ import { MKTextField, MKButton } from "react-native-material-kit";
 import styles from "./debt.styles";
 import TouchableArea from "../../components/TouchableArea/TouchableArea";
 import Icon from "react-native-vector-icons/FontAwesome";
+import DebtModal from "./debtModal/debtModal";
 
 export default class DebtScreen extends Component {
   constructor() {
@@ -20,34 +21,17 @@ export default class DebtScreen extends Component {
     this.props.fetchDebt(this.props.debtId);
   };
 
-  take = val => {
-    const { debt, userId } = this.props;
-    this.props.take(debt.id, val, userId).then(response => {
-      if (response.error) {
-        alert(
-          `Error: ${response.payload.message}` +
-            `Response: ${JSON.stringify(response.payload.response)}`
-        );
-      } else {
-        this.setState({
-          takeModalVisible: !this.state.takeModalVisible
-        });
-      }
-    });
-  };
-
-  give = val => {
+  newOperation = (val, isGiven) => {
     const { debt } = this.props;
-    this.props.give(debt.id, val, debt.user.id).then(response => {
+    const uid = isGiven ? debt.user.id : this.props.userId;
+    const descr = isGiven ? this.state.takeDescr : this.state.giveDescr;
+
+    this.props.newOperation(debt.id, val, uid, descr).then(response => {
       if (response.error) {
-        alert(
-          `Error: ${response.payload.message}` +
-            `Response: ${JSON.stringify(response.payload.response)}`
-        );
+        const { payload } = response;
+        this.props.processError(payload.message, payload.response);
       } else {
-        this.setState({
-          giveModalVisible: !this.state.giveModalVisible
-        });
+        isGiven ? toggleGiveModal() : toggleTakeModal();
       }
     });
   };
@@ -55,99 +39,54 @@ export default class DebtScreen extends Component {
   acceptOperation = (oid, accepted) => {
     this.props.acceptOperation(oid, accepted).then(response => {
       if (response.error) {
-        alert(
-          `Error: ${response.payload.message}` +
-            `Response: ${JSON.stringify(response.payload.response)}`
-        );
+        const { payload } = response;
+        this.props.processError(payload.message, payload.response);
       }
     });
   };
 
-  // TODO modal to separate file
-  renderTakeModal = () => {
-    return (
-      <Modal
-        animationType={"fade"}
-        transparent={false}
-        visible={this.state.takeModalVisible}
-        onRequestClose={() => {
-          this.setState({
-            takeModalVisible: !this.state.takeModalVisible
-          });
-        }}
-      >
-        <View style={styles.modal}>
-          <Text>Take</Text>
-          <MKTextField
-            style={styles.textInput}
-            keyboardType="numeric"
-            placeholder="Debt value"
-            onChangeText={text => {
-              this.state.takeValue = parseInt(text);
-            }}
-          />
+  setTakeValue = text => (this.state.takeValue = parseInt(text));
 
-          <Button
-            title="Ok"
-            onPress={() => {
-              this.take(this.state.takeValue);
-            }}
-          />
-        </View>
-      </Modal>
-    );
-  };
+  setGiveValue = text => (this.state.giveValue = parseInt(text));
 
-  renderGiveModal = () => {
-    return (
-      <Modal
-        animationType={"fade"}
-        transparent={false}
-        visible={this.state.giveModalVisible}
-        onRequestClose={() => {
-          this.setState({
-            giveModalVisible: !this.state.giveModalVisible
-          });
-        }}
-      >
-        <View style={styles.modal}>
-          <Text>Give</Text>
-          <MKTextField
-            style={styles.textInput}
-            keyboardType="numeric"
-            placeholder="Debt value"
-            onChangeText={text => {
-              this.state.giveValue = parseInt(text);
-            }}
-          />
+  toggleTakeModal = () =>
+    this.setState({ takeModalVisible: !this.state.takeModalVisible });
 
-          <Button
-            title="Ok"
-            onPress={() => {
-              this.give(this.state.giveValue);
-            }}
-          />
-        </View>
-      </Modal>
-    );
-  };
+  toggleGiveModal = () =>
+    this.setState({ giveModalVisible: !this.state.giveModalVisible });
+
+  changeTakeDescr = descr => this.setState({ takeDescr: descr });
+
+  changeGiveDescr = descr => this.setState({ giveDescr: descr });
+
+  renderTakeModal = () =>
+    <DebtModal
+      onChangeText={text => this.setTakeValue(text)}
+      onSubmit={() => this.newOperation(this.state.takeValue, false)}
+      onRequestClose={this.toggleTakeModal}
+      onChangeDescr={this.changeTakeDescr}
+      text={"Take"}
+    />;
+
+  renderGiveModal = () =>
+    <DebtModal
+      onChangeText={text => this.setGiveValue(text)}
+      onSubmit={() => this.newOperation(this.state.takeValue, true)}
+      onRequestClose={this.toggleTakeModal}
+      onChangeDescr={this.changeGiveDescr}
+      text={"Give"}
+    />;
 
   renderSummaryValue = isGiven => {
     const { summary } = this.props.debt;
+    const text = isGiven ? "Given:" : "Taken:";
+    const style = isGiven ? styles.toGiveValue : styles.toTakeValue;
 
-    if (isGiven) {
-      return (
-        <Text style={styles.toTakeValue}>
-          Given: {summary}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.toGiveValue}>
-          Taken: {summary}
-        </Text>
-      );
-    }
+    return (
+      <Text style={style}>
+        {text} {summary}
+      </Text>
+    );
   };
 
   renderSummary = () => {
@@ -158,24 +97,11 @@ export default class DebtScreen extends Component {
         <View style={styles.textContainer}>
           {this.renderSummaryValue(isGiven)}
         </View>
+
         <View style={styles.buttonsContainerContainer}>
           <View style={styles.buttonsContainer}>
-            <Button
-              title="Take"
-              onPress={() => {
-                this.setState({
-                  takeModalVisible: !this.state.takeModalVisible
-                });
-              }}
-            />
-            <Button
-              title="Give"
-              onPress={() => {
-                this.setState({
-                  giveModalVisible: !this.state.giveModalVisible
-                });
-              }}
-            />
+            <Button title="Take" onPress={toggleTakeModal} />
+            <Button title="Give" onPress={toggleGiveModal} />
           </View>
         </View>
 
@@ -224,6 +150,9 @@ export default class DebtScreen extends Component {
               {name}
             </Text>
             <Text>
+              {operation.description}
+            </Text>
+            <Text>
               {status}
             </Text>
           </View>
@@ -237,9 +166,6 @@ export default class DebtScreen extends Component {
       </View>
     );
   };
-
-  renderForeground = () =>
-    <View style={styles.foreground} pointerEvents="none" />;
 
   render() {
     const operations = this.props.debt.moneyOperations;
