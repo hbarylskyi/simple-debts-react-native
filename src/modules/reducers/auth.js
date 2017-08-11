@@ -17,10 +17,10 @@ export default (state = initialState, action) => {
       nextState = initialState;
       break;
 
-    case REHYDRATE:
-      let cached = action.payload.auth;
-      if (cached.id) nextState = { ...state, ...cached };
-      break;
+    // case REHYDRATE:
+    //   let cached = action.payload.auth;
+    //   if (cached && cached.id) nextState = { ...state, ...cached };
+    //   break;
   }
 
   return nextState || state;
