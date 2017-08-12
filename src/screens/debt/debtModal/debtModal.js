@@ -1,35 +1,31 @@
 /* @flow */
 
-import React from "react";
-import { View, Text, Button, Image, Modal, TextInput } from "react-native";
-import { MKTextField } from "react-native-material-kit";
-import styles from "./debtModal.styles";
-import TouchableArea from "../../../components/TouchableArea/TouchableArea";
+import React from 'react';
+import { View, Text, Button, Modal } from 'react-native';
+import { MKTextField } from 'react-native-material-kit';
+import styles from './debtModal.styles';
+import TouchableArea from '../../../components/TouchableArea/TouchableArea';
 
-export default (onChangeVal, onChangeDescr, onSubmit, onRequestClose, text) =>
-  <Modal
-    animationType={"fade"}
-    transparent={false}
-    onRequestClose={onRequestClose}
-  >
+export default (onRequestClose, text, onChangeVal, onChangeDescr, onSubmit) =>
+  (<Modal animationType={'fade'} transparent={false} onRequestClose={onRequestClose}>
     <View style={styles.modal}>
       <Text>
-        {text}
+        {arguments}
       </Text>
 
       <MKTextField
         style={styles.debtVal}
         keyboardType="numeric"
         placeholder="Debt value"
-        onChangeText={this.props.onChangeVal}
+        onChangeText={onChangeVal}
       />
 
       <MKTextField
         style={styles.description}
         placeholder="Description"
-        onChangeText={this.props.onChangeDescr}
+        onChangeText={onChangeDescr}
       />
 
       <Button title="OK" onPress={onSubmit} />
     </View>
-  </Modal>;
+  </Modal>);
