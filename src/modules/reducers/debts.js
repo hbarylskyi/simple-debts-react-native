@@ -22,10 +22,10 @@ export default (state = initialState, action) => {
       nextState = initialState;
       break;
 
-    case REHYDRATE:
-      let cached = action.payload.debts;
-      if (cached.summary) nextState = cached;
-      break;
+    // case REHYDRATE:
+    //   let cached = action.payload.debts;
+    //   if (cached.summary) nextState = cached;
+    //   break;
   }
 
   return nextState || state;

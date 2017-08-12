@@ -126,17 +126,36 @@ export default class DebtScreen extends Component {
     );
   };
 
-  // TODO move to other file
+  renderAcceptanceButtons = (operation) => {
+    if (operation.statusAcceptor === this.props.userId) {
+      return (
+        <View style={{ flexDirection: 'row' }}>
+          <MKButton
+            style={styles.acceptanceButton}
+            onPress={() => this.acceptOperation(operation.id, true)}
+          >
+            <Icon name="check-circle" size={30} color="#17840C" />
+          </MKButton>
+          <MKButton
+            style={styles.acceptanceButton}
+            onPress={() => this.acceptOperation(operation.id, false)}
+          >
+            <Icon name="times-circle" size={30} color="#9E0E15" />
+          </MKButton>
+        </View>
+      );
+    }
+  };
+
   renderOperation = (operation) => {
     const { name, picture } = this.props.debt.user;
     const { status } = operation;
-    const oid = operation.id;
 
     const textColorStyle =
       operation.moneyReceiver === this.props.userId ? styles.toTakeValue : styles.toGiveValue;
 
     return (
-      <View key={oid} style={styles.operation}>
+      <View key={operation.id} style={styles.operation}>
         <View style={styles.personContainer}>
           <Image style={styles.avatar} source={{ uri: picture }} />
           <View>
@@ -152,12 +171,7 @@ export default class DebtScreen extends Component {
           </View>
         </View>
 
-        <MKButton style={styles.acceptanceButton} onPress={() => this.acceptOperation(oid, true)}>
-          <Icon name="check-circle" size={30} color="#17840C" />
-        </MKButton>
-        <MKButton style={styles.acceptanceButton} onPress={() => this.acceptOperation(oid, false)}>
-          <Icon name="times-circle" size={30} color="#9E0E15" />
-        </MKButton>
+        {this.renderAcceptanceButtons(operation)}
 
         <Text style={textColorStyle}>
           {operation.moneyAmount}

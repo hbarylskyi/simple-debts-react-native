@@ -6,5 +6,4 @@ export default store => next => action =>
   //   if (!action.payload.auth) return;
   // }
 
-  next(action)
-;
+  next(action);

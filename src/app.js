@@ -19,11 +19,15 @@ class App extends React.Component {
     this.store = createStore(
       AppReducer,
       composeWithDevTools(
-        applyMiddleware(thunk, apiMiddleware, ...AppMiddlewares)
+        applyMiddleware(thunk, apiMiddleware, ...AppMiddlewares),
+        autoRehydrate()
       )
     );
 
-    persistStore(this.store, { storage: AsyncStorage });
+    persistStore(this.store, {
+      storage: AsyncStorage,
+      blackList: ["debt", "nav"]
+    });
   }
 
   render() {
