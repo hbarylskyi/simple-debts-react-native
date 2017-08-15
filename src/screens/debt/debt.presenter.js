@@ -1,13 +1,14 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import DebtScreen from "./debt.screen";
-import * as DebtActions from "../../modules/actions/DebtActions";
-import { processError } from "../../modules/actions/ProcessError";
+import DebtScreen from './debt.screen';
+import * as DebtActions from '../../modules/actions/DebtActions';
+import { processError } from '../../modules/actions/ProcessError';
 
 const mapStateToProps = state => ({
   debt: state.debt.debt,
   debtId: state.debt.currentDebtId,
-  userId: state.auth.id
+  userId: state.auth.id,
+  userPic: state.auth.picture
 });
 
 const mapDispatchToProps = dispatch => ({

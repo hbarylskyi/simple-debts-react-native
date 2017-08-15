@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
-import { View, Text, Button, Image } from 'react-native';
+import { View, Text, Image, FlatList, ScrollView } from 'react-native';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
-import { MKTextField, MKButton } from 'react-native-material-kit';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import interpolate from 'color-interpolate';
 import styles from './debt.styles';
-import colours from '../../colours';
 import TouchableArea from '../../components/TouchableArea/TouchableArea';
-import DebtModal from './debtModal/debtModal';
+import DebtPopup from './debtPopup/debtPopup';
+import Operation from './operation/operation';
+import headerStyle from '../../components/styles/opaqueHeader';
 
 export default class DebtScreen extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: navigation.state.params.name
-  });
+  static navigationOptions = {
+    headerStyle,
+    headerTintColor: 'white'
+  };
 
   static propTypes = {
     processError: PropTypes.func.isRequired,
@@ -21,28 +22,29 @@ export default class DebtScreen extends Component {
     newOperation: PropTypes.func.isRequired,
     debtId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
+    userPic: PropTypes.string.isRequired,
     debt: PropTypes.object.isRequired
   };
 
   constructor() {
     super();
-    this.state = { giveModalVisible: false, takeModalVisible: false };
+    this.state = { giveModalVisible: false, takeModalVisible: false, scrollEnabled: true };
   }
 
   componentDidMount = () => {
     this.props.fetchDebt(this.props.debtId);
   };
 
-  setTakeValue = (text) => {
+  setTakeValue = text => {
     this.state.takeValue = parseInt(text, 10);
   };
 
-  setGiveValue = (text) => {
+  setGiveValue = text => {
     this.state.giveValue = parseInt(text, 10);
   };
 
   acceptOperation = (oid, accepted) => {
-    this.props.acceptOperation(oid, accepted).then((response) => {
+    this.props.acceptOperation(oid, accepted).then(response => {
       if (response.error) {
         const { payload } = response;
         this.props.processError(payload.message, payload.response);
@@ -52,47 +54,59 @@ export default class DebtScreen extends Component {
 
   newOperation = (val, isGiven) => {
     const { debt } = this.props;
-    const uid = isGiven ? debt.user.id : this.props.userId;
-    const descr = isGiven ? this.state.takeDescr : this.state.giveDescr;
+    const receiver = isGiven ? debt.user.id : this.props.userId;
+    const descr = isGiven ? this.state.giveDescr : this.state.takeDescr;
 
-    this.props.newOperation(debt.id, val, uid, descr).then((response) => {
+    if (!val || !descr) return;
+
+    this.props.newOperation(debt.id, val, receiver, descr).then(response => {
       if (response.error) {
         const { payload } = response;
         this.props.processError(payload.message, payload.response);
       } else if (isGiven) {
-        this.toggleGiveModal();
+        this.toggleGivePopup();
       } else {
-        this.toggleTakeModal();
+        this.toggleTakePopup();
       }
     });
   };
-  toggleTakeModal = () => this.setState({ takeModalVisible: !this.state.takeModalVisible });
 
-  toggleGiveModal = () => this.setState({ giveModalVisible: !this.state.giveModalVisible });
+  togglePopup = popup =>
+    (popup.dialog.state.dialogState === 'opened' ? popup.dismiss() : popup.show());
 
-  changeTakeDescr = descr => this.setState({ takeDescr: descr });
+  toggleTakePopup = () => this.togglePopup(this.takePopup);
 
-  changeGiveDescr = descr => this.setState({ giveDescr: descr });
+  toggleGivePopup = () => this.togglePopup(this.givePopup);
 
-  renderTakeModal = () =>
-    (<DebtModal
-      onChangeText={text => this.setTakeValue(text)}
+  processScrollPosition = event => {
+    let scrollFactor = event.nativeEvent.contentOffset.y / 250;
+    scrollFactor = scrollFactor > 1 ? 1 : scrollFactor;
+    this.setState({ scrollFactor });
+  };
+
+  renderTakePopup = () =>
+    (<DebtPopup
+      refer={takePopup => {
+        this.takePopup = takePopup;
+      }}
+      isGivePopup={false}
+      onChangeVal={text => this.setTakeValue(text)}
+      onChangeDescr={descr => this.setState({ takeDescr: descr })}
       onSubmit={() => this.newOperation(this.state.takeValue, false)}
-      onRequestClose={this.toggleTakeModal}
-      onChangeDescr={this.changeTakeDescr}
-      text={'Take'}
     />);
 
-  renderGiveModal = () =>
-    (<DebtModal
-      onChangeText={text => this.setGiveValue(text)}
-      onSubmit={() => this.newOperation(this.state.takeValue, true)}
-      onRequestClose={this.toggleTakeModal}
-      onChangeDescr={this.changeGiveDescr}
-      text={'Give'}
+  renderGivePopup = () =>
+    (<DebtPopup
+      refer={givePopup => {
+        this.givePopup = givePopup;
+      }}
+      isGivePopup
+      onChangeVal={text => this.setGiveValue(text)}
+      onChangeDescr={descr => this.setState({ giveDescr: descr })}
+      onSubmit={() => this.newOperation(this.state.giveValue, true)}
     />);
 
-  renderSummaryValue = (isGiven) => {
+  renderSummaryValue = isGiven => {
     const { summary } = this.props.debt;
     const text = isGiven ? 'Given:' : 'Taken:';
     const style = isGiven ? styles.toGiveValue : styles.toTakeValue;
@@ -105,96 +119,85 @@ export default class DebtScreen extends Component {
   };
 
   renderSummary = () => {
-    const isGiven = this.props.debt.moneyReceiver === this.props.userId;
+    const { debt } = this.props;
+    const isGiven = debt.moneyReceiver === debt.user.id;
+    const style = isGiven ? styles.giveSummary : styles.takeSummary;
 
     return (
-      <View style={styles.summaryContainer}>
-        <View style={styles.textContainer}>
-          {this.renderSummaryValue(isGiven)}
-        </View>
-
-        <View style={styles.buttonsContainerContainer}>
-          <View style={styles.buttonsContainer}>
-            <Button title="Take" onPress={this.toggleTakeModal} />
-            <Button title="Give" onPress={this.toggleGiveModal} />
-          </View>
-        </View>
-
-        {this.renderTakeModal()}
-        {this.renderGiveModal()}
-      </View>
-    );
-  };
-
-  renderAcceptanceButtons = (operation) => {
-    if (operation.statusAcceptor === this.props.userId) {
-      return (
-        <View style={{ flexDirection: 'row' }}>
-          <MKButton
-            style={styles.acceptanceButton}
-            onPress={() => this.acceptOperation(operation.id, true)}
-          >
-            <Icon name="check-circle" size={30} color="#17840C" />
-          </MKButton>
-          <MKButton
-            style={styles.acceptanceButton}
-            onPress={() => this.acceptOperation(operation.id, false)}
-          >
-            <Icon name="times-circle" size={30} color="#9E0E15" />
-          </MKButton>
-        </View>
-      );
-    }
-  };
-
-  renderOperation = (operation) => {
-    const { name, picture } = this.props.debt.user;
-    const { status } = operation;
-
-    const textColorStyle =
-      operation.moneyReceiver === this.props.userId ? styles.toTakeValue : styles.toGiveValue;
-
-    return (
-      <View key={operation.id} style={styles.operation}>
-        <View style={styles.personContainer}>
-          <Image style={styles.avatar} source={{ uri: picture }} />
-          <View>
-            <Text>
-              {name}
-            </Text>
-            <Text>
-              {operation.description}
-            </Text>
-            <Text>
-              {status}
-            </Text>
-          </View>
-        </View>
-
-        {this.renderAcceptanceButtons(operation)}
-
-        <Text style={textColorStyle}>
-          {operation.moneyAmount}
+      <View style={[styles.summaryContainer, style]}>
+        <Text style={styles.name}>
+          {debt.user.name}
+        </Text>
+        <Text style={styles.moneyAmount}>
+          {debt.summary}
         </Text>
       </View>
     );
   };
 
+  renderCreationButtons = () =>
+    (<View style={styles.creationButtons}>
+      <TouchableArea
+        onPress={this.toggleGivePopup}
+        style={[styles.creationButton, styles.giveButton]}
+      >
+        <Text style={styles.creationText}>Give</Text>
+      </TouchableArea>
+
+      <TouchableArea
+        onPress={this.toggleTakePopup}
+        style={[styles.creationButton, styles.takeButton]}
+      >
+        <Text style={styles.creationText}>Take</Text>
+      </TouchableArea>
+    </View>);
+
+  renderParallaxHeader = () =>
+    (<View style={styles.parallaxHeader}>
+      <Text>
+        {this.props.debt.user.name}
+      </Text>
+    </View>);
+
   render() {
     const operations = this.props.debt.moneyOperations;
-    // TODO renderScrollComponent
+
     return (
       <View style={styles.container}>
+        {this.renderTakePopup()}
+        {this.renderGivePopup()}
+
         <ParallaxScrollView
-          style={styles.container}
           parallaxHeaderHeight={300}
           backgroundColor="white"
           renderForeground={this.renderSummary}
+          renderStickyHeader={this.renderParallaxHeader}
+          stickyHeaderHeight={50}
+          fadeOutForeground={false}
+          onScroll={this.processScrollPosition}
+          renderScrollComponent={() => <ScrollView scrollEnabled={this.state.scrollEnabled} />}
+          style={styles.container}
         >
-          <View style={styles.listContainer}>
-            {operations.map(this.renderOperation)}
-          </View>
+          <FlatList
+            data={operations}
+            renderItem={({ item }) =>
+              (<Operation
+                operation={item}
+                onAccept={this.acceptOperation}
+                debt={this.props.debt}
+                userId={this.props.userId}
+                userPic={this.props.userPic}
+                onSwipe={event => {
+                  console.log(event);
+                  this.setState({ scrollEnabled: event });
+                  console.log(this.state);
+                }}
+              />)}
+            keyExtractor={item => item.id}
+          />
         </ParallaxScrollView>
+
+        {this.renderCreationButtons()}
       </View>
     );
   }

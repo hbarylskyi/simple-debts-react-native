@@ -1,75 +1,56 @@
-import { StyleSheet, Dimensions } from "react-native";
-
-const { width } = Dimensions.get("window");
+import { StyleSheet } from 'react-native';
+import * as colors from '../../colors';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    height: 500
+    height: 500,
+    padding: 0,
+    margin: 0
   },
 
   summaryContainer: {
     flex: 1,
-    height: 300
+    height: 300,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
 
-  listContainer: {
-    paddingTop: 10,
-    borderTopWidth: 0.5,
-    borderTopColor: "#D7D7D7"
+  giveSummary: { backgroundColor: colors.green },
+
+  takeSummary: { backgroundColor: colors.red },
+
+  name: {
+    fontSize: 30,
+    color: 'white'
   },
 
-  buttonsContainerContainer: {
-    flex: 1,
-    justifyContent: "flex-end"
+  moneyAmount: {
+    fontSize: 60,
+    fontWeight: 'bold',
+    color: 'white'
   },
 
-  textContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
+  creationButtons: {
+    height: 50,
+    flexDirection: 'row'
   },
 
-  buttonsContainer: {
-    flex: 1,
-    alignItems: "flex-end",
-    padding: 30,
-    width: width,
-    flexDirection: "row",
-    justifyContent: "space-between"
-  },
+  creationText: { fontSize: 20, color: 'white' },
+
+  creationButton: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+
+  takeButton: { backgroundColor: colors.red },
+
+  giveButton: { backgroundColor: colors.green },
+
+  parallaxHeader: { justifyContent: 'center', height: 50, paddingLeft: 50 },
 
   toTakeValue: {
-    color: "#9E0E15"
+    color: '#9E0E15'
   },
 
   toGiveValue: {
-    color: "#17840C"
-  },
-
-  personContainer: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center"
-  },
-
-  operation: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 10
-  },
-
-  avatar: {
-    height: 50,
-    width: 50,
-    borderRadius: 50,
-    marginRight: 10
-  },
-
-  acceptanceButton: {
-    marginLeft: 5,
-    marginRight: 5
+    color: '#17840C'
   }
 });

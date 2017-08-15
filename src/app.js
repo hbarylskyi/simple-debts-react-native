@@ -1,16 +1,15 @@
-import React from "react";
-import { AppRegistry } from "react-native";
-import { Provider } from "react-redux";
-import { createStore, compose, applyMiddleware } from "redux";
-import { apiMiddleware } from "redux-api-middleware";
-import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
-import { AsyncStorage } from "react-native";
-import { persistStore, autoRehydrate } from "redux-persist";
+import React from 'react';
+import { AppRegistry, AsyncStorage } from 'react-native';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { apiMiddleware } from 'redux-api-middleware';
+import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
+import { persistStore, autoRehydrate } from 'redux-persist';
 
-import AppWithNavigationState, { setNavigator } from "./screens/navigator";
-import AppReducer from "./modules/reducers/index";
-import AppMiddlewares from "./modules/middlewares/index";
+import AppWithNavigationState from './screens/navigator';
+import AppReducer from './modules/reducers/index';
+import AppMiddlewares from './modules/middlewares/index';
 
 class App extends React.Component {
   constructor() {
@@ -18,15 +17,12 @@ class App extends React.Component {
 
     this.store = createStore(
       AppReducer,
-      composeWithDevTools(
-        applyMiddleware(thunk, apiMiddleware, ...AppMiddlewares),
-        autoRehydrate()
-      )
+      composeWithDevTools(applyMiddleware(thunk, apiMiddleware, ...AppMiddlewares), autoRehydrate())
     );
 
     persistStore(this.store, {
       storage: AsyncStorage,
-      blackList: ["debt", "nav"]
+      blacklist: ['debt', 'nav']
     });
   }
 
@@ -39,6 +35,6 @@ class App extends React.Component {
   }
 }
 
-AppRegistry.registerComponent("debtCollector", () => App);
+AppRegistry.registerComponent('debtCollector', () => App);
 
 export default App;

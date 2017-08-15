@@ -1,7 +1,5 @@
-import { FB_LOGIN } from "../actions/AuthActions";
-import { LOGOUT } from "../actions/AuthActions";
-import { LOGIN_CHECK } from "../actions/AuthActions";
-import { REHYDRATE } from "redux-persist/constants";
+import { REHYDRATE } from 'redux-persist/constants';
+import { LOGOUT, LOGIN_CHECK, FB_LOGIN } from '../actions/AuthActions';
 
 const initialState = {};
 
@@ -13,7 +11,7 @@ export default (state = initialState, action) => {
       nextState = action.payload;
       break;
 
-    case "LOGOUT":
+    case 'LOGOUT':
       nextState = initialState;
       break;
 
@@ -21,6 +19,8 @@ export default (state = initialState, action) => {
     //   let cached = action.payload.auth;
     //   if (cached && cached.id) nextState = { ...state, ...cached };
     //   break;
+    default:
+      break;
   }
 
   return nextState || state;
