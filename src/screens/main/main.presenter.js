@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 
 import MainScreen from './main.screen';
 import * as DebtsActions from '../../modules/actions/DebtsActions';
@@ -19,6 +20,9 @@ const mapDispatchToProps = dispatch => ({
   logout: () => {
     dispatch(NavActions.goToLoginScreen());
     dispatch(logout());
+  },
+  test: () => {
+    dispatch(NavigationActions.setParams({ test: 'test1' }));
   }
 });
 

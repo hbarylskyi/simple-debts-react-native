@@ -57,9 +57,8 @@ export default StyleSheet.create({
   popupButton: {
     flex: 1,
     margin: 5,
-    width: 40,
+    width: 60,
     borderRadius: 50,
-    backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center'
   }

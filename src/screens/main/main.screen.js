@@ -4,6 +4,7 @@ import { View, Text, Button, Image, TouchableNativeFeedback } from 'react-native
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import { MKButton } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { NavigationActions } from 'react-navigation';
 import styles from './main.styles';
 import * as colors from '../../colors';
 import TouchableArea from '../../components/TouchableArea/TouchableArea';
@@ -12,18 +13,26 @@ import SearchModal from './searchModal/SearchModal';
 import headerStyle from '../../components/styles/opaqueHeader';
 
 export default class MainScreen extends Component {
-  static navigationOptions = () => ({
-    headerRight: (
-      <TouchableArea
-        style={styles.popupButton}
-        background={TouchableNativeFeedback.Ripple('red', true)}
-      >
-        <Icon name={'plus'} size={20} color={colors.black} />
-      </TouchableArea>
-    ),
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
 
-    headerStyle
-  });
+    return {
+      headerRight: (
+        <View style={styles.popupButton}>
+          <TouchableArea
+            background={TouchableNativeFeedback.Ripple(colors.black, true)}
+            onPress={params.toggleAddPopup}
+          >
+            <View style={{ flex: 1 }}>
+              <Icon name={'plus'} size={20} color={'white'} />
+            </View>
+          </TouchableArea>
+        </View>
+      ),
+
+      headerStyle
+    };
+  };
 
   static propTypes = {
     navigation: PropTypes.object.isRequired,
@@ -38,16 +47,15 @@ export default class MainScreen extends Component {
 
   componentDidMount = () => {
     this.props.fetchDebts();
-
-    this.props.navigation.setParams({ test: 'test1' });
+    this.props.navigation.setParams({ toggleAddPopup: this.toggleAddPopup });
   };
 
-  _togglePopup = popup =>
+  togglePopup = popup =>
     (popup.dialog.state.dialogState === 'opened' ? popup.dismiss() : popup.show());
 
-  toggleSearchModal = () => this._togglePopup(this.searchModal);
+  toggleSearchModal = () => this.togglePopup(this.searchModal);
 
-  togglePopup = () => this._togglePopup(this.popup);
+  toggleAddPopup = () => this.togglePopup(this.popup);
 
   goToDebt(debtId) {
     this.props.selectDebt(debtId);
