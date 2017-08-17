@@ -1,19 +1,33 @@
-import React, { Component } from 'react';
-import { Platform, TouchableWithoutFeedback, TouchableNativeFeedback, View } from 'react-native';
+import React, { Component, PropTypes } from 'react';
+import { Platform, View, TouchableWithoutFeedback, TouchableNativeFeedback } from 'react-native';
 
 export default class TouchableArea extends Component {
+  static propTypes = {
+    children: PropTypes.object,
+    isTransparent: PropTypes.bool,
+    pressColor: PropTypes.string,
+    borderless: PropTypes.bool
+  };
+
+  static defaultProps = {
+    pressColor: 'black'
+  };
+
   render() {
     const { children, isTransparent } = this.props;
     const Touchable =
       Platform.OS === 'ios' || isTransparent ? TouchableWithoutFeedback : TouchableNativeFeedback;
 
+    const { style, ...rest } = this.props;
+
     return (
       <Touchable
-        {...this.props}
+        {...rest}
+        style={null}
         delayLongPress={Platform.OS === 'ios' ? 600 : 100}
-        style={{ borderRadius: 100 }}
+        background={TouchableNativeFeedback.Ripple(this.props.pressColor, this.props.borderless)}
       >
-        <View style={this.props.style}>
+        <View style={style}>
           {children}
         </View>
       </Touchable>

@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Button, Image, TouchableNativeFeedback } from 'react-native';
+import { View, Text, Button, Image } from 'react-native';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
-import { MKButton } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { NavigationActions } from 'react-navigation';
 import styles from './main.styles';
 import * as colors from '../../colors';
 import TouchableArea from '../../components/TouchableArea/TouchableArea';
-import Popup from './addPopup/AddPopup';
+import Popup from './addPopup/AddPopup.presenter';
 import SearchModal from './searchModal/SearchModal';
 import headerStyle from '../../components/styles/opaqueHeader';
 
@@ -18,14 +16,14 @@ export default class MainScreen extends Component {
 
     return {
       headerRight: (
-        <View style={styles.popupButton}>
+        <View style={styles.popupButtonWrapper}>
           <TouchableArea
-            background={TouchableNativeFeedback.Ripple(colors.black, true)}
             onPress={params.toggleAddPopup}
+            pressColor="gray"
+            borderless
+            style={styles.popupButton}
           >
-            <View style={{ flex: 1 }}>
-              <Icon name={'plus'} size={20} color={'white'} />
-            </View>
+            <Icon name={'plus'} size={20} color={'white'} />
           </TouchableArea>
         </View>
       ),

@@ -54,11 +54,16 @@ export default StyleSheet.create({
     marginRight: 10
   },
 
+  popupButtonWrapper: {
+    width: 56,
+    height: 56,
+    borderRadius: 56,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
   popupButton: {
     flex: 1,
-    margin: 5,
-    width: 60,
-    borderRadius: 50,
     alignItems: 'center',
     justifyContent: 'center'
   }
