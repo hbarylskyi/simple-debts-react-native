@@ -6,8 +6,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './main.styles';
 import * as colors from '../../colors';
 import TouchableArea from '../../components/TouchableArea/TouchableArea';
-import Popup from './addPopup/AddPopup.presenter';
-import SearchModal from './searchModal/SearchModal';
+import Popup from './addPopup/AddPopup';
+import SearchModal from './searchModal/SearchModal.presenter';
 import headerStyle from '../../components/styles/opaqueHeader';
 
 export default class MainScreen extends Component {
@@ -17,12 +17,7 @@ export default class MainScreen extends Component {
     return {
       headerRight: (
         <View style={styles.popupButtonWrapper}>
-          <TouchableArea
-            onPress={params.toggleAddPopup}
-            pressColor="gray"
-            borderless
-            style={styles.popupButton}
-          >
+          <TouchableArea onPress={params.toggleAddPopup} borderless style={styles.popupButton}>
             <Icon name={'plus'} size={20} color={'white'} />
           </TouchableArea>
         </View>
@@ -63,14 +58,15 @@ export default class MainScreen extends Component {
   renderPopup = () =>
     (<Popup
       findFriend={this.toggleSearchModal}
-      refer={popup => {
+      _ref={popup => {
         this.popup = popup;
       }}
     />);
 
   renderSearchModal = () =>
     (<SearchModal
-      refer={modal => {
+      closeModal={this.toggleSearchModal}
+      _ref={modal => {
         this.searchModal = modal;
       }}
     />);

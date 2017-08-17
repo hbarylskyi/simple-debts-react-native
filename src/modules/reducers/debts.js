@@ -1,6 +1,6 @@
-import { FETCH_DEBTS } from "../actions/DebtsActions";
-import { LOGOUT } from "../actions/AuthActions";
-import { REHYDRATE } from "redux-persist/constants";
+import { FETCH_DEBTS } from '../actions/DebtsActions';
+import { LOGOUT } from '../actions/AuthActions';
+import { REHYDRATE } from 'redux-persist/constants';
 
 const initialState = {
   debts: [],
@@ -26,6 +26,8 @@ export default (state = initialState, action) => {
     //   let cached = action.payload.debts;
     //   if (cached.summary) nextState = cached;
     //   break;
+    default:
+      break;
   }
 
   return nextState || state;

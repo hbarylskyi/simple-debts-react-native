@@ -3,14 +3,14 @@ import { Platform, View, TouchableWithoutFeedback, TouchableNativeFeedback } fro
 
 export default class TouchableArea extends Component {
   static propTypes = {
-    children: PropTypes.object,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
     isTransparent: PropTypes.bool,
     pressColor: PropTypes.string,
     borderless: PropTypes.bool
   };
 
   static defaultProps = {
-    pressColor: 'black'
+    pressColor: 'rgba(0, 0, 0, .32)'
   };
 
   render() {

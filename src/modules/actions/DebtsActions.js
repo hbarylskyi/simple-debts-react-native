@@ -1,10 +1,10 @@
-import { CALL_API } from "redux-api-middleware";
+import { CALL_API } from 'redux-api-middleware';
 
-const baseUrl = "https://simple-debts.herokuapp.com";
-const debtsEndpoint = "/debts";
+const baseUrl = 'https://simple-debts.herokuapp.com';
+const debtsEndpoint = '/debts';
 
-export const FETCH_DEBTS = "FETCH_DEBTS";
-export const CREATE_DEBTS = "CREATE_DEBTS";
+export const FETCH_DEBTS = 'FETCH_DEBTS';
+export const CREATE_DEBTS = 'CREATE_DEBTS';
 
 const fetchDebtsTypes = [
   `${FETCH_DEBTS}_REQUEST`,
@@ -21,7 +21,7 @@ const createDebtsTypes = [
 const fetchDebtsAction = () => ({
   [CALL_API]: {
     endpoint: baseUrl + debtsEndpoint,
-    method: "GET",
+    method: 'GET',
     types: fetchDebtsTypes
   }
 });
@@ -29,17 +29,13 @@ const fetchDebtsAction = () => ({
 const createDebtsAction = userId => ({
   [CALL_API]: {
     endpoint: baseUrl + debtsEndpoint,
-    method: "PUT",
+    method: 'PUT',
     types: createDebtsTypes,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ userId })
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId, countryCode: 'uk' })
   }
 });
 
-export const fetchDebts = () => dispatch => {
-  dispatch(fetchDebtsAction());
-};
+export const fetchDebts = () => dispatch => dispatch(fetchDebtsAction());
 
-export const createDebts = userId => dispatch => {
-  dispatch(createDebtsAction(userId));
-};
+export const createDebts = userId => dispatch => dispatch(createDebtsAction(userId));

@@ -1,14 +1,15 @@
-import { combineReducers } from "redux";
-import { NavigationActions } from "react-navigation";
+import { combineReducers } from 'redux';
 
-import nav from "./nav";
-import auth from "./auth";
-import debts from "./debts";
-import debt from "./debt";
+import nav from './nav';
+import auth from './auth';
+import debts from './debts';
+import debt from './debt';
+import search from './search';
 
-export default (AppReducer = combineReducers({
+export default combineReducers({
   nav,
   auth,
   debts,
-  debt
-}));
+  debt,
+  search
+});
