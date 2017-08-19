@@ -6,8 +6,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './main.styles';
 import * as colors from '../../colors';
 import TouchableArea from '../../components/TouchableArea/TouchableArea';
-import Popup from './addPopup/AddPopup';
-import SearchModal from './searchModal/SearchModal.presenter';
+import Popup from './AddPopup/AddPopup.presenter';
+import SearchModal from './SearchModal/SearchModal.presenter';
 import headerStyle from '../../components/styles/opaqueHeader';
 
 export default class MainScreen extends Component {

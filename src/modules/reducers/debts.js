@@ -1,6 +1,5 @@
-import { FETCH_DEBTS } from '../actions/DebtsActions';
+import { FETCH_DEBTS, CREATE_DEBTS_VIRT } from '../actions/DebtsActions';
 import { LOGOUT } from '../actions/AuthActions';
-import { REHYDRATE } from 'redux-persist/constants';
 
 const initialState = {
   debts: [],
@@ -18,14 +17,14 @@ export default (state = initialState, action) => {
       nextState = action.payload;
       break;
 
+    case `${CREATE_DEBTS_VIRT}_SUCCESS`:
+      nextState = action.payload;
+      break;
+
     case LOGOUT:
       nextState = initialState;
       break;
 
-    // case REHYDRATE:
-    //   let cached = action.payload.debts;
-    //   if (cached.summary) nextState = cached;
-    //   break;
     default:
       break;
   }

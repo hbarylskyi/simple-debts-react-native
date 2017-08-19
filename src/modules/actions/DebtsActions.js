@@ -2,9 +2,11 @@ import { CALL_API } from 'redux-api-middleware';
 
 const baseUrl = 'https://simple-debts.herokuapp.com';
 const debtsEndpoint = '/debts';
+const debtsVirtEndpoint = '/debts/single';
 
 export const FETCH_DEBTS = 'FETCH_DEBTS';
 export const CREATE_DEBTS = 'CREATE_DEBTS';
+export const CREATE_DEBTS_VIRT = 'CREATE_DEBTS_VIRT';
 
 const fetchDebtsTypes = [
   `${FETCH_DEBTS}_REQUEST`,
@@ -16,6 +18,12 @@ const createDebtsTypes = [
   `${CREATE_DEBTS}_REQUEST`,
   `${CREATE_DEBTS}_SUCCESS`,
   `${CREATE_DEBTS}_FAILURE`
+];
+
+const createDebtsVirtTypes = [
+  `${CREATE_DEBTS_VIRT}_REQUEST`,
+  `${CREATE_DEBTS_VIRT}_SUCCESS`,
+  `${CREATE_DEBTS_VIRT}_FAILURE`
 ];
 
 const fetchDebtsAction = () => ({
@@ -36,6 +44,17 @@ const createDebtsAction = userId => ({
   }
 });
 
+const createDebtsVirtAction = userName => ({
+  [CALL_API]: {
+    endpoint: baseUrl + debtsVirtEndpoint,
+    method: 'PUT',
+    types: createDebtsVirtTypes,
+    body: JSON.stringify({ userName })
+  }
+});
+
 export const fetchDebts = () => dispatch => dispatch(fetchDebtsAction());
 
 export const createDebts = userId => dispatch => dispatch(createDebtsAction(userId));
+
+export const createDebtsVirt = name => dispatch => dispatch(createDebtsVirtAction(name));
