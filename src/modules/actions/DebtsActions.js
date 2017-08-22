@@ -49,7 +49,8 @@ const createDebtsVirtAction = userName => ({
     endpoint: baseUrl + debtsVirtEndpoint,
     method: 'PUT',
     types: createDebtsVirtTypes,
-    body: JSON.stringify({ userName })
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userName, countryCode: 'uk' })
   }
 });
 
@@ -57,4 +58,4 @@ export const fetchDebts = () => dispatch => dispatch(fetchDebtsAction());
 
 export const createDebts = userId => dispatch => dispatch(createDebtsAction(userId));
 
-export const createDebtsVirt = name => dispatch => dispatch(createDebtsVirtAction(name));
+export const createVirtEntity = name => dispatch => dispatch(createDebtsVirtAction(name));

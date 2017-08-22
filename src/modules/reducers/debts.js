@@ -1,4 +1,4 @@
-import { FETCH_DEBTS, CREATE_DEBTS_VIRT } from '../actions/DebtsActions';
+import { FETCH_DEBTS } from '../actions/DebtsActions';
 import { LOGOUT } from '../actions/AuthActions';
 
 const initialState = {
@@ -14,10 +14,6 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
     case `${FETCH_DEBTS}_SUCCESS`:
-      nextState = action.payload;
-      break;
-
-    case `${CREATE_DEBTS_VIRT}_SUCCESS`:
       nextState = action.payload;
       break;
 

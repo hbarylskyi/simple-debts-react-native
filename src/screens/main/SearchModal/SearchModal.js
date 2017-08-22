@@ -29,13 +29,9 @@ export default class SearchModal extends Component {
     (<TouchableArea key={user.id} style={styles.user} onPress={() => this.selectUser(user.id)}>
       <Image source={{ uri: user.picture }} style={styles.avatar} />
 
-      <View>
+      <View style={{ justifyContent: 'center' }}>
         <Text>
           {user.name}
-        </Text>
-
-        <Text>
-          {user.email}
         </Text>
       </View>
     </TouchableArea>);

@@ -1,4 +1,4 @@
-import StyleSheet from 'react-native';
+import { StyleSheet } from 'react-native';
 import * as colors from '../../../../colors';
 
 export default StyleSheet.create({
@@ -13,7 +13,7 @@ export default StyleSheet.create({
 
   lineTop: {
     flex: 1,
-    borderBottom: 0.5,
+    borderBottomWidth: 0.5,
     borderColor: colors.lightGray
   },
 

@@ -1,15 +1,9 @@
-import { REHYDRATE } from "redux-persist/constants";
-import { FETCH_DEBT } from "../actions/DebtActions";
-import { LOGOUT } from "../actions/AuthActions";
-import {
-  SELECT_DEBT,
-  NEW_OPERATION,
-  OPERATION_DECLINE,
-  OPERATION_ACCEPT
-} from "../actions/DebtActions";
+import { CREATE_DEBTS_VIRT } from '../actions/DebtsActions';
+import { LOGOUT } from '../actions/AuthActions';
+import { SELECT_DEBT, NEW_OPERATION, OPERATION_ACCEPT, FETCH_DEBT } from '../actions/DebtActions';
 
 const initialState = {
-  currentDebtId: "",
+  currentDebtId: '',
   debt: {
     moneyOperations: [],
     user: {}
@@ -21,14 +15,9 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
     case `${FETCH_DEBT}_SUCCESS`:
-      nextState = { ...state, debt: action.payload };
-      break;
-
     case `${NEW_OPERATION}_SUCCESS`:
-      nextState = { ...state, debt: action.payload };
-      break;
-
     case `${OPERATION_ACCEPT}_SUCCESS`:
+    case `${CREATE_DEBTS_VIRT}_SUCCESS`:
       nextState = { ...state, debt: action.payload };
       break;
 
@@ -38,6 +27,9 @@ export default (state = initialState, action) => {
 
     case LOGOUT:
       nextState = initialState;
+      break;
+
+    default:
       break;
   }
 

@@ -16,9 +16,9 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
 
-  giveSummary: { backgroundColor: colors.green },
+  summaryGiven: { backgroundColor: colors.green },
 
-  takeSummary: { backgroundColor: colors.red },
+  summaryTaken: { backgroundColor: colors.red },
 
   name: {
     fontSize: 30,

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, Image, FlatList, ScrollView } from 'react-native';
+import { View, Text, FlatList, ScrollView } from 'react-native';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import PropTypes from 'prop-types';
 import interpolate from 'color-interpolate';
 import styles from './debt.styles';
 import TouchableArea from '../../components/TouchableArea/TouchableArea';
 import DebtPopup from './debtPopup/debtPopup';
-import Operation from './operation/operation';
+import Operation from '../../components/Operation/Operation';
 import headerStyle from '../../components/styles/opaqueHeader';
 
 export default class DebtScreen extends Component {
@@ -106,22 +106,10 @@ export default class DebtScreen extends Component {
       onSubmit={() => this.newOperation(this.state.giveValue, true)}
     />);
 
-  renderSummaryValue = isGiven => {
-    const { summary } = this.props.debt;
-    const text = isGiven ? 'Given:' : 'Taken:';
-    const style = isGiven ? styles.toGiveValue : styles.toTakeValue;
-
-    return (
-      <Text style={style}>
-        {text} {summary}
-      </Text>
-    );
-  };
-
   renderSummary = () => {
     const { debt } = this.props;
-    const isGiven = debt.moneyReceiver === debt.user.id;
-    const style = isGiven ? styles.giveSummary : styles.takeSummary;
+    const isTaken = debt.moneyReceiver === debt.user.id;
+    const style = isTaken ? styles.summaryTaken : styles.summaryGiven;
 
     return (
       <View style={[styles.summaryContainer, style]}>
@@ -129,6 +117,7 @@ export default class DebtScreen extends Component {
           {debt.user.name}
         </Text>
         <Text style={styles.moneyAmount}>
+          {isTaken ? '-' : ''}
           {debt.summary}
         </Text>
       </View>
@@ -187,11 +176,7 @@ export default class DebtScreen extends Component {
                 debt={this.props.debt}
                 userId={this.props.userId}
                 userPic={this.props.userPic}
-                onSwipe={event => {
-                  console.log(event);
-                  this.setState({ scrollEnabled: event });
-                  console.log(this.state);
-                }}
+                onSwipe={event => this.setState({ scrollEnabled: event })}
               />)}
             keyExtractor={item => item.id}
           />

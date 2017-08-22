@@ -22,7 +22,7 @@ class App extends React.Component {
 
     persistStore(this.store, {
       storage: AsyncStorage,
-      blacklist: ['debt', 'nav']
+      blacklist: ['debt', 'nav', 'search']
     });
   }
 

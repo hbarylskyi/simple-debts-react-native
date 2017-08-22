@@ -9,21 +9,42 @@ import popupStyle from '../../../components/styles/basicPopup';
 import Divider from './Divider/Divider';
 
 export default class AddPopup extends Component {
+  static deafultProps = {
+    _ref: () => {}
+  };
+
   static propTypes = {
     _ref: PropTypes.func,
     findFriend: PropTypes.func,
-    createDebts: PropTypes.func
+    createEntity: PropTypes.func,
+    goToDebt: PropTypes.func
+  };
+
+  state = {
+    virtName: ''
   };
 
   setVirtName = virtName => this.setState({ virtName });
 
-  createDebts = () => this.props.createDebts(this.state.virtName);
+  setRef = popup => {
+    this.props._ref(popup);
+    this.popup = popup;
+  };
+
+  createDebts = () => {
+    this.props.createEntity(this.state.virtName).then(response => {
+      if (!response.error) {
+        this.props.goToDebt();
+        this.popup.dismiss();
+      }
+    });
+  };
 
   render() {
-    const { _ref, findFriend } = this.props;
+    const { findFriend } = this.props;
 
     return (
-      <PopupDialog ref={_ref} dialogStyle={popupStyle}>
+      <PopupDialog ref={this.setRef} dialogStyle={popupStyle}>
         <View style={styles.container}>
           <View style={styles.header}>
             <MKTextField
