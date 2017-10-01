@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "color-interpolate": "^1.0.2",
+    "lru-memoize": "^1.0.2",
     "metro-bundler": "^0.11.0",
     "prop-types": "^15.5.10",
     "react": "16.0.0-alpha.12",
@@ -31,6 +32,9 @@
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
+    "babel-plugin-functional-hmr": "^1.0.21",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
     "babel-preset-react-native": "2.1.0",
     "eslint": "^4.3.0",
     "eslint-config-airbnb": "^15.1.0",
