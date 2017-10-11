@@ -10,7 +10,7 @@ export default class TouchableArea extends Component {
   };
 
   static defaultProps = {
-    pressColor: 'rgba(0, 0, 0, .32)'
+    pressColor: 'null'
   };
 
   render() {

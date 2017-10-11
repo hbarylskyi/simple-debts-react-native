@@ -1,30 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as colors from '../../colors';
-import * as types from './opeartion-types';
 import OperationBase from '../OperationBase/OperationBase';
 
-const Operation = ({ operation, debt, userId }) => {
+const Operation = ({ operation, debt, user, acceptOperation, declineOperation }) => {
   const { moneyReceiver, description, moneyAmount, status, statusAcceptor } = operation;
 
-  const isGiven = moneyReceiver === debt.user.id;
+  const showBtns = statusAcceptor === user.id;
+  const isTaken = moneyReceiver === user.id;
+  const image = isTaken ? user.picture : debt.user.picture;
+  const color = isTaken ? colors.red : colors.green;
+  const icon = status === 'CREATION_AWAITING' && user.id === statusAcceptor ? 'bell-o' : 'clock-o';
 
-  const image = isGiven ? debt.user.picture : operation.user.picture;
-  const textColor = isGiven ? colors.green : colors.red;
+  const onAccept = () => {
+    acceptOperation(operation.id);
+  };
 
-  let icon;
-  if (status === types.CREATION_AWAITING) {
-    icon = userId === statusAcceptor ? 'bell-o' : 'clock-o';
-  }
+  const onDecline = () => {
+    declineOperation(operation.id);
+  };
 
   return (
     <OperationBase
       image={image}
       topText={moneyAmount}
-      topTextStyle={{ color: textColor }}
+      topTextStyle={{ color }}
       bottomText={description}
       icon={icon}
       iconColor={colors.orange}
+      showBtns={showBtns}
+      onAccept={onAccept}
+      onDecline={onDecline}
     />
   );
 };
@@ -32,7 +38,9 @@ const Operation = ({ operation, debt, userId }) => {
 Operation.propTypes = {
   operation: PropTypes.object,
   debt: PropTypes.object,
-  userId: PropTypes.string
+  user: PropTypes.object,
+  acceptOperation: PropTypes.func.isRequired,
+  declineOperation: PropTypes.func.isRequired
 };
 
 export default Operation;

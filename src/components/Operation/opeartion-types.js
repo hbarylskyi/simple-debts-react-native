@@ -1,2 +1,0 @@
-export const CREATION_AWAITING = 'CREATION_AWAITING';
-export const UNCHANGED = 'UNCHANGED';

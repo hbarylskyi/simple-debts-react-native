@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, ScrollView } from 'react-native';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import PropTypes from 'prop-types';
-import interpolate from 'color-interpolate';
 import styles from './debt.styles';
 import TouchableArea from '../../components/TouchableArea/TouchableArea';
 import DebtPopup from './debtPopup/debtPopup';
-import Operation from '../../components/Operation/Operation';
+import Operation from '../../components/Operation/Operation.presenter';
 import headerStyle from '../../components/styles/opaqueHeader';
 
 export default class DebtScreen extends Component {
@@ -21,15 +20,11 @@ export default class DebtScreen extends Component {
     acceptOperation: PropTypes.func.isRequired,
     newOperation: PropTypes.func.isRequired,
     debtId: PropTypes.string.isRequired,
-    userId: PropTypes.string.isRequired,
-    userPic: PropTypes.string.isRequired,
+    user: PropTypes.object.isRequired,
     debt: PropTypes.object.isRequired
   };
 
-  constructor() {
-    super();
-    this.state = { giveModalVisible: false, takeModalVisible: false, scrollEnabled: true };
-  }
+  state = { giveModalVisible: false, takeModalVisible: false, scrollEnabled: true };
 
   componentDidMount = () => {
     this.props.fetchDebt(this.props.debtId);
@@ -54,7 +49,7 @@ export default class DebtScreen extends Component {
 
   newOperation = (val, isGiven) => {
     const { debt } = this.props;
-    const receiver = isGiven ? debt.user.id : this.props.userId;
+    const receiver = isGiven ? debt.user.id : this.props.user.id;
     const descr = isGiven ? this.state.giveDescr : this.state.takeDescr;
 
     if (!val || !descr) return;
@@ -77,12 +72,6 @@ export default class DebtScreen extends Component {
   toggleTakePopup = () => this.togglePopup(this.takePopup);
 
   toggleGivePopup = () => this.togglePopup(this.givePopup);
-
-  processScrollPosition = event => {
-    let scrollFactor = event.nativeEvent.contentOffset.y / 250;
-    scrollFactor = scrollFactor > 1 ? 1 : scrollFactor;
-    this.setState({ scrollFactor });
-  };
 
   renderTakePopup = () =>
     (<DebtPopup
@@ -149,39 +138,30 @@ export default class DebtScreen extends Component {
     </View>);
 
   render() {
-    const operations = this.props.debt.moneyOperations;
+    const { debt, user } = this.props;
+    const { scrollEnabled } = this.state;
 
     return (
       <View style={styles.container}>
         {this.renderTakePopup()}
         {this.renderGivePopup()}
+        {this.renderSummary()}
 
-        <ParallaxScrollView
-          parallaxHeaderHeight={300}
-          backgroundColor="white"
-          renderForeground={this.renderSummary}
-          renderStickyHeader={this.renderParallaxHeader}
-          stickyHeaderHeight={50}
-          fadeOutForeground={false}
-          onScroll={this.processScrollPosition}
-          renderScrollComponent={() => <ScrollView scrollEnabled={this.state.scrollEnabled} />}
-          style={styles.container}
-        >
+        <View style={styles.listContainer}>
           <FlatList
-            data={operations}
+            data={debt.moneyOperations}
             renderItem={({ item }) =>
               (<Operation
                 operation={item}
-                onAccept={this.acceptOperation}
-                debt={this.props.debt}
-                userId={this.props.userId}
-                userPic={this.props.userPic}
+                debt={debt}
+                user={user}
                 onSwipe={event => this.setState({ scrollEnabled: event })}
               />)}
             keyExtractor={item => item.id}
+            scrollEnabled={scrollEnabled}
+            contentContainerStyle={styles.listContent}
           />
-        </ParallaxScrollView>
-
+        </View>
         {this.renderCreationButtons()}
       </View>
     );

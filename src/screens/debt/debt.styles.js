@@ -1,18 +1,15 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import * as colors from '../../colors';
+
+const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
-    height: 500,
-    padding: 0,
-    margin: 0
+    flex: 1
   },
 
   summaryContainer: {
-    flex: 1,
-    height: 300,
-    alignItems: 'center',
+    flex: 1.5,
     justifyContent: 'center'
   },
 
@@ -22,18 +19,32 @@ export default StyleSheet.create({
 
   name: {
     fontSize: 30,
-    color: 'white'
+    color: 'white',
+    textAlign: 'center'
   },
 
   moneyAmount: {
     fontSize: 60,
     fontWeight: 'bold',
-    color: 'white'
+    color: 'white',
+    textAlign: 'center'
+  },
+
+  listContainer: {
+    flex: 2,
+    backgroundColor: colors.white
+  },
+
+  listContent: {
+    paddingBottom: 50
   },
 
   creationButtons: {
     height: 50,
-    flexDirection: 'row'
+    width,
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 0
   },
 
   creationText: { fontSize: 20, color: 'white' },
@@ -42,15 +53,5 @@ export default StyleSheet.create({
 
   takeButton: { backgroundColor: colors.red },
 
-  giveButton: { backgroundColor: colors.green },
-
-  parallaxHeader: { justifyContent: 'center', height: 50, paddingLeft: 50 },
-
-  toTakeValue: {
-    color: '#9E0E15'
-  },
-
-  toGiveValue: {
-    color: '#17840C'
-  }
+  giveButton: { backgroundColor: colors.green }
 });

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Button, Image } from 'react-native';
+import { View, Text, Button, FlatList } from 'react-native';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Debt from '../../components/Debt/Debt.presenter';
 import styles from './main.styles';
 import * as colors from '../../colors';
 import TouchableArea from '../../components/TouchableArea/TouchableArea';
@@ -28,14 +29,18 @@ export default class MainScreen extends Component {
   };
 
   static propTypes = {
+    user: PropTypes.object.isRequired,
     navigation: PropTypes.object.isRequired,
     summary: PropTypes.object.isRequired,
     fetchDebts: PropTypes.func.isRequired,
     goToDebt: PropTypes.func.isRequired,
     selectDebt: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
-    userId: PropTypes.string.isRequired,
     debts: PropTypes.array.isRequired
+  };
+
+  state = {
+    scrollEnabled: true
   };
 
   componentDidMount = () => {
@@ -50,10 +55,10 @@ export default class MainScreen extends Component {
 
   toggleAddPopup = () => this.togglePopup(this.popup);
 
-  goToDebt(debtId) {
+  goToDebt = debtId => {
     this.props.selectDebt(debtId);
     this.props.goToDebt();
-  }
+  };
 
   renderPopup = () =>
     (<Popup
@@ -72,69 +77,56 @@ export default class MainScreen extends Component {
     />);
 
   renderSummary = () => {
-    const { toGive, toTake } = this.props.summary;
-    const color = colors.green;
+    const { summary, user } = this.props;
+    const { toGive, toTake } = summary;
+    const calculatedSummary = toTake - toGive;
+    const color = calculatedSummary > 0 ? colors.green : colors.red;
 
+    // <Button title="Logout" onPress={this.props.logout} />
     return (
       <View style={[styles.summaryContainer, { backgroundColor: color }]}>
-        <View style={styles.summaryContainer}>
-          <Text style={styles.toGiveValue}>
-            Given: {toTake}
+        <View style={styles.summaryTop}>
+          <Text style={styles.summaryText}>
+            {user.name}
           </Text>
-          <Text style={styles.toTakeValue}>
-            Taken: {toGive}
+          <Text style={styles.summaryTextBig}>
+            {`$${Math.abs(calculatedSummary)}`}
+          </Text>
+        </View>
+
+        <View style={styles.valuesContainer}>
+          <Text style={[styles.summaryTextBottom, styles.toGive]}>
+            {`$${toTake}`}
+          </Text>
+          <Text style={[styles.summaryTextBottom, styles.toTake]}>
+            {`$${toGive}`}
           </Text>
         </View>
       </View>
     );
   };
 
-  renderForeground = () =>
-    (<View style={styles.logoutButton}>
-      <Button title="Logout" onPress={this.props.logout} />
-    </View>);
-
-  renderDebt = debt => {
-    const { name, picture } = debt.user;
-    const textColorStyle =
-      debt.moneyReceiver === this.props.userId ? styles.toTakeValue : styles.toGiveValue;
-
-    return (
-      <TouchableArea key={debt.id} onPress={() => this.goToDebt(debt.id)}>
-        <View style={styles.debtContainer}>
-          <View style={styles.personContainer}>
-            <Image style={styles.avatar} source={{ uri: picture }} />
-            <Text>
-              {name}
-            </Text>
-          </View>
-
-          <Text style={[styles.debtValue, textColorStyle]}>
-            {debt.summary}
-          </Text>
-        </View>
-      </TouchableArea>
-    );
-  };
-
   render() {
-    const { debts } = this.props;
+    const { debts, user } = this.props;
+    const { scrollEnabled } = this.state;
 
     return (
       <View style={styles.container}>
         {this.renderPopup()}
         {this.renderSearchModal()}
-        <ParallaxScrollView
-          style={styles.container}
-          parallaxHeaderHeight={300}
-          backgroundColor="white"
-          renderBackground={this.renderSummary}
-          renderForeground={this.renderForeground}
-        >
-          <View style={styles.listContainer}>
-            {debts.map(this.renderDebt)}
-          </View>
-        </ParallaxScrollView>
+        {this.renderSummary()}
+        <View style={styles.listContainer}>
+          <FlatList
+            data={debts}
+            renderItem={({ item }) =>
+              (<Debt
+                debt={item}
+                userId={user.id}
+                onSwipe={swipeFinished => this.setState({ scrollEnabled: swipeFinished })}
+              />)}
+            scrollEnabled={scrollEnabled}
+          />
+        </View>
       </View>
     );
   }

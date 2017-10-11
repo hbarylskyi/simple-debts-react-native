@@ -1,22 +1,39 @@
 import { StyleSheet } from 'react-native';
+import * as colors from '../../colors';
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
-    height: 500
+    flex: 1
   },
 
   summaryContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 300
+    flex: 1.5
   },
 
-  logoutButton: {
-    width: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 50
+  summaryTop: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+
+  summaryText: {
+    color: colors.white,
+    fontSize: 26,
+    textAlign: 'center'
+  },
+
+  summaryTextBig: {
+    color: colors.white,
+    textAlign: 'center',
+    fontSize: 50,
+    fontWeight: 'bold'
+  },
+
+  summaryTextBottom: {
+    flex: 1,
+    color: colors.white,
+    fontSize: 30,
+    textAlign: 'center',
+    padding: 12
   },
 
   debtContainer: {
@@ -28,30 +45,24 @@ export default StyleSheet.create({
   },
 
   listContainer: {
-    paddingTop: 10,
+    flex: 2,
+    backgroundColor: colors.white,
     borderTopWidth: 0.5,
     borderTopColor: '#D7D7D7'
   },
 
-  personContainer: {
-    flex: 1,
+  valuesContainer: {
     flexDirection: 'row',
-    alignItems: 'center'
+    justifyContent: 'space-between',
+    backgroundColor: colors.white
   },
 
-  toTakeValue: {
-    color: '#9E0E15'
+  toTake: {
+    color: colors.red
   },
 
-  toGiveValue: {
-    color: '#17840C'
-  },
-
-  avatar: {
-    height: 50,
-    width: 50,
-    borderRadius: 50,
-    marginRight: 10
+  toGive: {
+    color: colors.green
   },
 
   popupButtonWrapper: {

@@ -6,3 +6,4 @@ export const orange = '#FFD185';
 export const black = 'rgb(52,63,75)'; // should be rgb(...)
 export const gray = '#969FAA';
 export const lightGray = '#ededed';
+export const white = 'white';

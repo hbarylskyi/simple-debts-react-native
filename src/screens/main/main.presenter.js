@@ -9,7 +9,7 @@ import { logout } from '../../modules/actions/AuthActions';
 const mapStateToProps = state => ({
   debts: state.debts.debts,
   summary: state.debts.summary,
-  userId: state.auth.id
+  user: state.auth
 });
 
 const mapDispatchToProps = dispatch => ({

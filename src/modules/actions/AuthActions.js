@@ -30,7 +30,7 @@ const loginAction = fbToken => ({
 
 const loginCheckAction = () => ({
   [CALL_API]: {
-    endpoint: `${baseUrl}/login-status`,
+    endpoint: `${baseUrl}/login_status`,
     method: 'GET',
     types: loginCheckTypes
   }
