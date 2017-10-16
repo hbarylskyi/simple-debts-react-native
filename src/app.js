@@ -17,7 +17,7 @@ class App extends React.Component {
 
     this.store = createStore(
       AppReducer,
-      composeWithDevTools(applyMiddleware(thunk, apiMiddleware, ...appMiddlewares), autoRehydrate())
+      composeWithDevTools(applyMiddleware(thunk, ...appMiddlewares, apiMiddleware), autoRehydrate())
     );
 
     persistStore(this.store, {

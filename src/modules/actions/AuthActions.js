@@ -27,12 +27,14 @@ const loginAction = fbToken => ({
   }
 });
 
-const loginCheckAction = () => ({
+const loginCheckAction = token => ({
   [CALL_API]: {
     endpoint: `${baseUrl}/login_status`,
     method: 'GET',
     types: loginCheckTypes
-  }
+  },
+
+  authorize: true
 });
 
 const logoutAction = () => ({

@@ -19,7 +19,9 @@ const operationAcceptAction = (operationId, accepted) => ({
     body: JSON.stringify({
       operationId
     })
-  }
+  },
+
+  authorize: true
 });
 
 export const processOperation = (operationId, accepted) => dispatch =>
@@ -43,7 +45,9 @@ const newOperationAction = (debtsId, moneyAmount, moneyReceiver, description) =>
       moneyReceiver,
       description
     })
-  }
+  },
+
+  authorize: true
 });
 
 export const newOperation = (debtsId, moneyAmount, moneyReceiver, description) => dispatch =>
@@ -61,7 +65,9 @@ const deleteOperationAction = operationId => ({
     method: 'DELETE',
     types: deleteOperationTypes,
     headers: { 'Content-Type': 'application/json' }
-  }
+  },
+
+  authorize: true
 });
 
 export const deleteOperation = (debtsId, moneyAmount, moneyReceiver, description) => dispatch =>

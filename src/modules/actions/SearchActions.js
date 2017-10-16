@@ -14,7 +14,9 @@ const userSearchAction = nameOrEmail => ({
     endpoint: `${baseUrl + searchEndpoint}?name=${nameOrEmail}`,
     method: 'GET',
     types: userSearchTypes
-  }
+  },
+
+  authorize: true
 });
 
 export const userSearch = nameOrEmail => dispatch => {

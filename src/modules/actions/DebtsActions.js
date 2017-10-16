@@ -31,7 +31,9 @@ const fetchDebtsAction = () => ({
     endpoint: baseUrl + debtsEndpoint,
     method: 'GET',
     types: fetchDebtsTypes
-  }
+  },
+
+  authorize: true
 });
 
 const createDebtsAction = userId => ({
@@ -41,7 +43,9 @@ const createDebtsAction = userId => ({
     types: createDebtsTypes,
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ userId, countryCode: 'uk' })
-  }
+  },
+
+  authorize: true
 });
 
 const createDebtsVirtAction = userName => ({
@@ -51,7 +55,9 @@ const createDebtsVirtAction = userName => ({
     types: createDebtsVirtTypes,
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ userName, countryCode: 'uk' })
-  }
+  },
+
+  authorize: true
 });
 
 export const fetchDebts = () => dispatch => dispatch(fetchDebtsAction());

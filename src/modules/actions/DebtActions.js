@@ -26,7 +26,9 @@ const fetchDebtAction = debtId => ({
     endpoint: `${baseUrl}/debts/${debtId}`,
     method: 'GET',
     types: fetchDebtTypes
-  }
+  },
+
+  authorize: true
 });
 
 export const fetchDebt = debtId => dispatch => {
@@ -50,7 +52,9 @@ const acceptDebtAction = (debtId, method) => ({
     body: JSON.stringify({
       debtId
     })
-  }
+  },
+
+  authorize: true
 });
 
 export const acceptDebt = (debtId, requestType) => dispatch =>
@@ -73,7 +77,9 @@ const deleteDebtAction = (debtId, method) => ({
     body: JSON.stringify({
       debtId
     })
-  }
+  },
+
+  authorize: true
 });
 
 export const deleteDebt = (debtId, requestType) => dispatch =>

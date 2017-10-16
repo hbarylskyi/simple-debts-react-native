@@ -1,7 +1,9 @@
 import { REHYDRATE } from 'redux-persist/constants';
 import { LOGOUT, LOGIN_CHECK, FB_LOGIN } from '../actions/AuthActions';
 
-const initialState = {};
+const initialState = {
+  token: ''
+};
 
 export default (state = initialState, action) => {
   let nextState;
