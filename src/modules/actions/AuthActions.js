@@ -2,7 +2,6 @@ import { CALL_API } from 'redux-api-middleware';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import * as NavActions from '../../modules/actions/NavActions';
 
-// TODO move redux-api-middleware calls to separate file?
 const baseUrl = 'https://simple-debts.herokuapp.com';
 
 export const FB_LOGIN = 'FB_LOGIN';

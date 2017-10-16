@@ -18,13 +18,10 @@ export default store => next => action => {
     }
   }
 
-  // logout if loginCheck returned 'authentication: false'
   if (action.type === `${LOGIN_CHECK}_SUCCESS`) {
-    if (!action.payload.authenticated) {
-      logout();
-    } else {
-      store.dispatch(goToMainScreen());
-    }
+    store.dispatch(goToMainScreen());
+  } else if (action.type === `${LOGIN_CHECK}_FAILURE`) {
+    logout();
   }
 
   return next(action);

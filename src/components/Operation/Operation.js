@@ -6,11 +6,13 @@ import OperationBase from '../OperationBase/OperationBase';
 const Operation = ({ operation, debt, user, acceptOperation, declineOperation }) => {
   const { moneyReceiver, description, moneyAmount, status, statusAcceptor } = operation;
 
-  const showBtns = statusAcceptor === user.id;
   const isTaken = moneyReceiver === user.id;
   const image = isTaken ? user.picture : debt.user.picture;
   const color = isTaken ? colors.red : colors.green;
-  const icon = status === 'CREATION_AWAITING' && user.id === statusAcceptor ? 'bell-o' : 'clock-o';
+  const showBtns = statusAcceptor === user.id && status === 'CREATION_AWAITING';
+  let icon;
+
+  if (status === 'CREATION_AWAITING') icon = statusAcceptor === user.id ? 'bell-o' : 'clock-o';
 
   const onAccept = () => {
     acceptOperation(operation.id);

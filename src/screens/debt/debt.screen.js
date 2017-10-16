@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, ScrollView } from 'react-native';
-import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import PropTypes from 'prop-types';
 import styles from './debt.styles';
 import TouchableArea from '../../components/TouchableArea/TouchableArea';

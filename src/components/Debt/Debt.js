@@ -23,7 +23,7 @@ const Debt = ({
   const { moneyReceiver, summary } = debt;
   const isGiven = moneyReceiver === userId;
   const color = isGiven ? colors.green : colors.red;
-  const icon = icons[debt.status];
+  const icon = icons[debt.status] || {};
 
   const showBtns =
     debt.statusAcceptor === userId &&
