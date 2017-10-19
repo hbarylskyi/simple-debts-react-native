@@ -34,7 +34,7 @@ export default class AddPopup extends Component {
   createDebts = () => {
     this.props.createEntity(this.state.virtName).then(response => {
       if (!response.error) {
-        this.props.goToDebt();
+        this.props.goToDebt(response.payload.id);
         this.popup.dismiss();
       }
     });

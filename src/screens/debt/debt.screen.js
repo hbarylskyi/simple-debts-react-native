@@ -16,7 +16,7 @@ export default class DebtScreen extends Component {
   static propTypes = {
     processError: PropTypes.func.isRequired,
     fetchDebt: PropTypes.func.isRequired,
-    acceptOperation: PropTypes.func.isRequired,
+    processOperation: PropTypes.func.isRequired,
     newOperation: PropTypes.func.isRequired,
     debtId: PropTypes.string.isRequired,
     user: PropTypes.object.isRequired,
@@ -37,8 +37,8 @@ export default class DebtScreen extends Component {
     this.state.giveValue = parseInt(text, 10);
   };
 
-  acceptOperation = (oid, accepted) => {
-    this.props.acceptOperation(oid, accepted).then(response => {
+  processOperation = (oid, accepted) => {
+    this.props.processOperation(oid, accepted).then(response => {
       if (response.error) {
         const { payload } = response;
         this.props.processError(payload.message, payload.response);
@@ -47,8 +47,8 @@ export default class DebtScreen extends Component {
   };
 
   newOperation = (val, isGiven) => {
-    const { debt } = this.props;
-    const receiver = isGiven ? debt.user.id : this.props.user.id;
+    const { debt, user } = this.props;
+    const receiver = isGiven ? debt.user.id : user.id;
     const descr = isGiven ? this.state.giveDescr : this.state.takeDescr;
 
     if (!val || !descr) return;
@@ -79,7 +79,7 @@ export default class DebtScreen extends Component {
       }}
       isGivePopup={false}
       onChangeVal={text => this.setTakeValue(text)}
-      onChangeDescr={descr => this.setState({ takeDescr: descr })}
+      onChangeDescr={takeDescr => this.setState({ takeDescr })}
       onSubmit={() => this.newOperation(this.state.takeValue, false)}
     />);
 
@@ -90,7 +90,7 @@ export default class DebtScreen extends Component {
       }}
       isGivePopup
       onChangeVal={text => this.setGiveValue(text)}
-      onChangeDescr={descr => this.setState({ giveDescr: descr })}
+      onChangeDescr={giveDescr => this.setState({ giveDescr })}
       onSubmit={() => this.newOperation(this.state.giveValue, true)}
     />);
 

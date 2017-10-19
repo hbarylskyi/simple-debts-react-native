@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 
 export const NEW_OPERATION = 'NEW_OPERATION';
-export const OPERATION_ACCEPT = 'OPERATION_ACCEPTANCE';
+export const OPERATION_ACCEPT = 'OPERATION_ACCEPT';
 const baseUrl = 'https://simple-debts.herokuapp.com';
 
 const operationAcceptTypes = [

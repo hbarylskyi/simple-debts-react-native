@@ -9,6 +9,7 @@ import { persistStore, autoRehydrate } from 'redux-persist';
 
 import AppWithNavigationState from './screens/navigator';
 import AppReducer from './modules/reducers/index';
+import beforeRequestHooks from './modules/middlewares/beforeRequestHooks';
 import appMiddlewares from './modules/middlewares/index';
 
 class App extends React.Component {
@@ -17,7 +18,10 @@ class App extends React.Component {
 
     this.store = createStore(
       AppReducer,
-      composeWithDevTools(applyMiddleware(thunk, ...appMiddlewares, apiMiddleware), autoRehydrate())
+      composeWithDevTools(
+        applyMiddleware(thunk, ...beforeRequestHooks, apiMiddleware, ...appMiddlewares),
+        autoRehydrate()
+      )
     );
 
     persistStore(this.store, {
