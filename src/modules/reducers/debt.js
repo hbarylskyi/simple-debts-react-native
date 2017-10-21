@@ -1,7 +1,7 @@
 import { CREATE_DEBTS_VIRT } from '../actions/DebtsActions';
 import { LOGOUT } from '../actions/AuthActions';
-import { SELECT_DEBT, OPERATION_ACCEPT, FETCH_DEBT } from '../actions/DebtActions';
-import { NEW_OPERATION } from '../actions/OperationActions';
+import { SELECT_DEBT, FETCH_DEBT } from '../actions/DebtActions';
+import { NEW_OPERATION, OPERATION_ACCEPT } from '../actions/OperationActions';
 
 const initialState = {
   currentDebtId: '',

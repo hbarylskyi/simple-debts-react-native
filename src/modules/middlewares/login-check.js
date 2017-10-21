@@ -10,12 +10,15 @@ export default store => next => action => {
 
   // init loginCheck when auth state is persisted from local storage
   if (action.type === REHYDRATE) {
-    if (action.payload.auth && action.payload.auth.id) {
+    store.dispatch({ type: 'HIDE_SPLASH' });
+
+    if (action.payload.auth && action.payload.auth.token) {
+      next(action);
       store.dispatch(loginCheck());
-    } else {
-      store.dispatch({ type: 'HIDE_SPLASH' });
-      logout();
+      return;
     }
+
+    logout();
   }
 
   if (action.type === `${LOGIN_CHECK}_SUCCESS`) {

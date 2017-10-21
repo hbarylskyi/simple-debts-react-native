@@ -61,26 +61,16 @@ export default class MainScreen extends Component {
   };
 
   renderPopup = () =>
-    (<Popup
-      findFriend={this.toggleSearchModal}
-      _ref={popup => {
-        this.popup = popup;
-      }}
-    />);
+    <Popup findFriend={this.toggleSearchModal} _ref={popup => (this.popup = popup)} />;
 
   renderSearchModal = () =>
-    (<SearchModal
-      closeModal={this.toggleSearchModal}
-      _ref={modal => {
-        this.searchModal = modal;
-      }}
-    />);
+    <SearchModal closeModal={this.toggleSearchModal} _ref={modal => (this.searchModal = modal)} />;
 
   renderSummary = () => {
     const { summary, user } = this.props;
     const { toGive, toTake } = summary;
     const calculatedSummary = toTake - toGive;
-    const color = calculatedSummary > 0 ? colors.green : colors.red;
+    const color = calculatedSummary < 0 ? colors.red : colors.green;
 
     // <Button title="Logout" onPress={this.props.logout} />
     return (
@@ -90,7 +80,7 @@ export default class MainScreen extends Component {
             {user.name}
           </Text>
           <Text style={styles.summaryTextBig}>
-            {`$${Math.abs(calculatedSummary)}`}
+            {calculatedSummary.toString().replace('-', '-$')}
           </Text>
         </View>
 

@@ -63,7 +63,7 @@ Debt.propTypes = {
   acceptDebtDeletion: PropTypes.func.isRequired,
   declineDebtDeletion: PropTypes.func.isRequired,
   debt: PropTypes.object,
-  userId: PropTypes.number
+  userId: PropTypes.string
 };
 
 export default Debt;
