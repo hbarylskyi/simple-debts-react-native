@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -39,6 +40,10 @@
 		42248C35CF2B423CA43E6DAD /* libRCTMaterialKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38FD52EADF124F60A4A73F36 /* libRCTMaterialKit.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		66D1367E03604AC19F1FD9FD /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7F5EDA9A9FF4C1AAC2A5BCF /* libSplashScreen.a */; };
+		6C87D01B1F9BF44F00956CF3 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C87D0171F9BF44F00956CF3 /* Bolts.framework */; };
+		6C87D01C1F9BF44F00956CF3 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C87D0181F9BF44F00956CF3 /* FBSDKLoginKit.framework */; };
+		6C87D01D1F9BF44F00956CF3 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C87D0191F9BF44F00956CF3 /* FBSDKShareKit.framework */; };
+		6C87D01E1F9BF44F00956CF3 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C87D01A1F9BF44F00956CF3 /* FBSDKCoreKit.framework */; };
 		77602B44811743CCAC928EDB /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A22256021A044A918A1066E5 /* FontAwesome.ttf */; };
 		7EE165295CE445ECA562AAA7 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACC50426473B402EB6D2AD13 /* MaterialIcons.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -284,6 +289,13 @@
 			remoteGlobalIDString = 3D7682761D8E76B80014119E;
 			remoteInfo = SplashScreen;
 		};
+		6C87D0501F9BF62000956CF3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A6732D5C5ED647EF811E3EBA /* ReactNativeConfig.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EB2648DF1C7BE17A00B8F155;
+			remoteInfo = ReactNativeConfig;
+		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -328,6 +340,10 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5F85786754B943BFB3A03A6F /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		67F0909ABBFB48F68B40A102 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		6C87D0171F9BF44F00956CF3 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../../../FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
+		6C87D0181F9BF44F00956CF3 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		6C87D0191F9BF44F00956CF3 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../../FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
+		6C87D01A1F9BF44F00956CF3 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		76D25966652F47AEBFC31F51 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -362,8 +378,10 @@
 			files = (
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
+				6C87D01C1F9BF44F00956CF3 /* FBSDKLoginKit.framework in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
+				6C87D01E1F9BF44F00956CF3 /* FBSDKCoreKit.framework in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
@@ -371,7 +389,9 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
+				6C87D01D1F9BF44F00956CF3 /* FBSDKShareKit.framework in Frameworks */,
 				AD3DB25866A1466097BA2ED5 /* libRCTFBSDK.a in Frameworks */,
+				6C87D01B1F9BF44F00956CF3 /* Bolts.framework in Frameworks */,
 				D0CFDBF630334F6585DEC63D /* libReactNativeConfig.a in Frameworks */,
 				66D1367E03604AC19F1FD9FD /* libSplashScreen.a in Frameworks */,
 				42248C35CF2B423CA43E6DAD /* libRCTMaterialKit.a in Frameworks */,
@@ -517,6 +537,7 @@
 		1788C4DC3F9E4D62ADC774D8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6C87D0161F9BF41600956CF3 /* Frameworks */,
 				2C743C553D304B3E9E341514 /* Entypo.ttf */,
 				B849A1AA187B48E198F562F6 /* EvilIcons.ttf */,
 				A22256021A044A918A1066E5 /* FontAwesome.ttf */,
@@ -580,6 +601,25 @@
 			isa = PBXGroup;
 			children = (
 				6C07BA391F9544D900CF46E3 /* libRNVectorIcons.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6C87D0161F9BF41600956CF3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6C87D0171F9BF44F00956CF3 /* Bolts.framework */,
+				6C87D01A1F9BF44F00956CF3 /* FBSDKCoreKit.framework */,
+				6C87D0181F9BF44F00956CF3 /* FBSDKLoginKit.framework */,
+				6C87D0191F9BF44F00956CF3 /* FBSDKShareKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6C87D02E1F9BF62000956CF3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6C87D0511F9BF62000956CF3 /* libReactNativeConfig.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -815,6 +855,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 6C87D02E1F9BF62000956CF3 /* Products */;
+					ProjectRef = A6732D5C5ED647EF811E3EBA /* ReactNativeConfig.xcodeproj */;
 				},
 				{
 					ProductGroup = 6C07BA2F1F9544D900CF46E3 /* Products */;
@@ -1053,6 +1097,13 @@
 			remoteRef = 6C07BA3B1F9544D900CF46E3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		6C87D0511F9BF62000956CF3 /* libReactNativeConfig.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeConfig.a;
+			remoteRef = 6C87D0501F9BF62000956CF3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1283,6 +1334,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = DCCMUU4M4M;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					/Users/sth/Documents/FacebookSDK,
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
@@ -1292,12 +1348,16 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				INFOPLIST_FILE = debtCollector/Info.plist;
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
+				INFOPLIST_PREFIX_HEADER = "${BUILD_DIR}/GeneratedInfoPlistDotEnv.h";
+				INFOPLIST_PREPROCESS = YES;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.simpledebts;
 				PRODUCT_NAME = debtCollector;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1309,6 +1369,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DCCMUU4M4M;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					/Users/sth/Documents/FacebookSDK,
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
@@ -1318,12 +1383,16 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				INFOPLIST_FILE = debtCollector/Info.plist;
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
+				INFOPLIST_PREFIX_HEADER = "${BUILD_DIR}/GeneratedInfoPlistDotEnv.h";
+				INFOPLIST_PREPROCESS = YES;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.simpledebts;
 				PRODUCT_NAME = debtCollector;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
