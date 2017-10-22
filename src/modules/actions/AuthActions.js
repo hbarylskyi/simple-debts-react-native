@@ -1,8 +1,11 @@
 import { CALL_API } from 'redux-api-middleware';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
+import config from 'react-native-config';
 import * as NavActions from '../../modules/actions/NavActions';
 
-const baseUrl = 'https://simple-debts.herokuapp.com';
+console.log(config.host);
+
+const baseUrl = config.host;
 
 export const FB_LOGIN = 'FB_LOGIN';
 export const LOGIN_CHECK = 'LOGIN_CHECK';
