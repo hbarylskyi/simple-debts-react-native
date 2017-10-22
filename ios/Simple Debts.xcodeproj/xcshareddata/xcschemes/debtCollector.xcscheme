@@ -30,8 +30,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
                BuildableName = "debtCollector.app"
-               BlueprintName = "debtCollector"
-               ReferencedContainer = "container:debtCollector.xcodeproj">
+               BlueprintName = "Simple Debts"
+               ReferencedContainer = "container:Simple Debts.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "debtCollectorTests.xctest"
-               BlueprintName = "debtCollectorTests"
-               ReferencedContainer = "container:debtCollector.xcodeproj">
+               BuildableName = "Simple DebtsTests.xctest"
+               BlueprintName = "Simple DebtsTests"
+               ReferencedContainer = "container:Simple Debts.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -62,9 +62,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "debtCollectorTests.xctest"
-               BlueprintName = "debtCollectorTests"
-               ReferencedContainer = "container:debtCollector.xcodeproj">
+               BuildableName = "Simple DebtsTests.xctest"
+               BlueprintName = "Simple DebtsTests"
+               ReferencedContainer = "container:Simple Debts.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -73,8 +73,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "debtCollector.app"
-            BlueprintName = "debtCollector"
-            ReferencedContainer = "container:debtCollector.xcodeproj">
+            BlueprintName = "Simple Debts"
+            ReferencedContainer = "container:Simple Debts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -97,8 +97,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "debtCollector.app"
-            BlueprintName = "debtCollector"
-            ReferencedContainer = "container:debtCollector.xcodeproj">
+            BlueprintName = "Simple Debts"
+            ReferencedContainer = "container:Simple Debts.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -116,8 +116,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "debtCollector.app"
-            BlueprintName = "debtCollector"
-            ReferencedContainer = "container:debtCollector.xcodeproj">
+            BlueprintName = "Simple Debts"
+            ReferencedContainer = "container:Simple Debts.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

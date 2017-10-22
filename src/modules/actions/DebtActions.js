@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
+import config from 'react-native-config'
 
-// TODO global var
-const baseUrl = 'https://simple-debts.herokuapp.com';
+const baseUrl = config.host;
 export const FETCH_DEBT = 'FETCH_DEBT';
 export const SELECT_DEBT = 'SELECT_DEBT';
 export const REQUESTS = {

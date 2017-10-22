@@ -1,4 +1,4 @@
-package com.debtcollector;
+package com.simpledebts;
 
 import com.facebook.react.ReactActivity;
 import android.content.Intent;

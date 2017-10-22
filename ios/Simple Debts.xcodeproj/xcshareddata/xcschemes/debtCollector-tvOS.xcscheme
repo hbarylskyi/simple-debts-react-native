@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "debtCollector-tvOS.app"
-               BlueprintName = "debtCollector-tvOS"
-               ReferencedContainer = "container:debtCollector.xcodeproj">
+               BuildableName = "Simple Debts-tvOS.app"
+               BlueprintName = "Simple Debts-tvOS"
+               ReferencedContainer = "container:Simple Debts.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "debtCollector-tvOSTests.xctest"
-               BlueprintName = "debtCollector-tvOSTests"
-               ReferencedContainer = "container:debtCollector.xcodeproj">
+               BuildableName = "Simple Debts-tvOSTests.xctest"
+               BlueprintName = "Simple Debts-tvOSTests"
+               ReferencedContainer = "container:Simple Debts.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -54,6 +54,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
@@ -61,9 +62,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "debtCollector-tvOSTests.xctest"
-               BlueprintName = "debtCollector-tvOSTests"
-               ReferencedContainer = "container:debtCollector.xcodeproj">
+               BuildableName = "Simple Debts-tvOSTests.xctest"
+               BlueprintName = "Simple Debts-tvOSTests"
+               ReferencedContainer = "container:Simple Debts.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "debtCollector-tvOS.app"
-            BlueprintName = "debtCollector-tvOS"
-            ReferencedContainer = "container:debtCollector.xcodeproj">
+            BuildableName = "Simple Debts-tvOS.app"
+            BlueprintName = "Simple Debts-tvOS"
+            ReferencedContainer = "container:Simple Debts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -83,6 +84,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -94,9 +96,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "debtCollector-tvOS.app"
-            BlueprintName = "debtCollector-tvOS"
-            ReferencedContainer = "container:debtCollector.xcodeproj">
+            BuildableName = "Simple Debts-tvOS.app"
+            BlueprintName = "Simple Debts-tvOS"
+            ReferencedContainer = "container:Simple Debts.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -113,9 +115,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "debtCollector-tvOS.app"
-            BlueprintName = "debtCollector-tvOS"
-            ReferencedContainer = "container:debtCollector.xcodeproj">
+            BuildableName = "Simple Debts-tvOS.app"
+            BlueprintName = "Simple Debts-tvOS"
+            ReferencedContainer = "container:Simple Debts.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

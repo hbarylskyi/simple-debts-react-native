@@ -101,7 +101,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.debtcollector"
+        applicationId "com.simpledebts"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1

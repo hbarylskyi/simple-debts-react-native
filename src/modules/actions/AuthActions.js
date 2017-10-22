@@ -1,9 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import config from 'react-native-config';
-import * as NavActions from '../../modules/actions/NavActions';
-
-console.log(config.host);
+import * as NavActions from '../../modules/actions/NavActions'
 
 const baseUrl = config.host;
 

@@ -1,6 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
+import config from 'react-native-config'
 
-const baseUrl = 'https://simple-debts.herokuapp.com';
+const baseUrl = config.host;
 const searchEndpoint = '/users';
 
 export const USER_SEARCH_REQUEST = 'USER_SEARCH_REQUEST';

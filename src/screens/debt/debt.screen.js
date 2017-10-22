@@ -47,22 +47,19 @@ export default class DebtScreen extends Component {
   };
 
   newOperation = (val, isGiven) => {
-    console.log('in new op')
     const { debt, user } = this.props;
     const receiver = isGiven ? debt.user.id : user.id;
     const descr = isGiven ? this.state.giveDescr : this.state.takeDescr;
 
     if (!val || !descr) return;
-console.log('start new op')
+
     this.props.newOperation(debt.id, val, receiver, descr).then(response => {
-      console.log('in resp')
+
       if (response.error) {
         const { payload } = response;
         this.props.processError(payload.message, payload.response);
       } else if (isGiven) {
         this.toggleGivePopup();
-        console.log('toggling give');
-        console.log(response);
       } else {
         this.toggleTakePopup();
       }
