@@ -25,7 +25,7 @@ export default class TouchableArea extends Component {
         {...rest}
         style={null}
         delayLongPress={Platform.OS === 'ios' ? 600 : 100}
-        background={TouchableNativeFeedback.Ripple(this.props.pressColor, this.props.borderless)}
+        background={Platform.OS === 'ios' ? null : TouchableNativeFeedback.Ripple(this.props.pressColor, this.props.borderless)}
       >
         <View style={style}>
           {children}

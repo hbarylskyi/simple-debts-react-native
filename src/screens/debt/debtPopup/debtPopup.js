@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { MKTextField } from 'react-native-material-kit';
 import PopupDialog from 'react-native-popup-dialog';
 import styles from './debtPopup.styles';
@@ -34,6 +34,8 @@ export default ({ isGivePopup, onChangeVal, onChangeDescr, onSubmit, refer }) =>
           floatingLabelEnabled
           underlineEnabled={false}
           highlightColor={colors.gray}
+          returnKeyType="done"
+          onSubmitEditing={Keyboard.dismiss}
         />
 
         <TouchableArea onPress={onSubmit} style={styles.submit}>

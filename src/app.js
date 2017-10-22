@@ -6,7 +6,6 @@ import { apiMiddleware } from 'redux-api-middleware';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { persistStore, autoRehydrate } from 'redux-persist';
-
 import AppWithNavigationState from './screens/navigator';
 import AppReducer from './modules/reducers/index';
 import beforeRequestHooks from './modules/middlewares/beforeRequestHooks';
