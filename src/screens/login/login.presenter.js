@@ -1,12 +1,12 @@
-import LoginScreen from "./login.screen";
-import { connect } from "react-redux";
-
-import * as AuthActions from "../../modules/actions/AuthActions";
+import { connect } from 'react-redux';
+import LoginScreen from './login.screen';
+import * as AuthActions from '../../modules/actions/AuthActions';
 
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-  login: () => dispatch(AuthActions.fbLogin())
+  fbLogin: () => dispatch(AuthActions.fbLogin()),
+  standardLogin: () => dispatch
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

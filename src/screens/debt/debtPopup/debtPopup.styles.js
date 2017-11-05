@@ -1,14 +1,7 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import * as colors from '../../../colors';
 
-const { width } = Dimensions.get('window');
-
 export default StyleSheet.create({
-  container: {
-    borderRadius: 0,
-    width: width - 20
-  },
-
   takeBackgr: {
     backgroundColor: colors.red
   },
@@ -22,14 +15,18 @@ export default StyleSheet.create({
     width: 175
   },
 
-  debtText: { color: 'white' },
+  debtText: {
+    color: 'white'
+  },
 
   top: {
+    borderTopRightRadius: 3,
+    borderTopLeftRadius: 3,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#9F8A8A'
+    borderBottomColor: colors.gray
   },
 
   bottom: {
@@ -46,7 +43,7 @@ export default StyleSheet.create({
     padding: 20,
     paddingTop: 10,
     paddingBottom: 10,
-    margin: 10
+    margin: 5
   },
 
   submitText: {

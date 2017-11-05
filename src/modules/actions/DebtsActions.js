@@ -1,5 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
-import config from 'react-native-config'
+import config from 'react-native-config';
 
 const baseUrl = config.host;
 const debtsEndpoint = '/debts';
@@ -43,7 +43,7 @@ const createDebtsAction = userId => ({
     method: 'PUT',
     types: createDebtsTypes,
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId, countryCode: 'uk' })
+    body: JSON.stringify({ userId, countryCode: 'ua' })
   },
 
   authorize: true
@@ -55,7 +55,7 @@ const createDebtsVirtAction = userName => ({
     method: 'PUT',
     types: createDebtsVirtTypes,
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userName, countryCode: 'uk' })
+    body: JSON.stringify({ userName, countryCode: 'ua' })
   },
 
   authorize: true

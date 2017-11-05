@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppRegistry, AsyncStorage } from 'react-native';
+import { AppRegistry, AsyncStorage, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { apiMiddleware } from 'redux-api-middleware';
@@ -32,7 +32,11 @@ class App extends React.Component {
   render() {
     return (
       <Provider store={this.store}>
-        <AppWithNavigationState />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={{ flex: 1 }}>
+            <AppWithNavigationState />
+          </View>
+        </TouchableWithoutFeedback>
       </Provider>
     );
   }

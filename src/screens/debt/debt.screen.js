@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, ScrollView } from 'react-native';
+import { View, Text, FlatList, RefreshControl } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './debt.styles';
 import TouchableArea from '../../components/TouchableArea/TouchableArea';
 import DebtPopup from './debtPopup/debtPopup';
 import Operation from '../../components/Operation/Operation.presenter';
 import headerStyle from '../../components/styles/opaqueHeader';
+import OperationPopup from './OperationPopup/OperationPopup';
 
 export default class DebtScreen extends Component {
   static navigationOptions = {
@@ -18,15 +19,27 @@ export default class DebtScreen extends Component {
     fetchDebt: PropTypes.func.isRequired,
     processOperation: PropTypes.func.isRequired,
     newOperation: PropTypes.func.isRequired,
-    debtId: PropTypes.string.isRequired,
     user: PropTypes.object.isRequired,
     debt: PropTypes.object.isRequired
   };
 
-  state = { giveModalVisible: false, takeModalVisible: false, scrollEnabled: true };
+  state = {
+    givePopupVisible: false,
+    takePopupVisible: false,
+    scrollEnabled: true,
+    refreshing: false,
+    opPopupShown: false,
+    chosenOperation: {}
+  };
 
   componentDidMount = () => {
-    this.props.fetchDebt(this.props.debtId);
+    this.props.fetchDebt(this.props.debt.id);
+  };
+
+  onRefresh = async () => {
+    this.setState({ refreshing: true });
+    await this.props.fetchDebt(this.props.debt.id);
+    this.setState({ refreshing: false });
   };
 
   setTakeValue = text => {
@@ -53,8 +66,7 @@ export default class DebtScreen extends Component {
 
     if (!val || !descr) return;
 
-    this.props.newOperation(debt.id, val, receiver, descr).then(response => {
-
+    return this.props.newOperation(debt.id, val, receiver, descr).then(response => {
       if (response.error) {
         const { payload } = response;
         this.props.processError(payload.message, payload.response);
@@ -69,45 +81,49 @@ export default class DebtScreen extends Component {
   togglePopup = popup =>
     (popup.dialog.state.dialogState === 'opened' ? popup.dismiss() : popup.show());
 
-  toggleTakePopup = () => this.togglePopup(this.takePopup);
+  toggleTakePopup = () =>
+    this.setState(prevState => ({ takePopupVisible: !prevState.takePopupVisible }));
 
-  toggleGivePopup = () => this.togglePopup(this.givePopup);
+  toggleGivePopup = () =>
+    this.setState(prevState => ({ givePopupVisible: !prevState.givePopupVisible }));
+
+  showOpPopup = chosenOperation => this.setState({ opPopupShown: true, chosenOperation });
+
+  closeOpPopup = () => this.setState({ opPopupShown: false });
 
   renderTakePopup = () =>
     (<DebtPopup
-      refer={takePopup => {
-        this.takePopup = takePopup;
-      }}
       isGivePopup={false}
+      isVisible={this.state.takePopupVisible}
       onChangeVal={text => this.setTakeValue(text)}
       onChangeDescr={takeDescr => this.setState({ takeDescr })}
+      onBackdropPress={this.toggleTakePopup}
       onSubmit={() => this.newOperation(this.state.takeValue, false)}
     />);
 
   renderGivePopup = () =>
     (<DebtPopup
-      refer={givePopup => {
-        this.givePopup = givePopup;
-      }}
       isGivePopup
+      isVisible={this.state.givePopupVisible}
       onChangeVal={text => this.setGiveValue(text)}
       onChangeDescr={giveDescr => this.setState({ giveDescr })}
+      onBackdropPress={this.toggleGivePopup}
       onSubmit={() => this.newOperation(this.state.giveValue, true)}
     />);
 
   renderSummary = () => {
-    const { debt } = this.props;
-    const isTaken = debt.moneyReceiver === debt.user.id;
+    const { debt, user } = this.props;
+
+    const isTaken = debt.moneyReceiver === user.id;
     const style = isTaken ? styles.summaryTaken : styles.summaryGiven;
+    const debtText = `${isTaken
+      ? `you owe ${debt.user.name}`
+      : `${debt.user.name} owes you`}\n${debt.currency}${debt.summary}`;
 
     return (
       <View style={[styles.summaryContainer, style]}>
-        <Text style={styles.name}>
-          {debt.user.name}
-        </Text>
         <Text style={styles.moneyAmount}>
-          {isTaken ? '-' : ''}
-          {debt.summary}
+          {debtText}
         </Text>
       </View>
     );
@@ -130,12 +146,15 @@ export default class DebtScreen extends Component {
       </TouchableArea>
     </View>);
 
-  renderParallaxHeader = () =>
-    (<View style={styles.parallaxHeader}>
-      <Text>
-        {this.props.debt.user.name}
-      </Text>
-    </View>);
+  renderOperationPopup = () =>
+    (<OperationPopup
+      show={this.state.opPopupShown}
+      operation={this.state.chosenOperation}
+      onDismissed={this.closeOpPopup}
+      user={this.props.user}
+      onClosePress={this.closeOpPopup}
+      debt={this.props.debt}
+    />);
 
   render() {
     const { debt, user } = this.props;
@@ -146,6 +165,7 @@ export default class DebtScreen extends Component {
         {this.renderTakePopup()}
         {this.renderGivePopup()}
         {this.renderSummary()}
+        {this.renderOperationPopup()}
 
         <View style={styles.listContainer}>
           <FlatList
@@ -156,10 +176,19 @@ export default class DebtScreen extends Component {
                 debt={debt}
                 user={user}
                 onSwipe={event => this.setState({ scrollEnabled: event })}
+                onPress={() => this.showOpPopup(item)}
               />)}
             keyExtractor={item => item.id}
             scrollEnabled={scrollEnabled}
             contentContainerStyle={styles.listContent}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this.onRefresh}
+                colors={['gray']}
+                tintColor={'gray'}
+              />
+            }
           />
         </View>
         {this.renderCreationButtons()}

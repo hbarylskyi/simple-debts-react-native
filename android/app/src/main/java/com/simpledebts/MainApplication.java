@@ -1,4 +1,4 @@
-package com.simpledebtss;
+package com.simpledebts;
 
 import android.app.Application;
 

@@ -1,5 +1,7 @@
 import { FETCH_DEBTS } from '../actions/DebtsActions';
+import * as DebtActions from '../actions/DebtActions';
 import { LOGOUT } from '../actions/AuthActions';
+import { NEW_OPERATION } from '../actions/OperationActions';
 
 const initialState = {
   debts: [],
@@ -15,6 +17,17 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case `${FETCH_DEBTS}_SUCCESS`:
       nextState = action.payload;
+      break;
+
+    case `${NEW_OPERATION}_SUCCESS`: {
+      const newDebt = action.payload;
+      const newDebts = [...state.debts].map(debt => (debt.id === newDebt.id ? newDebt : debt));
+      nextState = { ...state, debts: newDebts };
+      break;
+    }
+
+    case DebtActions.ACCEPT_DEBT_SUCCESS:
+      nextState = { ...state, ...action.payload };
       break;
 
     case LOGOUT:

@@ -2,30 +2,43 @@ import React, { Component, PropTypes } from 'react';
 import { Platform, View, TouchableWithoutFeedback, TouchableNativeFeedback } from 'react-native';
 
 export default class TouchableArea extends Component {
+  static defaultProps = {
+    children: [],
+    isTransparent: false,
+    borderless: false,
+    noRipple: false,
+    style: {}
+  };
+
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
     isTransparent: PropTypes.bool,
     pressColor: PropTypes.string,
-    borderless: PropTypes.bool
+    borderless: PropTypes.bool,
+    noRipple: PropTypes.bool,
+    style: View.propTypes.style
   };
 
   static defaultProps = {
-    pressColor: 'null'
+    pressColor: null
   };
 
   render() {
-    const { children, isTransparent } = this.props;
+    const { children, isTransparent, noRipple, style, ...rest } = this.props;
     const Touchable =
-      Platform.OS === 'ios' || isTransparent ? TouchableWithoutFeedback : TouchableNativeFeedback;
-
-    const { style, ...rest } = this.props;
+      Platform.OS === 'ios' || isTransparent || noRipple
+        ? TouchableWithoutFeedback
+        : TouchableNativeFeedback;
+    const background =
+      Platform.OS === 'ios' || noRipple
+        ? null
+        : TouchableNativeFeedback.Ripple(this.props.pressColor, this.props.borderless);
 
     return (
       <Touchable
         {...rest}
-        style={null}
         delayLongPress={Platform.OS === 'ios' ? 600 : 100}
-        background={Platform.OS === 'ios' ? null : TouchableNativeFeedback.Ripple(this.props.pressColor, this.props.borderless)}
+        background={background}
       >
         <View style={style}>
           {children}

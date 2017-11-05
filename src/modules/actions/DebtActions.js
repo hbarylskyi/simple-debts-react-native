@@ -1,22 +1,12 @@
 import { CALL_API } from 'redux-api-middleware';
-import config from 'react-native-config'
+import config from 'react-native-config';
 
 const baseUrl = config.host;
 export const FETCH_DEBT = 'FETCH_DEBT';
-export const SELECT_DEBT = 'SELECT_DEBT';
 export const REQUESTS = {
   REQUEST: 'PUT',
   ACCEPT: 'POST',
   DECLINE: 'DELETE'
-};
-
-const selectDebtAction = debtId => ({
-  type: SELECT_DEBT,
-  payload: { debtId }
-});
-
-export const selectDebt = debtId => dispatch => {
-  dispatch(selectDebtAction(debtId));
 };
 
 const fetchDebtTypes = [`${FETCH_DEBT}_REQUEST`, `${FETCH_DEBT}_SUCCESS`, `${FETCH_DEBT}_FAILURE`];
@@ -31,17 +21,15 @@ const fetchDebtAction = debtId => ({
   authorize: true
 });
 
-export const fetchDebt = debtId => dispatch => {
-  dispatch(fetchDebtAction(debtId));
-};
+export const fetchDebt = debtId => dispatch => dispatch(fetchDebtAction(debtId));
 
 // debt acceptance
 
-export const acceptDebtTypes = [
-  'ACCEPT_DEBT_REQUEST',
-  'ACCEPT_DEBT_SUCCESS',
-  'ACCEPT_DEBT_FAILURE'
-];
+export const ACCEPT_DEBT_REQUEST = 'ACCEPT_DEBT_REQUEST';
+export const ACCEPT_DEBT_SUCCESS = 'ACCEPT_DEBT_SUCCESS';
+export const ACCEPT_DEBT_FAILURE = 'ACCEPT_DEBT_FAILURE';
+
+const acceptDebtTypes = [ACCEPT_DEBT_REQUEST, ACCEPT_DEBT_SUCCESS, ACCEPT_DEBT_FAILURE];
 
 const acceptDebtAction = (debtId, method) => ({
   [CALL_API]: {

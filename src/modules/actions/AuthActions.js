@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import config from 'react-native-config';
-import * as NavActions from '../../modules/actions/NavActions'
+import * as NavActions from '../../modules/actions/NavActions';
 
 const baseUrl = config.host;
 
@@ -9,24 +9,11 @@ export const FB_LOGIN = 'FB_LOGIN';
 export const LOGIN_CHECK = 'LOGIN_CHECK';
 export const LOGOUT = 'LOGOUT';
 
-const loginTypes = [`${FB_LOGIN}_REQUEST`, `${FB_LOGIN}_SUCCESS`, `${FB_LOGIN}_FAILURE`];
 const loginCheckTypes = [
   `${LOGIN_CHECK}_REQUEST`,
   `${LOGIN_CHECK}_SUCCESS`,
   `${LOGIN_CHECK}_FAILURE`
 ];
-
-const loginAction = fbToken => ({
-  [CALL_API]: {
-    endpoint: `${baseUrl}/login/facebook`,
-    method: 'GET',
-    types: loginTypes,
-    headers: {
-      Authorization: `Bearer ${fbToken}`
-    },
-    credentials: 'same-origin'
-  }
-});
 
 const loginCheckAction = token => ({
   [CALL_API]: {
@@ -38,15 +25,29 @@ const loginCheckAction = token => ({
   authorize: true
 });
 
-const logoutAction = () => ({
-  type: LOGOUT
+export const loginCheck = () => dispatch => dispatch(loginCheckAction());
+
+//
+
+const fbLoginTypes = [`${FB_LOGIN}_REQUEST`, `${FB_LOGIN}_SUCCESS`, `${FB_LOGIN}_FAILURE`];
+
+const fbLoginAction = fbToken => ({
+  [CALL_API]: {
+    endpoint: `${baseUrl}/login/facebook`,
+    method: 'GET',
+    types: fbLoginTypes,
+    headers: {
+      Authorization: `Bearer ${fbToken}`
+    },
+    credentials: 'same-origin'
+  }
 });
 
 export const fbLogin = () => dispatch => {
   LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
     () => {
       AccessToken.getCurrentAccessToken().then(data => {
-        dispatch(loginAction(data.accessToken.toString())).then(response => {
+        dispatch(fbLoginAction(data.accessToken.toString())).then(response => {
           if (!response.error) {
             dispatch(NavActions.goToMainScreen());
           } else {
@@ -59,7 +60,31 @@ export const fbLogin = () => dispatch => {
   );
 };
 
-export const loginCheck = () => dispatch => dispatch(loginCheckAction());
+//
+
+export const STANDARD_LOGIN_REQUEST = 'STANDARD_LOGIN_REQUEST';
+export const STANDARD_LOGIN_SUCCESS = 'STANDARD_LOGIN_SUCCESS';
+export const STANDARD_LOGIN_FAILURE = 'STANDARD_LOGIN_FAILURE';
+
+const standardLoginTypes = [STANDARD_LOGIN_REQUEST, STANDARD_LOGIN_SUCCESS, STANDARD_LOGIN_FAILURE];
+
+const standardLoginAction = (email, password) => ({
+  [CALL_API]: {
+    endpoint: `${baseUrl}/login/local`,
+    method: 'POST',
+    types: standardLoginTypes,
+    body: JSON.stringify({ email, password })
+  }
+});
+
+export const standardLogin = (email, pass) => dispatch =>
+  dispatch(standardLoginAction(email, pass));
+
+//
+
+const logoutAction = () => ({
+  type: LOGOUT
+});
 
 export const logout = () => dispatch => {
   LoginManager.logOut();

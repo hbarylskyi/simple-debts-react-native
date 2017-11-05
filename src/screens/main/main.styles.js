@@ -7,33 +7,30 @@ export default StyleSheet.create({
   },
 
   summaryContainer: {
-    flex: 1.5
+    flex: 1.5,
+    backgroundColor: colors.green,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 
   summaryTop: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 
   summaryText: {
     color: colors.white,
-    fontSize: 26,
-    textAlign: 'center'
+    fontSize: 35
   },
 
-  summaryTextBig: {
-    color: colors.white,
-    textAlign: 'center',
-    fontSize: 50,
-    fontWeight: 'bold'
-  },
-
-  summaryTextBottom: {
-    flex: 1,
-    color: colors.white,
-    fontSize: 30,
-    textAlign: 'center',
-    padding: 12
+  summaryAvatar: {
+    height: 100,
+    width: 100,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: 'white',
+    marginBottom: 10
   },
 
   debtContainer: {
@@ -77,5 +74,12 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+
+  overlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.overlay
   }
 });

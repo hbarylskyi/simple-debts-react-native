@@ -24,8 +24,7 @@ export default StyleSheet.create({
   },
 
   moneyAmount: {
-    fontSize: 60,
-    fontWeight: 'bold',
+    fontSize: 30,
     color: 'white',
     textAlign: 'center'
   },

@@ -7,7 +7,6 @@ import * as OperationActions from '../../modules/actions/OperationActions';
 
 const mapStateToProps = state => ({
   debt: state.debt.debt,
-  debtId: state.debt.currentDebtId,
   user: state.auth.user
 });
 

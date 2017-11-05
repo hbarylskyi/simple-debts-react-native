@@ -19,7 +19,8 @@ const mapDispatchToProps = dispatch => ({
   logout: () => {
     dispatch(NavActions.goToLoginScreen());
     dispatch(logout());
-  }
+  },
+  loadDebt: debtId => dispatch(DebtActions.fetchDebt(debtId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);

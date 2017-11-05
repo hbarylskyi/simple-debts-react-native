@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Swipeout from 'react-native-swipeout';
 import * as colors from '../../colors';
 import styles from './OperationBase.styles';
-import TouchableArea from '../TouchableArea/TouchableArea';
+import Button from '../Button/Button';
 
 const OperationBase = ({
   image,
@@ -54,11 +54,11 @@ const OperationBase = ({
       scroll={onSwipe}
       style={styles.swipeout}
     >
-      <TouchableArea style={styles.operation} {...rest}>
+      <Button style={styles.operation} {...rest}>
         <Image source={{ uri: image }} style={styles.avatar} />
         {renderMiddle()}
         <Icon name={icon} size={30} color={iconColor} />
-      </TouchableArea>
+      </Button>
     </Swipeout>
   );
 };

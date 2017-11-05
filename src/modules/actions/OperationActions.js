@@ -1,5 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
-import config from 'react-native-config'
+import config from 'react-native-config';
 
 const baseUrl = config.host;
 export const NEW_OPERATION = 'NEW_OPERATION';
@@ -54,10 +54,12 @@ const newOperationAction = (debtsId, moneyAmount, moneyReceiver, description) =>
 export const newOperation = (debtsId, moneyAmount, moneyReceiver, description) => dispatch =>
   dispatch(newOperationAction(debtsId, moneyAmount, moneyReceiver, description.trim()));
 
+export const DELETE_OPERATION = 'DELETE_OPERATION';
+
 const deleteOperationTypes = [
-  `${NEW_OPERATION}_REQUEST`,
-  `${NEW_OPERATION}_SUCCESS`,
-  `${NEW_OPERATION}_FAILURE`
+  `${DELETE_OPERATION}_REQUEST`,
+  `${DELETE_OPERATION}_SUCCESS`,
+  `${DELETE_OPERATION}_FAILURE`
 ];
 
 const deleteOperationAction = operationId => ({

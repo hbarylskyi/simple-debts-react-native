@@ -1,21 +1,32 @@
-export const GO_TO_LOGIN_SCREEN = 'GO_TO_LOGIN_SCREEN';
-export const GO_TO_MAIN_SCREEN = 'GO_TO_MAIN_SCREEN';
-export const GO_TO_DEBT_SCREEN = 'GO_TO_DEBT_SCREEN';
+import { NavigationActions } from 'react-navigation';
 
-const loginScreenAction = () => ({
-  type: GO_TO_LOGIN_SCREEN
-});
+// resets navigation history
 
-const mainScreenAction = () => ({
-  type: GO_TO_MAIN_SCREEN
-});
-
-const debtScreenAction = () => ({
-  type: GO_TO_DEBT_SCREEN
-});
+const loginScreenAction = () =>
+  NavigationActions.reset({
+    index: 0,
+    actions: [{ type: NavigationActions.NAVIGATE, routeName: 'LoginScreen' }],
+    key: null
+  });
 
 export const goToLoginScreen = () => dispatch => dispatch(loginScreenAction());
 
+// resets navigation history
+
+const mainScreenAction = () =>
+  NavigationActions.reset({
+    index: 0,
+    actions: [{ type: NavigationActions.NAVIGATE, routeName: 'MainScreen' }],
+    key: null
+  });
+
 export const goToMainScreen = () => dispatch => dispatch(mainScreenAction());
+
+//
+
+const debtScreenAction = () => ({
+  type: NavigationActions.NAVIGATE,
+  routeName: 'DebtScreen'
+});
 
 export const goToDebtScreen = () => dispatch => dispatch(debtScreenAction());

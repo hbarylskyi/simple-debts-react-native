@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import * as colors from '../../colors';
 import OperationBase from '../OperationBase/OperationBase';
 
-const Operation = ({ operation, debt, user, acceptOperation, declineOperation }) => {
+const Operation = ({ operation, debt, user, acceptOperation, declineOperation, ...rest }) => {
   const { moneyReceiver, description, moneyAmount, status, statusAcceptor } = operation;
 
   const isTaken = moneyReceiver === user.id;
@@ -25,7 +25,7 @@ const Operation = ({ operation, debt, user, acceptOperation, declineOperation })
   return (
     <OperationBase
       image={image}
-      topText={moneyAmount}
+      topText={debt.currency + moneyAmount}
       topTextStyle={{ color }}
       bottomText={description}
       icon={icon}
@@ -33,6 +33,7 @@ const Operation = ({ operation, debt, user, acceptOperation, declineOperation })
       showBtns={showBtns}
       onAccept={onAccept}
       onDecline={onDecline}
+      {...rest}
     />
   );
 };

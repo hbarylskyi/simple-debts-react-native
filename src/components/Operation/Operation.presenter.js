@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 
 import Operation from './Operation';
-import * as NavActions from '../../modules/actions/NavActions';
 import * as OperationActions from '../../modules/actions/OperationActions';
 
 const mapStateToProps = state => ({});

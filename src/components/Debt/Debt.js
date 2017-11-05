@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import isoCurrency from 'iso-country-currency';
 import styles from './Debt.styles';
 import * as colors from '../../colors';
 import OperationBase from '../OperationBase/OperationBase';
@@ -17,13 +18,18 @@ const Debt = ({
   declineDebt,
   acceptDebtDeletion,
   declineDebtDeletion,
-  goToDebt,
   ...rest
 }) => {
   const { moneyReceiver, summary } = debt;
-  const isGiven = moneyReceiver === userId;
-  const color = isGiven ? colors.green : colors.red;
+  const isTaken = moneyReceiver === userId;
+  const color = isTaken ? colors.red : colors.green;
   const icon = icons[debt.status] || {};
+  let currency;
+  try {
+    currency = isoCurrency.getAllInfoByISO(debt.countryCode).symbol;
+  } catch (e) {
+    console.warn(e.message);
+  }
 
   const showBtns =
     debt.statusAcceptor === userId &&
@@ -43,14 +49,13 @@ const Debt = ({
     <OperationBase
       image={debt.user.picture}
       topText={debt.user.name}
-      bottomText={summary}
+      bottomText={currency + summary.toString()}
       bottomTextStyle={[styles.bottomText, { color }]}
       icon={icon.name}
       iconColor={icon.color}
       showBtns={showBtns}
       onAccept={onAccept}
       onDecline={onDecline}
-      onPress={() => goToDebt(debt.id)}
       {...rest}
     />
   );
@@ -59,7 +64,6 @@ const Debt = ({
 Debt.propTypes = {
   acceptDebt: PropTypes.func.isRequired,
   declineDebt: PropTypes.func.isRequired,
-  goToDebt: PropTypes.func.isRequired,
   acceptDebtDeletion: PropTypes.func.isRequired,
   declineDebtDeletion: PropTypes.func.isRequired,
   debt: PropTypes.object,
