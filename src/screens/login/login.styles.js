@@ -60,6 +60,10 @@ export default StyleSheet.create({
     paddingVertical: 16
   },
 
+  btn: {
+    minWidth: 120
+  },
+
   fbBtn: {
     backgroundColor: colors.fb,
     flexDirection: 'row',

@@ -8,7 +8,9 @@ import Button from '../../components/Button/Button';
 
 export default class LoginScreen extends Component {
   static propTypes = {
-    fbLogin: PropTypes.func.isRequired
+    fbLogin: PropTypes.func.isRequired,
+    standardLogin: PropTypes.func.isRequired,
+    signup: PropTypes.func.isRequired
   };
 
   static navigationOptions = {
@@ -17,12 +19,34 @@ export default class LoginScreen extends Component {
 
   state = {
     email: '',
-    pass: ''
+    pass: '',
+    signinLoading: false,
+    signupLoading: false,
+    fbLoading: false
+  };
+
+  standardLogin = async () => {
+    const { email, pass } = this.state;
+    this.setState({ signinLoading: true });
+    await this.props.standardLogin(email, pass);
+    this.setState({ signinLoading: false });
+  };
+
+  signup = async () => {
+    const { email, pass } = this.state;
+    this.setState({ signupLoading: true });
+    await this.props.signup(email, pass);
+    this.setState({ signupLoading: false });
+  };
+
+  fbLogin = async () => {
+    this.setState({ fbLoading: true });
+    await this.props.fbLogin();
+    this.setState({ fbLoading: false });
   };
 
   render() {
-    const { fbLogin } = this.props;
-    const { email, pass } = this.state;
+    const { email, pass, signinLoading, signupLoading, fbLoading } = this.state;
 
     return (
       <View style={styles.main}>
@@ -62,14 +86,20 @@ export default class LoginScreen extends Component {
           <View style={styles.buttonsRow}>
             <Button
               title="Sign up"
-              onPress={() => {}}
-              style={styles.btn}
-              disabledStyle={styles.btnDisabled}
+              onPress={this.signup}
               disabled={!email || !pass}
+              loading={signupLoading}
+              style={styles.btn}
             />
-            <Button title="Sign in" onPress={() => {}} style={styles.btn} />
+            <Button
+              title="Sign in"
+              onPress={this.standardLogin}
+              disabled={!email || !pass}
+              loading={signinLoading}
+              style={styles.btn}
+            />
           </View>
-          <Button onPress={fbLogin} style={styles.fbBtn} disabled={!email || !pass}>
+          <Button onPress={this.fbLogin} loading={fbLoading} style={styles.fbBtn}>
             <Icon name="facebook-square" size={30} color={'white'} />
             <Text style={styles.fbText}>Log in with Facebook</Text>
           </Button>

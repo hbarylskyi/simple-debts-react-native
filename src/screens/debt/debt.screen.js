@@ -2,11 +2,23 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, RefreshControl } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './debt.styles';
-import TouchableArea from '../../components/TouchableArea/TouchableArea';
 import DebtPopup from './debtPopup/debtPopup';
 import Operation from '../../components/Operation/Operation.presenter';
 import headerStyle from '../../components/styles/opaqueHeader';
 import OperationPopup from './OperationPopup/OperationPopup';
+import Button from '../../components/Button/Button';
+import * as colors from '../../colors';
+
+// list of states the debt can be in. Calculated depending on
+// debt.statusAcceptor and debt.status
+const debtStates = {
+  NORMAL: 'NORMAL',
+  REQUEST_RECEIVED: 'REQUEST_RECEIVED',
+  REQUEST_SENT: 'REQUEST_SENT',
+  BECAME_VITUAL: 'BECAME_VITUAL',
+  JOIN_VIRTUAL_SENT: 'JOIN_VIRTUAL_SENT',
+  JOIN_VIRTUAL_RECEIVED: 'JOIN_VIRTUAL_RECEIVED'
+};
 
 export default class DebtScreen extends Component {
   static navigationOptions = {
@@ -32,14 +44,29 @@ export default class DebtScreen extends Component {
     chosenOperation: {}
   };
 
-  componentDidMount = () => {
-    this.props.fetchDebt(this.props.debt.id);
-  };
-
   onRefresh = async () => {
     this.setState({ refreshing: true });
     await this.props.fetchDebt(this.props.debt.id);
     this.setState({ refreshing: false });
+  };
+
+  getDebtState = () => {
+    const { debt, user } = this.props;
+
+    if (debt.statusAcceptor === null) {
+      return debtStates.NORMAL;
+    } else if (debt.status === 'CREATION_AWAITING') {
+      return debt.statusAcceptor === user.id
+        ? debtStates.REQUEST_RECEIVED
+        : debtStates.REQUEST_SENT;
+    } else if (debt.status === 'CONNECT_USER') {
+      return debt.statusAcceptor === user.id
+        ? debtStates.JOIN_VIRTUAL_RECEIVED
+        : debtStates.JOIN_VIRTUAL_SENT;
+    }
+    // else if (debt.status === 'USER_DELETED') {
+    //
+    // }
   };
 
   setTakeValue = text => {
@@ -129,22 +156,53 @@ export default class DebtScreen extends Component {
     );
   };
 
-  renderCreationButtons = () =>
-    (<View style={styles.creationButtons}>
-      <TouchableArea
-        onPress={this.toggleGivePopup}
-        style={[styles.creationButton, styles.giveButton]}
-      >
-        <Text style={styles.creationText}>Give</Text>
-      </TouchableArea>
+  renderBottomButtons = () => {
+    const buttons = [];
 
-      <TouchableArea
-        onPress={this.toggleTakePopup}
-        style={[styles.creationButton, styles.takeButton]}
-      >
-        <Text style={styles.creationText}>Take</Text>
-      </TouchableArea>
-    </View>);
+    switch (this.getDebtState()) {
+      case debtStates.REQUEST_RECEIVED:
+        buttons.push(
+          { color: colors.green, text: 'Accept', onPress: undefined },
+          { color: colors.red, text: 'Decline', onPress: undefined }
+        );
+        break;
+
+      case debtStates.REQUEST_SENT:
+        buttons.push({ color: colors.red, text: 'Cancel request', onPress: undefined });
+        break;
+
+      case debtStates.JOIN_VIRTUAL_RECEIVED:
+        buttons.push(
+          { color: colors.green, text: 'Accept', onPress: undefined },
+          { color: colors.red, text: 'Decline', onPress: undefined }
+        );
+        break;
+
+      case debtStates.JOIN_VIRTUAL_SENT:
+        buttons.push({ color: colors.red, text: 'Cancel request', onPress: undefined });
+        break;
+
+      default:
+        buttons.push(
+          { color: colors.green, text: 'Give', onPress: this.toggleGivePopup },
+          { color: colors.red, text: 'Take', onPress: this.toggleTakePopup }
+        );
+        break;
+    }
+
+    return (
+      <View style={styles.creationButtons}>
+        {buttons.map(btn =>
+          (<Button
+            onPress={btn.onPress}
+            title={btn.text}
+            style={[styles.creationButton, { backgroundColor: btn.color }]}
+            textStyle={styles.creationText}
+          />)
+        )}
+      </View>
+    );
+  };
 
   renderOperationPopup = () =>
     (<OperationPopup
@@ -156,6 +214,36 @@ export default class DebtScreen extends Component {
       debt={this.props.debt}
     />);
 
+  renderStateMessage = () => {
+    const { debt } = this.props;
+    let text = '';
+
+    switch (this.getDebtState()) {
+      case debtStates.REQUEST_RECEIVED:
+        text = `${debt.user.name} sent you a request\nto create new debts collection`;
+        break;
+      case debtStates.REQUEST_SENT:
+        text = `You have sent a request to ${debt.user.name}\nwait for the response`;
+        break;
+      case debtStates.JOIN_VIRTUAL_RECEIVED:
+        text = `${debt.user.name} sent you a request\nto join their debts collection`;
+        break;
+      case debtStates.JOIN_VIRTUAL_SENT:
+        text = `You have requested ${debt.user.name}\nto join this collection`;
+        break;
+      default:
+        return;
+    }
+
+    return (
+      <View style={styles.stateMessage}>
+        <Text style={styles.messageText}>
+          {text}
+        </Text>
+      </View>
+    );
+  };
+
   render() {
     const { debt, user } = this.props;
     const { scrollEnabled } = this.state;
@@ -166,6 +254,7 @@ export default class DebtScreen extends Component {
         {this.renderGivePopup()}
         {this.renderSummary()}
         {this.renderOperationPopup()}
+        {this.renderStateMessage()}
 
         <View style={styles.listContainer}>
           <FlatList
@@ -191,7 +280,7 @@ export default class DebtScreen extends Component {
             }
           />
         </View>
-        {this.renderCreationButtons()}
+        {this.renderBottomButtons()}
       </View>
     );
   }

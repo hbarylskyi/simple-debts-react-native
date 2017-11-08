@@ -1,5 +1,5 @@
 import { REHYDRATE } from 'redux-persist/constants';
-import { LOGOUT, LOGIN_CHECK, FB_LOGIN } from '../actions/AuthActions';
+import * as AuthActions from '../actions/AuthActions';
 
 const initialState = {
   token: '',
@@ -10,7 +10,8 @@ export default (state = initialState, action) => {
   let nextState;
 
   switch (action.type) {
-    case `${FB_LOGIN}_SUCCESS`:
+    case AuthActions.STANDARD_LOGIN_SUCCESS:
+    case `${AuthActions.FB_LOGIN}_SUCCESS`:
       nextState = action.payload;
       break;
 

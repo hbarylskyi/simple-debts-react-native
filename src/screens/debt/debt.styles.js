@@ -29,6 +29,15 @@ export default StyleSheet.create({
     textAlign: 'center'
   },
 
+  stateMessage: {
+    padding: 12
+  },
+
+  messageText: {
+    color: colors.gray,
+    textAlign: 'center'
+  },
+
   listContainer: {
     flex: 2,
     backgroundColor: colors.white
@@ -50,7 +59,7 @@ export default StyleSheet.create({
 
   creationButton: { flex: 1, alignItems: 'center', justifyContent: 'center' },
 
-  takeButton: { backgroundColor: colors.red },
+  redBtn: { backgroundColor: colors.red },
 
-  giveButton: { backgroundColor: colors.green }
+  greenBtn: { backgroundColor: colors.green }
 });

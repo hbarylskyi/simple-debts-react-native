@@ -73,12 +73,33 @@ const standardLoginAction = (email, password) => ({
     endpoint: `${baseUrl}/login/local`,
     method: 'POST',
     types: standardLoginTypes,
+    headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ email, password })
   }
 });
 
 export const standardLogin = (email, pass) => dispatch =>
   dispatch(standardLoginAction(email, pass));
+
+//
+
+export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
+export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
+export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
+
+const signUpTypes = [SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE];
+
+const signupAction = (email, password) => ({
+  [CALL_API]: {
+    endpoint: `${baseUrl}/signup/local`,
+    method: 'PUT',
+    headers: { 'content-type': 'application/json' },
+    types: signUpTypes,
+    body: JSON.stringify({ email, password })
+  }
+});
+
+export const signup = (email, pass) => dispatch => dispatch(signupAction(email, pass));
 
 //
 
