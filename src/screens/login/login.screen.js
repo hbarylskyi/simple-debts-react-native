@@ -10,7 +10,8 @@ export default class LoginScreen extends Component {
   static propTypes = {
     fbLogin: PropTypes.func.isRequired,
     standardLogin: PropTypes.func.isRequired,
-    signup: PropTypes.func.isRequired
+    signup: PropTypes.func.isRequired,
+    goToMainScreen: PropTypes.func.isRequired
   };
 
   static navigationOptions = {
@@ -27,16 +28,32 @@ export default class LoginScreen extends Component {
 
   standardLogin = async () => {
     const { email, pass } = this.state;
+
     this.setState({ signinLoading: true });
-    await this.props.standardLogin(email, pass);
-    this.setState({ signinLoading: false });
+
+    try {
+      await this.props.standardLogin(email, pass);
+      this.props.goToMainScreen();
+    } catch (e) {
+      console.error(e.message);
+    } finally {
+      this.setState({ signinLoading: false });
+    }
   };
 
-  signup = async () => {
+  signUp = async () => {
     const { email, pass } = this.state;
+
     this.setState({ signupLoading: true });
-    await this.props.signup(email, pass);
-    this.setState({ signupLoading: false });
+
+    try {
+      await this.props.signup(email, pass);
+      this.props.goToMainScreen();
+    } catch (e) {
+      console.error(e.message);
+    } finally {
+      this.setState({ signupLoading: false });
+    }
   };
 
   fbLogin = async () => {
@@ -86,7 +103,7 @@ export default class LoginScreen extends Component {
           <View style={styles.buttonsRow}>
             <Button
               title="Sign up"
-              onPress={this.signup}
+              onPress={this.signUp}
               disabled={!email || !pass}
               loading={signupLoading}
               style={styles.btn}

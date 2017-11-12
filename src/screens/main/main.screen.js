@@ -14,8 +14,7 @@ import Debt from '../../components/Debt/Debt.presenter';
 import styles from './main.styles';
 import * as colors from '../../colors';
 import TouchableArea from '../../components/TouchableArea/TouchableArea';
-import Popup from './AddPopup/AddPopup.presenter';
-import SearchModal from './SearchModal/SearchModal.presenter';
+import AddPopup from './AddPopup/AddPopup.presenter';
 import headerStyle from '../../components/styles/opaqueHeader';
 
 export default class MainScreen extends Component {
@@ -41,20 +40,21 @@ export default class MainScreen extends Component {
     fetchDebts: PropTypes.func.isRequired,
     goToDebt: PropTypes.func.isRequired,
     loadDebt: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired,
     debts: PropTypes.array.isRequired
   };
 
   state = {
     scrollEnabled: true,
     refreshing: false,
-    loading: false
+    loading: false,
+    popupVisible: false,
+    searchVisible: false
   };
 
-  componentDidMount = () => {
+  componentDidMount() {
     this.props.fetchDebts();
-    this.props.navigation.setParams({ toggleAddPopup: this.toggleAddPopup });
-  };
+    this.props.navigation.setParams({ toggleAddPopup: this.togglePopup });
+  }
 
   onRefresh = async () => {
     this.setState({ refreshing: true });
@@ -62,23 +62,19 @@ export default class MainScreen extends Component {
     this.setState({ refreshing: false });
   };
 
-  togglePopup = popup =>
-    (popup.dialog.state.dialogState === 'opened' ? popup.dismiss() : popup.show());
+  togglePopup = () => this.setState(prevState => ({ popupVisible: !prevState.popupVisible }));
 
-  toggleSearchModal = () => this.togglePopup(this.searchModal);
-
-  toggleAddPopup = () => this.togglePopup(this.popup);
+  toggleSearch = () => this.setState(prevState => ({ searchVisible: !prevState.searchVisible }));
 
   renderPopup = () =>
-    <Popup findFriend={this.toggleSearchModal} _ref={popup => (this.popup = popup)} />;
-
-  renderSearchModal = () =>
-    <SearchModal closeModal={this.toggleSearchModal} _ref={modal => (this.searchModal = modal)} />;
+    (<AddPopup
+      isVisible={this.state.popupVisible}
+      onBackdropPress={this.togglePopup}
+    />);
 
   renderSummary = () => {
     const { user } = this.props;
 
-    // <Button title="Logout" onPress={this.props.logout} />
     return (
       <View style={styles.summaryContainer}>
         <Image source={{ uri: user.picture }} style={styles.summaryAvatar} />
@@ -109,7 +105,6 @@ export default class MainScreen extends Component {
     return (
       <View style={styles.container}>
         {this.renderPopup()}
-        {this.renderSearchModal()}
         {this.renderSummary()}
         {this.renderSpinner()}
         <View style={styles.listContainer}>

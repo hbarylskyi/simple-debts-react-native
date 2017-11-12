@@ -1,50 +1,50 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { MKTextField } from 'react-native-material-kit';
-import PopupDialog from 'react-native-popup-dialog';
 import PropTypes from 'prop-types';
 import TouchableArea from '../../../components/TouchableArea/TouchableArea';
 import styles from './AddPopup.styles';
-import popupStyle from '../../../components/styles/basicPopup';
 import Divider from './Divider/Divider';
+import Popup from '../../../components/Popup/Popup';
+import SearchModal from '../SearchModal/SearchModal.presenter';
 
 export default class AddPopup extends Component {
-  static deafultProps = {
-    _ref: () => {}
-  };
-
   static propTypes = {
-    _ref: PropTypes.func,
     findFriend: PropTypes.func,
     createEntity: PropTypes.func,
     goToDebt: PropTypes.func
   };
 
   state = {
-    virtName: ''
+    virtName: '',
+    searchVisible: false
   };
 
   setVirtName = virtName => this.setState({ virtName });
 
-  setRef = popup => {
-    this.props._ref(popup);
-    this.popup = popup;
-  };
+  toggleSearch = () => this.setState(prevState => ({ searchVisible: !prevState.searchVisible }));
 
   createDebts = () => {
     this.props.createEntity(this.state.virtName).then(response => {
       if (!response.error) {
         this.props.goToDebt(response.payload.id);
-        this.popup.dismiss();
       }
     });
   };
+
+  renderSearchModal = () =>
+    (<SearchModal
+      isVisible={this.state.searchVisible}
+      onBackdropPress={this.toggleSearch}
+      onSelected={this.toggleSearch}
+    />);
 
   render() {
     const { findFriend } = this.props;
 
     return (
-      <PopupDialog ref={this.setRef} dialogStyle={popupStyle}>
+      <Popup {...this.props}>
+        {this.renderSearchModal()}
         <View style={styles.container}>
           <View style={styles.header}>
             <MKTextField
@@ -67,7 +67,7 @@ export default class AddPopup extends Component {
             </TouchableArea>
           </View>
         </View>
-      </PopupDialog>
+      </Popup>
     );
   }
 }

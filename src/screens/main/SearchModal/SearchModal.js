@@ -7,22 +7,26 @@ import PropTypes from 'prop-types';
 import modalStyle from '../../../components/styles/basicModal';
 import SearchHeader from './SearchHeader/SearchHeader';
 import styles from './SearchModal.styles';
+import Popup from '../../../components/Popup/Popup';
 
 export default class SearchModal extends Component {
   static propTypes = {
-    _ref: PropTypes.func.isRequired,
-    closeModal: PropTypes.func.isRequired,
-    select: PropTypes.func.isRequired,
+    createDebt: PropTypes.func.isRequired,
     search: PropTypes.func.isRequired,
-    users: PropTypes.array.isRequired
+    users: PropTypes.array.isRequired,
+    onSelected: PropTypes.func.isRequired,
+    onBackdropPress: PropTypes.func.isRequired
   };
 
   search = term => this.props.search(term);
 
-  selectUser = userId => {
-    this.props.select(userId).then(data => {
-      if (!data.error) this.props.closeModal();
-    });
+  selectUser = async userId => {
+    try {
+      await this.props.createDebt(userId);
+      this.props.onSelected();
+    } catch (e) {
+      console.error(e.message);
+    }
   };
 
   renderUser = user =>
@@ -37,14 +41,13 @@ export default class SearchModal extends Component {
     </TouchableArea>);
 
   render() {
-    const { _ref, closeModal, users } = this.props;
+    const { users, onBackdropPress } = this.props;
 
     return (
-      <PopupDialog ref={_ref} dialogStyle={modalStyle}>
-        <SearchHeader onBackPress={closeModal} onTextChange={this.search} />
-
+      <Popup {...this.props}>
+        <SearchHeader onBackPress={onBackdropPress} onTextChange={this.search} />
         {users.map(this.renderUser)}
-      </PopupDialog>
+      </Popup>
     );
   }
 }
