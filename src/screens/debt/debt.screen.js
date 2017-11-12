@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 import styles from './debt.styles';
 import DebtPopup from './debtPopup/debtPopup';
 import Operation from '../../components/Operation/Operation.presenter';
-import headerStyle from '../../components/styles/opaqueHeader';
+import opaqueHeader from '../../components/styles/opaqueHeader';
 import OperationPopup from './OperationPopup/OperationPopup';
 import Button from '../../components/Button/Button';
 import * as colors from '../../colors';
+import Hamburger from '../../components/Hamburger/Hamburger';
 
 // list of states the debt can be in. Calculated depending on
 // debt.statusAcceptor and debt.status
@@ -21,18 +22,28 @@ const debtStates = {
 };
 
 export default class DebtScreen extends Component {
-  static navigationOptions = {
-    headerStyle,
-    headerTintColor: 'white'
-  };
-
   static propTypes = {
+    navigation: PropTypes.object.isRequired,
     processError: PropTypes.func.isRequired,
     fetchDebt: PropTypes.func.isRequired,
+    fetchDebts: PropTypes.func.isRequired,
     processOperation: PropTypes.func.isRequired,
     newOperation: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    debt: PropTypes.object.isRequired
+    debt: PropTypes.object.isRequired,
+    declineDebt: PropTypes.func.isRequired,
+    acceptDebt: PropTypes.func.isRequired,
+    deleteDebt: PropTypes.func.isRequired
+  };
+
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+
+    return {
+      headerStyle: opaqueHeader,
+      headerTintColor: 'white',
+      headerRight: params.headerRight
+    };
   };
 
   state = {
@@ -44,6 +55,10 @@ export default class DebtScreen extends Component {
     chosenOperation: {}
   };
 
+  componentDidMount() {
+    this.props.navigation.setParams({ headerRight: this.renderHeaderRight() });
+  }
+
   onRefresh = async () => {
     this.setState({ refreshing: true });
     await this.props.fetchDebt(this.props.debt.id);
@@ -53,7 +68,7 @@ export default class DebtScreen extends Component {
   getDebtState = () => {
     const { debt, user } = this.props;
 
-    if (debt.statusAcceptor === null) {
+    if (debt.statusAcceptor === null || debt.status === 'CHANGE_AWAITING') {
       return debtStates.NORMAL;
     } else if (debt.status === 'CREATION_AWAITING') {
       return debt.statusAcceptor === user.id
@@ -105,9 +120,6 @@ export default class DebtScreen extends Component {
     });
   };
 
-  togglePopup = popup =>
-    (popup.dialog.state.dialogState === 'opened' ? popup.dismiss() : popup.show());
-
   toggleTakePopup = () =>
     this.setState(prevState => ({ takePopupVisible: !prevState.takePopupVisible }));
 
@@ -117,6 +129,44 @@ export default class DebtScreen extends Component {
   showOpPopup = chosenOperation => this.setState({ opPopupShown: true, chosenOperation });
 
   closeOpPopup = () => this.setState({ opPopupShown: false });
+
+  goBack = async () => {
+    await this.props.fetchDebts();
+    this.props.navigation.goBack();
+  };
+
+  // Operations with debt
+
+  deleteDebt = async () => {
+    try {
+      await this.props.deleteDebt();
+      this.goBack();
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
+  declineDebt = async () => {
+    try {
+      await this.props.declineDebt();
+      this.goBack();
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
+  renderHeaderRight = () => {
+    const data = [];
+
+    if (this.getDebtState() === debtStates.NORMAL) {
+      data.push(
+        { text: 'Connect to a friend', onPress: () => {} },
+        { text: 'Delete', onPress: this.deleteDebt }
+      );
+    }
+
+    return <Hamburger data={data} />;
+  };
 
   renderTakePopup = () =>
     (<DebtPopup
@@ -157,18 +207,19 @@ export default class DebtScreen extends Component {
   };
 
   renderBottomButtons = () => {
+    const { acceptDebt } = this.props;
     const buttons = [];
 
     switch (this.getDebtState()) {
       case debtStates.REQUEST_RECEIVED:
         buttons.push(
-          { color: colors.green, text: 'Accept', onPress: undefined },
-          { color: colors.red, text: 'Decline', onPress: undefined }
+          { color: colors.green, text: 'Accept', onPress: acceptDebt },
+          { color: colors.red, text: 'Decline', onPress: this.declineDebt }
         );
         break;
 
       case debtStates.REQUEST_SENT:
-        buttons.push({ color: colors.red, text: 'Cancel request', onPress: undefined });
+        buttons.push({ color: colors.red, text: 'Cancel request', onPress: this.declineDebt });
         break;
 
       case debtStates.JOIN_VIRTUAL_RECEIVED:
@@ -192,8 +243,9 @@ export default class DebtScreen extends Component {
 
     return (
       <View style={styles.creationButtons}>
-        {buttons.map(btn =>
+        {buttons.map((btn, index) =>
           (<Button
+            key={index}
             onPress={btn.onPress}
             title={btn.text}
             style={[styles.creationButton, { backgroundColor: btn.color }]}
@@ -223,7 +275,7 @@ export default class DebtScreen extends Component {
         text = `${debt.user.name} sent you a request\nto create new debts collection`;
         break;
       case debtStates.REQUEST_SENT:
-        text = `You have sent a request to ${debt.user.name}\nwait for the response`;
+        text = `You have sent a request to ${debt.user.name}.\nWait for the response`;
         break;
       case debtStates.JOIN_VIRTUAL_RECEIVED:
         text = `${debt.user.name} sent you a request\nto join their debts collection`;

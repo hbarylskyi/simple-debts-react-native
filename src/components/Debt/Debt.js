@@ -16,8 +16,6 @@ const Debt = ({
   userId,
   acceptDebt,
   declineDebt,
-  acceptDebtDeletion,
-  declineDebtDeletion,
   ...rest
 }) => {
   const { moneyReceiver, summary } = debt;
@@ -31,18 +29,18 @@ const Debt = ({
     console.warn(e.message);
   }
 
-  const showBtns =
-    debt.statusAcceptor === userId &&
-    (debt.status === 'CREATION_AWAITING' || debt.status === 'DELETE_AWAITING');
+  // const showBtns =
+  //   debt.statusAcceptor === userId &&
+  //   (debt.status === 'CREATION_AWAITING' || debt.status === 'DELETE_AWAITING');
+  // TODO I've disabled swiping on Debt item for now - maybe will add it later
+  const showBtns = false;
 
   const onAccept = () => {
     if (debt.status === 'CREATION_AWAITING') acceptDebt(debt.id);
-    else if (debt.status === 'DELETE_AWAITING') acceptDebtDeletion(debt.id);
   };
 
   const onDecline = () => {
     if (debt.status === 'CREATION_AWAITING') declineDebt(debt.id);
-    else if (debt.status === 'DELETE_AWAITING') declineDebtDeletion(debt.id);
   };
 
   return (
@@ -64,8 +62,6 @@ const Debt = ({
 Debt.propTypes = {
   acceptDebt: PropTypes.func.isRequired,
   declineDebt: PropTypes.func.isRequired,
-  acceptDebtDeletion: PropTypes.func.isRequired,
-  declineDebtDeletion: PropTypes.func.isRequired,
   debt: PropTypes.object,
   userId: PropTypes.string
 };

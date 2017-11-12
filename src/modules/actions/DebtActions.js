@@ -23,6 +23,30 @@ const fetchDebtAction = debtId => ({
 
 export const fetchDebt = debtId => dispatch => dispatch(fetchDebtAction(debtId));
 
+// delete user from debt collection
+
+export const DELETE_DEBT_REQUEST = 'DELETE_DEBT_REQUEST';
+export const DELETE_DEBT_SUCCESS = 'DELETE_DEBT_SUCCESS';
+export const DELETE_DEBT_FAILURE = 'DELETE_DEBT_FAILURE';
+
+const deleteDebtTypes = [DELETE_DEBT_REQUEST, DELETE_DEBT_SUCCESS, DELETE_DEBT_FAILURE];
+
+const deleteDebtAction = (debtId, isSingle) => ({
+  [CALL_API]: {
+    endpoint: `${baseUrl}/${isSingle ? 'debts/single' : 'adebts'}/${debtId}`,
+    method: 'DELETE',
+    types: deleteDebtTypes
+  },
+
+  authorize: true
+});
+
+export const deleteDebt = (debtId, isSingle) => async dispatch => {
+  const res = await dispatch(deleteDebtAction(debtId, isSingle));
+  if (res.error) throw new Error('fuck');
+  return res;
+};
+
 // debt acceptance
 
 export const ACCEPT_DEBT_REQUEST = 'ACCEPT_DEBT_REQUEST';
@@ -37,9 +61,7 @@ const acceptDebtAction = (debtId, method) => ({
     method,
     types: acceptDebtTypes,
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      debtId
-    })
+    body: JSON.stringify({ debtId })
   },
 
   authorize: true
@@ -47,28 +69,3 @@ const acceptDebtAction = (debtId, method) => ({
 
 export const acceptDebt = (debtId, requestType) => dispatch =>
   dispatch(acceptDebtAction(debtId, requestType));
-
-// debt deletion
-
-export const deleteDebtTypes = [
-  'DELETE_DEBT_REQUEST',
-  'DELETE_DEBT_SUCCESS',
-  'DELETE_DEBT_FAILURE'
-];
-
-const deleteDebtAction = (debtId, method) => ({
-  [CALL_API]: {
-    endpoint: `${baseUrl}/debts/${debtId}/delete_request`,
-    method,
-    types: acceptDebtTypes,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      debtId
-    })
-  },
-
-  authorize: true
-});
-
-export const deleteDebt = (debtId, requestType) => dispatch =>
-  dispatch(deleteDebtAction(debtId, requestType));

@@ -5,7 +5,8 @@ const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: colors.white
   },
 
   summaryContainer: {
@@ -30,7 +31,9 @@ export default StyleSheet.create({
   },
 
   stateMessage: {
-    padding: 12
+    padding: 12,
+    borderBottomWidth: 0.5,
+    borderColor: colors.lightGray
   },
 
   messageText: {
@@ -39,8 +42,7 @@ export default StyleSheet.create({
   },
 
   listContainer: {
-    flex: 2,
-    backgroundColor: colors.white
+    flex: 2
   },
 
   listContent: {

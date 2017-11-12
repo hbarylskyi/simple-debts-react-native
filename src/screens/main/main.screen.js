@@ -41,7 +41,6 @@ export default class MainScreen extends Component {
     fetchDebts: PropTypes.func.isRequired,
     goToDebt: PropTypes.func.isRequired,
     loadDebt: PropTypes.func.isRequired,
-    selectDebt: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     debts: PropTypes.array.isRequired
   };
@@ -69,11 +68,6 @@ export default class MainScreen extends Component {
   toggleSearchModal = () => this.togglePopup(this.searchModal);
 
   toggleAddPopup = () => this.togglePopup(this.popup);
-
-  goToDebt = debtId => {
-    this.props.selectDebt(debtId);
-    this.props.goToDebt();
-  };
 
   renderPopup = () =>
     <Popup findFriend={this.toggleSearchModal} _ref={popup => (this.popup = popup)} />;

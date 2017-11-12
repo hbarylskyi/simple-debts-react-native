@@ -26,6 +26,11 @@ export default (state = initialState, action) => {
         console.warn(e.message);
       }
 
+      // TODO remove
+      // debt.status = 'CREATION_AWAITING';
+      // debt.statusAcceptor = '59ecd41771e5180012168b52';
+      // debt.statusAcceptor = '59f483c573e41d0012d90282';
+
       nextState = { ...state, debt };
       break;
     }

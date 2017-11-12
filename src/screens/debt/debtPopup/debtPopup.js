@@ -38,6 +38,7 @@ export default class DebtPopup extends Component {
             textInputStyle={styles.debtText}
             highlightColor={'white'}
             tintColor={'white'}
+            placeholderTextColor={'white'}
             keyboardType="numeric"
             placeholder="Debt value"
             onChangeText={onChangeVal}

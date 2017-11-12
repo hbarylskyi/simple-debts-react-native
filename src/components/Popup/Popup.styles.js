@@ -12,7 +12,7 @@ export default StyleSheet.create({
   defContent: {
     borderRadius: 3,
     maxHeight: height / 2,
-    flex: 1,
+    flex: 0,
     backgroundColor: colors.white
   }
 });
