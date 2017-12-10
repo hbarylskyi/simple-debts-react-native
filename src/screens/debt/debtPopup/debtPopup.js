@@ -43,7 +43,6 @@ export default class DebtPopup extends Component {
             placeholder="Debt value"
             onChangeText={onChangeVal}
             floatingLabelEnabled
-            underlineEnabled={false}
           />
         </View>
 
@@ -54,7 +53,6 @@ export default class DebtPopup extends Component {
             placeholder="Description"
             onChangeText={onChangeDescr}
             floatingLabelEnabled
-            underlineEnabled={false}
             highlightColor={colors.gray}
             returnKeyType="done"
             onSubmitEditing={Keyboard.dismiss}

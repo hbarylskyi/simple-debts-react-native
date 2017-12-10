@@ -8,5 +8,6 @@ export default {
   height: 50,
   width,
   top: 0,
-  left: 0
+  left: 0,
+  borderBottomWidth: 0
 };

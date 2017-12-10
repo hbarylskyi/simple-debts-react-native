@@ -3,8 +3,10 @@ import { View, Image } from 'react-native';
 import { MKTextField } from 'react-native-material-kit';
 import PropTypes from 'prop-types';
 import backIcon from 'react-navigation/lib/views/assets/back-icon.png';
+import Icon from 'react-native-vector-icons/Ionicons';
 import TouchableArea from '../../../../components/TouchableArea/TouchableArea';
 import styles from './SearchHeader.styles';
+import * as colors from '../../../../colors';
 
 const RegHeader = ({ onBackPress, onTextChange }) =>
   (<View style={styles.header}>
@@ -14,11 +16,15 @@ const RegHeader = ({ onBackPress, onTextChange }) =>
       </TouchableArea>
     </View>
 
+    <Icon name={'ios-search'} size={20} color={colors.gray} style={styles.searchIcon} />
+
     <MKTextField
-      style={styles.searchInput}
       placeholder="Email or username"
       underlineEnabled={false}
+      tintColor={'transparent'}
       onTextChange={onTextChange}
+      style={styles.container}
+      textInputStyle={styles.searchInput}
     />
   </View>);
 

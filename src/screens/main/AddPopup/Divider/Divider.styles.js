@@ -3,12 +3,12 @@ import * as colors from '../../../../colors';
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'row'
   },
 
-  flex: {
-    flex: 1
+  line: {
+    flex: 1,
+    marginHorizontal: 12
   },
 
   lineTop: {

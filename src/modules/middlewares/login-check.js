@@ -27,5 +27,10 @@ export default store => next => action => {
     logout();
   }
 
+  if (action.type === `${LOGIN_CHECK}_REQUEST` && action.error) {
+    store.dispatch(goToMainScreen());
+    store.dispatch({ type: 'HIDE_SPLASH' });
+  }
+
   return next(action);
 };

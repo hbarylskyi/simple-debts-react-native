@@ -11,7 +11,7 @@ const Line = () =>
 const Divider = () =>
   (<View style={styles.container}>
     <Line />
-    <Text>OR</Text>
+    <Text style={styles.text}>OR</Text>
     <Line />
   </View>);
 

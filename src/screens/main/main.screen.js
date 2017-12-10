@@ -1,21 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  RefreshControl,
-  ActivityIndicator,
-  Modal
-} from 'react-native';
+import { View, Text, FlatList, Image, RefreshControl, ActivityIndicator, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Debt from '../../components/Debt/Debt.presenter';
 import styles from './main.styles';
 import * as colors from '../../colors';
 import TouchableArea from '../../components/TouchableArea/TouchableArea';
-import AddPopup from './AddPopup/AddPopup.presenter';
+import AddPopup from './AddPopup/AddPopup';
 import headerStyle from '../../components/styles/opaqueHeader';
+import AddConfirmationPopup from './AddConfirmationPopup/AddConfirmationPopup.presenter';
 
 export default class MainScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -48,12 +41,12 @@ export default class MainScreen extends Component {
     refreshing: false,
     loading: false,
     popupVisible: false,
-    searchVisible: false
+    userToAdd: {}
   };
 
   componentDidMount() {
     this.props.fetchDebts();
-    this.props.navigation.setParams({ toggleAddPopup: this.togglePopup });
+    this.props.navigation.setParams({ toggleAddPopup: this.toggleAddPopup });
   }
 
   onRefresh = async () => {
@@ -62,15 +55,31 @@ export default class MainScreen extends Component {
     this.setState({ refreshing: false });
   };
 
-  togglePopup = () => this.setState(prevState => ({ popupVisible: !prevState.popupVisible }));
+  toggleAddPopup = () => this.setState(prevState => ({ popupVisible: !prevState.popupVisible }));
 
-  toggleSearch = () => this.setState(prevState => ({ searchVisible: !prevState.searchVisible }));
+  toggleConfirmationPopup= () =>
+    this.setState(prevState => ({ confirmationPopupVisible: !prevState.confirmationPopupVisible }));
 
-  renderPopup = () =>
+  renderAddPopup = () =>
     (<AddPopup
       isVisible={this.state.popupVisible}
-      onBackdropPress={this.togglePopup}
+      onBackdropPress={this.toggleAddPopup}
+      onUserSelected={(userToAdd) => {
+        this.setState({ userToAdd });
+        this.toggleAddPopup();
+        this.toggleConfirmationPopup();
+      }}
     />);
+
+  renderAddConfirmationPopup = () =>
+    (
+      <AddConfirmationPopup
+        isVisible={this.state.confirmationPopupVisible}
+        onBackdropPress={this.toggleConfirmationPopup}
+        onConfirmation={this.toggleConfirmationPopup}
+        user={this.state.userToAdd}
+      />
+    );
 
   renderSummary = () => {
     const { user } = this.props;
@@ -104,9 +113,10 @@ export default class MainScreen extends Component {
 
     return (
       <View style={styles.container}>
-        {this.renderPopup()}
+        {this.renderAddPopup()}
         {this.renderSummary()}
         {this.renderSpinner()}
+        {this.renderAddConfirmationPopup()}
         <View style={styles.listContainer}>
           <FlatList
             data={debts}

@@ -1,8 +1,7 @@
 import isoCurrency from 'iso-country-currency';
-import { CREATE_DEBTS_VIRT } from '../actions/DebtsActions';
 import { LOGOUT } from '../actions/AuthActions';
-import { FETCH_DEBT } from '../actions/DebtActions';
 import { NEW_OPERATION, OPERATION_ACCEPT } from '../actions/OperationActions';
+import * as DebtActions from '../actions/DebtActions';
 
 const initialState = {
   debt: {
@@ -15,21 +14,18 @@ export default (state = initialState, action) => {
   let nextState;
 
   switch (action.type) {
-    case `${FETCH_DEBT}_SUCCESS`:
+    case DebtActions.ACCEPT_DEBT_SUCCESS:
+    case `${DebtActions.FETCH_DEBT}_SUCCESS`:
+    case `${DebtActions.CREATE_DEBTS}_SUCCESS`:
     case `${OPERATION_ACCEPT}_SUCCESS`:
-    case `${CREATE_DEBTS_VIRT}_SUCCESS`:
     case `${NEW_OPERATION}_SUCCESS`: {
       const debt = action.payload;
+
       try {
         debt.currency = isoCurrency.getAllInfoByISO(debt.countryCode).symbol;
       } catch (e) {
         console.warn(e.message);
       }
-
-      // TODO remove
-      // debt.status = 'CREATION_AWAITING';
-      // debt.statusAcceptor = '59ecd41771e5180012168b52';
-      // debt.statusAcceptor = '59f483c573e41d0012d90282';
 
       nextState = { ...state, debt };
       break;

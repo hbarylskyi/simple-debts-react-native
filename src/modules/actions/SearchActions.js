@@ -1,5 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
-import config from 'react-native-config'
+import config from 'react-native-config';
 
 const baseUrl = config.host;
 const searchEndpoint = '/users';
@@ -20,12 +20,13 @@ const userSearchAction = nameOrEmail => ({
   authorize: true
 });
 
-export const userSearch = nameOrEmail => dispatch => {
+export const userSearch = nameOrEmail => async dispatch => {
   const text = nameOrEmail.trim();
 
   if (text) {
-    return dispatch(userSearchAction(text));
+    const res = await dispatch(userSearchAction(text));
+    if (!res.error) return res.payload;
   }
 
-  return Promise.resolve();
+  return Promise.resolve([]);
 };

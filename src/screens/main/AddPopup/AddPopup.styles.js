@@ -1,23 +1,26 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 30
+  popup: {
+    padding: 12
   },
 
-  header: {
-    height: 56
+  input: {
+    width: 175
   },
 
-  body: {
+  top: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center'
   },
 
+  bottom: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
   button: {
-    padding: 15,
-    margin: 15
+    padding: 8
   }
 });

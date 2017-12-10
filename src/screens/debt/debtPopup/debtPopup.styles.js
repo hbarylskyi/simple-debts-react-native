@@ -11,7 +11,6 @@ export default StyleSheet.create({
   },
 
   input: {
-    paddingBottom: 30,
     width: 175
   },
 
@@ -20,17 +19,22 @@ export default StyleSheet.create({
   },
 
   top: {
+    flex:1,
+    paddingHorizontal: 16,
+    paddingTop: 16,
     borderTopRightRadius: 3,
     borderTopLeftRadius: 3,
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'stretch',
     borderBottomWidth: 1,
     borderBottomColor: colors.gray
   },
 
   bottom: {
-    flex: 1,
+    flex:1,
+    paddingHorizontal: 16,
+    paddingBottom: 16,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -40,9 +44,8 @@ export default StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     right: 0,
-    padding: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     margin: 5
   },
 

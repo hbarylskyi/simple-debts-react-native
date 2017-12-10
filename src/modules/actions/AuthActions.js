@@ -15,7 +15,7 @@ const loginCheckTypes = [
   `${LOGIN_CHECK}_FAILURE`
 ];
 
-const loginCheckAction = token => ({
+const loginCheckAction = () => ({
   [CALL_API]: {
     endpoint: `${baseUrl}/login_status`,
     method: 'GET',

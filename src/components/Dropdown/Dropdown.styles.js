@@ -3,8 +3,8 @@ import * as colors from '../../colors';
 
 export default StyleSheet.create({
   item: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     alignItems: 'flex-end'
   },
 

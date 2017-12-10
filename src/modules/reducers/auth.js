@@ -1,9 +1,13 @@
-import { REHYDRATE } from 'redux-persist/constants';
 import * as AuthActions from '../actions/AuthActions';
 
 const initialState = {
   token: '',
-  user: {}
+  refreshToken: '',
+  user: {
+    id: null,
+    name: null,
+    picture: null
+  }
 };
 
 export default (state = initialState, action) => {
@@ -17,6 +21,10 @@ export default (state = initialState, action) => {
 
     case 'LOGOUT':
       nextState = initialState;
+      break;
+
+    case 'HIDE_SPLASH':
+      nextState = { ...state, fuck: 'yes' };
       break;
 
     // case REHYDRATE:

@@ -39,6 +39,7 @@ export default StyleSheet.create({
   },
 
   top: {
+    color: colors.black,
     fontSize: 20
   },
 

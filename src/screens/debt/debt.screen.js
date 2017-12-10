@@ -9,6 +9,7 @@ import OperationPopup from './OperationPopup/OperationPopup';
 import Button from '../../components/Button/Button';
 import * as colors from '../../colors';
 import Hamburger from '../../components/Hamburger/Hamburger';
+import SearchModal from '../main/SearchModal/SearchModal.presenter';
 
 // list of states the debt can be in. Calculated depending on
 // debt.statusAcceptor and debt.status
@@ -33,7 +34,10 @@ export default class DebtScreen extends Component {
     debt: PropTypes.object.isRequired,
     declineDebt: PropTypes.func.isRequired,
     acceptDebt: PropTypes.func.isRequired,
-    deleteDebt: PropTypes.func.isRequired
+    deleteDebt: PropTypes.func.isRequired,
+    connectUser: PropTypes.func.isRequired,
+    declineUserConnection: PropTypes.func.isRequired,
+    acceptUserConnection: PropTypes.func.isRequired
   };
 
   static navigationOptions = ({ navigation }) => {
@@ -52,7 +56,8 @@ export default class DebtScreen extends Component {
     scrollEnabled: true,
     refreshing: false,
     opPopupShown: false,
-    chosenOperation: {}
+    chosenOperation: {},
+    searchModalVisible: false
   };
 
   componentDidMount() {
@@ -120,15 +125,18 @@ export default class DebtScreen extends Component {
     });
   };
 
+  toggleSearch = () =>
+    this.setState(prevState => ({ searchVisible: !prevState.searchVisible }));
+
   toggleTakePopup = () =>
     this.setState(prevState => ({ takePopupVisible: !prevState.takePopupVisible }));
 
   toggleGivePopup = () =>
     this.setState(prevState => ({ givePopupVisible: !prevState.givePopupVisible }));
 
-  showOpPopup = chosenOperation => this.setState({ opPopupShown: true, chosenOperation });
-
-  closeOpPopup = () => this.setState({ opPopupShown: false });
+  toggleOpPopup = item =>
+    this.setState(prevState => ({ opPopupShown: !prevState.opPopupShown,
+      chosenOperation: item || prevState.chosenOperation }));
 
   goBack = async () => {
     await this.props.fetchDebts();
@@ -155,14 +163,42 @@ export default class DebtScreen extends Component {
     }
   };
 
+  acceptUserConnection = async () => {
+    const { fetchDebt, acceptUserConnection, debt } = this.props;
+
+    try {
+      await acceptUserConnection();
+    } catch (e) {
+      console.error(e.message);
+    }
+
+    try {
+      await fetchDebt(debt.id);
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
+  declineUserConnection = async isSingle => {
+    const { fetchDebt, declineUserConnection, debt } = this.props;
+
+    try {
+      await declineUserConnection();
+
+      if (isSingle) await fetchDebt(debt.id);
+      else this.goBack();
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
   renderHeaderRight = () => {
+    const { debt } = this.props;
     const data = [];
 
     if (this.getDebtState() === debtStates.NORMAL) {
-      data.push(
-        { text: 'Connect to a friend', onPress: () => {} },
-        { text: 'Delete', onPress: this.deleteDebt }
-      );
+      data.push({ text: 'Delete', onPress: this.deleteDebt });
+      if (debt.type === 'SINGLE_USER') data.push({ text: 'Connect to a friend', onPress: this.toggleSearch });
     }
 
     return <Hamburger data={data} />;
@@ -224,13 +260,13 @@ export default class DebtScreen extends Component {
 
       case debtStates.JOIN_VIRTUAL_RECEIVED:
         buttons.push(
-          { color: colors.green, text: 'Accept', onPress: undefined },
-          { color: colors.red, text: 'Decline', onPress: undefined }
+          { color: colors.green, text: 'Accept', onPress: this.acceptUserConnection },
+          { color: colors.red, text: 'Decline', onPress: () => this.declineUserConnection(false) }
         );
         break;
 
       case debtStates.JOIN_VIRTUAL_SENT:
-        buttons.push({ color: colors.red, text: 'Cancel request', onPress: undefined });
+        buttons.push({ color: colors.red, text: 'Cancel request', onPress: () => this.declineUserConnection(true) });
         break;
 
       default:
@@ -255,16 +291,6 @@ export default class DebtScreen extends Component {
       </View>
     );
   };
-
-  renderOperationPopup = () =>
-    (<OperationPopup
-      show={this.state.opPopupShown}
-      operation={this.state.chosenOperation}
-      onDismissed={this.closeOpPopup}
-      user={this.props.user}
-      onClosePress={this.closeOpPopup}
-      debt={this.props.debt}
-    />);
 
   renderStateMessage = () => {
     const { debt } = this.props;
@@ -296,6 +322,24 @@ export default class DebtScreen extends Component {
     );
   };
 
+  renderOperationPopup = () =>
+    (<OperationPopup
+      isVisible={this.state.opPopupShown}
+      onBackdropPress={this.toggleOpPopup}
+      operation={this.state.chosenOperation}
+      user={this.props.user}
+      debt={this.props.debt}
+    />);
+
+  renderSearchModal = () => (<SearchModal
+    isVisible={this.state.searchVisible}
+    onBackdropPress={this.toggleSearch}
+    onSelected={user => {
+      this.props.connectUser(user.id);
+      this.toggleSearch();
+    }}
+  />);
+
   render() {
     const { debt, user } = this.props;
     const { scrollEnabled } = this.state;
@@ -307,6 +351,7 @@ export default class DebtScreen extends Component {
         {this.renderSummary()}
         {this.renderOperationPopup()}
         {this.renderStateMessage()}
+        {this.renderSearchModal()}
 
         <View style={styles.listContainer}>
           <FlatList
@@ -317,7 +362,7 @@ export default class DebtScreen extends Component {
                 debt={debt}
                 user={user}
                 onSwipe={event => this.setState({ scrollEnabled: event })}
-                onPress={() => this.showOpPopup(item)}
+                onPress={() => this.toggleOpPopup(item)}
               />)}
             keyExtractor={item => item.id}
             scrollEnabled={scrollEnabled}

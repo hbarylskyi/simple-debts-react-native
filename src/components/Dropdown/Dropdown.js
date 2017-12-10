@@ -30,7 +30,10 @@ export default class Dropdown extends Component {
 
     renderItem = (item, index) =>
       (<Button
-        onPress={() => this.props.onSelect(item)}
+        onPress={() => {
+          this.toggleDropdown();
+          this.props.onSelect(item);
+        }}
         title={item.text}
         style={styles.item}
         key={index}

@@ -15,6 +15,7 @@ export default (state = initialState, action) => {
   let nextState;
 
   switch (action.type) {
+    case DebtActions.DECLINE_DEBT_SUCCESS:
     case `${FETCH_DEBTS}_SUCCESS`:
       nextState = action.payload;
       break;
@@ -25,10 +26,6 @@ export default (state = initialState, action) => {
       nextState = { ...state, debts: newDebts };
       break;
     }
-
-    case DebtActions.ACCEPT_DEBT_SUCCESS:
-      nextState = { ...state, ...action.payload };
-      break;
 
     case LOGOUT:
       nextState = initialState;

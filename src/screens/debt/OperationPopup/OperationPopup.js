@@ -7,6 +7,7 @@ import moment from 'moment';
 import styles from './OperationPopup.styles';
 import * as colors from '../../../colors';
 import Button from '../../../components/Button/Button';
+import Popup from "../../../components/Popup/Popup";
 
 const getCurrency = isoCode => {
   try {
@@ -25,7 +26,7 @@ const OperationPopup = ({ operation, user, debt, onClosePress, ...rest }) => {
   const date = moment(new Date()).format('ll');
 
   return (
-    <PopupDialog dialogStyle={styles.container} {...rest}>
+    <Popup {...rest}>
       <View style={[styles.top, { backgroundColor }]}>
         <Text style={styles.moneyAmount}>
           {topText}
@@ -50,7 +51,7 @@ const OperationPopup = ({ operation, user, debt, onClosePress, ...rest }) => {
           style={styles.button}
         />
       </View>
-    </PopupDialog>
+    </Popup>
   );
 };
 
