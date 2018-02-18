@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
 import PropTypes from 'prop-types';
+import Flag from 'react-native-flags';
+import isoCurrency from 'iso-country-currency';
+import DeviceInfo from 'react-native-device-info';
 import Popup from '../../../components/Popup/Popup';
 import Button from '../../../components/Button/Button';
 import styles from './AddConfirmationPopup.styles';
+import CurrencyModal from './CurrencyModal/CurrencyModal';
 
 export default class AddConfirmationPopup extends Component {
   static propTypes = {
@@ -14,8 +18,17 @@ export default class AddConfirmationPopup extends Component {
   };
 
   state = {
-    loading: false
+    loading: false,
+    currency: null,
+    currencyModalVisible: true
   };
+
+  onCurrencySelected = currency => {
+    this.setState({ currency });
+  };
+
+  toggleCurrencyModal = () =>
+    this.setState(prevState => ({ currencyModalVisible: !prevState.currencyModalVisible }));
 
   createDebt = async () => {
     const { user, createDebt, goToDebt, onConfirmation } = this.props;
@@ -32,31 +45,36 @@ export default class AddConfirmationPopup extends Component {
     }
   };
 
+  renderCurrencyModal = () => (
+    <CurrencyModal
+      isVisible={this.state.currencyModalVisible}
+      onSelected={this.onCurrencySelected}
+      onBackdropPress={this.toggleCurrencyModal}
+    />
+  );
+
   render() {
     const { user, onConfirmation } = this.props;
     const { createLoading } = this.state;
+    const country = DeviceInfo.getDeviceCountry();
+    const currency = isoCurrency.getAllInfoByISO(country);
 
     return (
-      <Popup title={'Create a debt collection'} style={styles.container} {...this.props} >
+      <Popup
+        title={'Create a debt collection'}
+        style={styles.container}
+        {...this.props}
+        confirmBtnProps={{ onPress: this.createDebt, loading: createLoading, title: 'Yes' }}
+        cancelBtnProps={{ onPress: onConfirmation, title: 'No' }}
+      >
+        {this.renderCurrencyModal()}
         <Text style={styles.text}>{`Do you want to add ${user.name}?`}</Text>
-
+        <Button onPress={this.toggleCurrencyModal} style={styles.currencyContainer}>
+          <Text>Currency: </Text>
+          <Text>{`${currency.symbol}, ${currency.currency}`}</Text>
+          <Flag type={'flat'} code={country} size={24} style={{ marginLeft: 10 }} />
+        </Button>
         <Image source={user.picture} style={styles.avatar} />
-
-        <View style={styles.buttons}>
-          <Button
-            onPress={this.createDebt}
-            loading={createLoading}
-            title={'Yep'}
-            style={styles.greenBtn}
-            textStyle={styles.btnText}
-          />
-          <Button
-            onPress={onConfirmation}
-            title={'Nah'}
-            style={styles.redBtn}
-            textStyle={styles.btnText}
-          />
-        </View>
       </Popup>
     );
   }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, FlatList, Image, RefreshControl, ActivityIndicator, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 import Debt from '../../components/Debt/Debt.presenter';
 import styles from './main.styles';
 import * as colors from '../../colors';
@@ -59,6 +60,13 @@ export default class MainScreen extends Component {
 
   toggleConfirmationPopup= () =>
     this.setState(prevState => ({ confirmationPopupVisible: !prevState.confirmationPopupVisible }));
+
+  renderEmptyPlaceholder = () => (
+    <View style={styles.placeholderContainer}>
+      <IonIcon name={'ios-paper-outline'} size={80} />
+      <Text style={styles.placeholderText}>There are no records yet. Tap '+' to add one!</Text>
+    </View>
+  );
 
   renderAddPopup = () =>
     (<AddPopup
@@ -132,6 +140,7 @@ export default class MainScreen extends Component {
                 }}
               />)}
             keyExtractor={item => item.id}
+            ListEmptyComponent={this.renderEmptyPlaceholder}
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refreshing}

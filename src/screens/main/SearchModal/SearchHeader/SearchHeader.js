@@ -25,6 +25,7 @@ const RegHeader = ({ onBackPress, onTextChange }) =>
       onTextChange={onTextChange}
       style={styles.container}
       textInputStyle={styles.searchInput}
+      autoCapitalize={'sentences'}
     />
   </View>);
 

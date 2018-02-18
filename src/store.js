@@ -13,7 +13,7 @@ const store = createStore(
   composeWithDevTools(
     applyMiddleware(thunk, ...beforeRequestHooks, apiMiddleware, ...appMiddlewares)
   ),
-  autoRehydrate({ log: true })
+  autoRehydrate()
 );
 
 persistStore(store, {

@@ -48,6 +48,7 @@ export default class AddPopup extends Component {
             onChangeText={this.setVirtName}
             style={styles.input}
             value={virtName}
+            autoCapitalize={'sentences'}
           />
         </View>
 

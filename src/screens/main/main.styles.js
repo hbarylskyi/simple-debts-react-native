@@ -7,7 +7,7 @@ export default StyleSheet.create({
   },
 
   summaryContainer: {
-    flex: 1.5,
+    flex: 1,
     backgroundColor: colors.green,
     justifyContent: 'center',
     alignItems: 'center'
@@ -81,5 +81,16 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.overlay
+  },
+
+  placeholderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  placeholderText: {
+    marginTop: 24,
+    fontSize: 18
   }
 });

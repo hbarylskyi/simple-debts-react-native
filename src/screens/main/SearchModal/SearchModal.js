@@ -22,6 +22,7 @@ export default class SearchModal extends Component {
     this.setState({ searchTerm });
 
     const users = await this.props.search(searchTerm);
+    console.log(users);
     this.setState({ users });
   };
 

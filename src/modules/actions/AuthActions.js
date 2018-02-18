@@ -1,4 +1,4 @@
-import { CALL_API } from 'redux-api-middleware';
+import { CALL_API, RSAA } from 'redux-api-middleware';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import config from 'react-native-config';
 import * as NavActions from '../../modules/actions/NavActions';
@@ -110,4 +110,27 @@ const logoutAction = () => ({
 export const logout = () => dispatch => {
   LoginManager.logOut();
   dispatch(logoutAction());
+};
+
+//
+
+export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST';
+export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
+export const REFRESH_TOKEN_FAILURE = 'REFRESH_TOKEN_FAILURE';
+
+const refreshTokenTypes = [REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_FAILURE];
+
+const refreshTokenAction = refreshToken => ({
+  [RSAA]: {
+    endpoint: `${baseUrl}/refresh_token`,
+    method: 'GET',
+    types: refreshTokenTypes,
+    headers: {
+      authorization: `Bearer ${refreshToken}`
+    }
+  }
+});
+
+export const refreshToken = () => (dispatch, getState) => {
+  dispatch(refreshTokenAction(getState().auth.refreshToken));
 };

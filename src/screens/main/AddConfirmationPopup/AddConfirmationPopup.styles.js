@@ -1,17 +1,10 @@
 import { StyleSheet } from 'react-native';
 import * as colors from '../../../colors';
 
-const btn = {
-  alignSelf: 'center',
-  padding: 10,
-  borderRadius: 2,
-  minWidth: 80
-};
-
 export default StyleSheet.create({
   container: {
     alignItems: 'stretch',
-    justifyContent: 'space-around'
+    justifyContent: 'center'
   },
 
   text: {
@@ -25,22 +18,10 @@ export default StyleSheet.create({
     borderRadius: 20
   },
 
-  buttons: {
+  currencyContainer: {
+    margin: 20,
     flexDirection: 'row',
-    justifyContent: 'space-around'
-  },
-
-  greenBtn: {
-    ...btn,
-    backgroundColor: colors.green
-  },
-
-  redBtn: {
-    ...btn,
-    backgroundColor: colors.red
-  },
-
-  btnText: {
-    color: colors.white
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });

@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
 import styles from './Popup.styles';
 import KeyboardDismissingView from '../KeyboardDismissingView/KeyboardDismissingView';
+import Button from '../Button/Button';
 
-const Popup = ({ onBackdropPress, style, containerStyle, children, title, noMargin, ...rest }) =>
+const Popup = ({ onBackdropPress, style, containerStyle, children, title, noMargin, cancelBtnProps, confirmBtnProps, ...rest }) =>
   (<Modal
     onBackdropPress={onBackdropPress}
     onBackButtonPress={onBackdropPress}
@@ -28,6 +29,27 @@ const Popup = ({ onBackdropPress, style, containerStyle, children, title, noMarg
         <View style={[styles.body, style]}>
           {children}
         </View>
+
+        {(cancelBtnProps || confirmBtnProps) && (
+          <View style={styles.btnsContainer}>
+            {cancelBtnProps && (
+              <Button
+                title={'CANCEL'}
+                {...cancelBtnProps}
+                style={[styles.btn, cancelBtnProps.style]}
+                textStyle={styles.btnText}
+              />
+            )}
+            {confirmBtnProps && (
+              <Button
+                title={'OK'}
+                {...confirmBtnProps}
+                style={[styles.btn, confirmBtnProps.style]}
+                textStyle={styles.btnText}
+              />
+            )}
+          </View>
+        )}
       </KeyboardDismissingView>
     </KeyboardAvoidingView>
   </Modal>);
@@ -38,13 +60,17 @@ Popup.propTypes = {
   containerStyle: ViewPropTypes.style,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
   title: PropTypes.string,
-  noMargin: PropTypes.bool
+  noMargin: PropTypes.bool,
+  cancelBtnProps: PropTypes.object,
+  confirmBtnProps: PropTypes.object
 };
 
 Popup.defaultProps = {
   style: null,
   title: null,
-  noMargin: false
+  noMargin: false,
+  cancelBtnProps: null,
+  confirmBtnProps: null
 };
 
 export default Popup;

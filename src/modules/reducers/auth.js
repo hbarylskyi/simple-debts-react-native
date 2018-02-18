@@ -19,12 +19,12 @@ export default (state = initialState, action) => {
       nextState = action.payload;
       break;
 
-    case 'LOGOUT':
-      nextState = initialState;
+    case AuthActions.SIGN_UP_SUCCESS:
+      nextState = action.payload;
       break;
 
-    case 'HIDE_SPLASH':
-      nextState = { ...state, fuck: 'yes' };
+    case 'LOGOUT':
+      nextState = initialState;
       break;
 
     // case REHYDRATE:

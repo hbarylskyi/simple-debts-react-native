@@ -81,6 +81,8 @@ export default class LoginScreen extends Component {
               <Icon size={24} name="envelope-o" style={styles.icon} />
               <TextInput
                 onChangeText={email => this.setState({ email })}
+                onSubmitEditing={() => this.passInput.focus()}
+                returnKeyType={'next'}
                 placeholder="Email"
                 style={styles.input}
                 underlineColorAndroid={'transparent'}
@@ -91,11 +93,13 @@ export default class LoginScreen extends Component {
             <View style={styles.inputRow}>
               <IonIcon size={36} name="ios-lock-outline" style={styles.icon} />
               <TextInput
+                ref={ref => (this.passInput = ref)}
                 onChangeText={pass => this.setState({ pass })}
                 placeholder="Password"
                 style={styles.input}
                 underlineColorAndroid={'transparent'}
                 autoCorrect={false}
+                secureTextEntry
               />
             </View>
           </View>

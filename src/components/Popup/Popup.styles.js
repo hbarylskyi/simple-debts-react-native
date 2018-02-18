@@ -3,6 +3,11 @@ import * as colors from '../../colors';
 
 const { height } = Dimensions.get('window');
 
+const btn = {
+  minWidth: 100,
+  marginBottom: 16
+};
+
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -29,5 +34,16 @@ export default StyleSheet.create({
     height: 1,
     alignSelf: 'stretch',
     backgroundColor: colors.lightGray
+  },
+
+  btnsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+
+  btn,
+
+  btnText: {
+
   }
 });

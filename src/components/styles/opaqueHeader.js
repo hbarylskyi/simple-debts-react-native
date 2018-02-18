@@ -5,9 +5,9 @@ const { width } = Dimensions.get('window');
 export default {
   position: 'absolute',
   backgroundColor: 'transparent',
-  height: 50,
+  borderBottomWidth: 0,
+  elevation: 0,
   width,
   top: 0,
-  left: 0,
-  borderBottomWidth: 0
+  left: 0
 };

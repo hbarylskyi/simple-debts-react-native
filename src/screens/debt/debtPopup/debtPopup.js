@@ -55,6 +55,7 @@ export default class DebtPopup extends Component {
             floatingLabelEnabled
             highlightColor={colors.gray}
             returnKeyType="done"
+            autoCapitalize={'sentences'}
             onSubmitEditing={Keyboard.dismiss}
           />
 

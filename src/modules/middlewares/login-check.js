@@ -1,10 +1,10 @@
 import { REHYDRATE } from 'redux-persist/constants';
-import { LOGIN_CHECK, loginCheck, logout as logoutAction } from '../actions/AuthActions';
+import * as AuthActions from '../actions/AuthActions';
 import { goToLoginScreen, goToMainScreen } from '../actions/NavActions';
 
 export default store => next => action => {
   const logout = () => {
-    store.dispatch(logoutAction());
+    store.dispatch(AuthActions.logout());
     store.dispatch(goToLoginScreen());
   };
 
@@ -14,7 +14,7 @@ export default store => next => action => {
 
     if (action.payload.auth && action.payload.auth.token) {
       store.dispatch(goToMainScreen());
-      store.dispatch(loginCheck());
+      store.dispatch(AuthActions.loginCheck());
       return;
     }
     logout();
@@ -23,11 +23,13 @@ export default store => next => action => {
     return;
   }
 
-  if (action.type === `${LOGIN_CHECK}_FAILURE`) {
+  if (action.type === AuthActions.REFRESH_TOKEN_FAILURE) {
+    console.log(action);
+    console.log('refresh token error');
     logout();
   }
 
-  if (action.type === `${LOGIN_CHECK}_REQUEST` && action.error) {
+  if (action.type === `${AuthActions.LOGIN_CHECK}_REQUEST` && action.error) {
     store.dispatch(goToMainScreen());
     store.dispatch({ type: 'HIDE_SPLASH' });
   }
