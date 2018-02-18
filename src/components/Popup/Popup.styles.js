@@ -5,7 +5,8 @@ const { height } = Dimensions.get('window');
 
 const btn = {
   minWidth: 100,
-  marginBottom: 16
+  marginBottom: 16,
+  padding: 16
 };
 
 export default StyleSheet.create({

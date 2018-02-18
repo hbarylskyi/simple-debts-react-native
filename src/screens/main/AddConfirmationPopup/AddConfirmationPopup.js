@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
 import PropTypes from 'prop-types';
-import Flag from 'react-native-flags';
 import isoCurrency from 'iso-country-currency';
 import DeviceInfo from 'react-native-device-info';
 import Popup from '../../../components/Popup/Popup';
@@ -19,12 +18,13 @@ export default class AddConfirmationPopup extends Component {
 
   state = {
     loading: false,
-    currency: null,
-    currencyModalVisible: true
+    currencyModalVisible: true,
+    currency: isoCurrency.getAllInfoByISO(DeviceInfo.getDeviceCountry())
   };
 
   onCurrencySelected = currency => {
     this.setState({ currency });
+    this.toggleCurrencyModal();
   };
 
   toggleCurrencyModal = () =>
@@ -55,9 +55,7 @@ export default class AddConfirmationPopup extends Component {
 
   render() {
     const { user, onConfirmation } = this.props;
-    const { createLoading } = this.state;
-    const country = DeviceInfo.getDeviceCountry();
-    const currency = isoCurrency.getAllInfoByISO(country);
+    const { createLoading, currency } = this.state;
 
     return (
       <Popup
@@ -69,11 +67,8 @@ export default class AddConfirmationPopup extends Component {
       >
         {this.renderCurrencyModal()}
         <Text style={styles.text}>{`Do you want to add ${user.name}?`}</Text>
-        <Button onPress={this.toggleCurrencyModal} style={styles.currencyContainer}>
-          <Text>Currency: </Text>
-          <Text>{`${currency.symbol}, ${currency.currency}`}</Text>
-          <Flag type={'flat'} code={country} size={24} style={{ marginLeft: 10 }} />
-        </Button>
+        <Text style={styles.text}>Currency: {currency.currency}</Text>
+        <Button onPress={this.toggleCurrencyModal} title={'Choose another currency'} lowercase style={styles.currencyBtn} />
         <Image source={user.picture} style={styles.avatar} />
       </Popup>
     );

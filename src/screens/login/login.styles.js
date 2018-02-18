@@ -61,7 +61,8 @@ export default StyleSheet.create({
   },
 
   btn: {
-    minWidth: 120
+    minWidth: 120,
+    padding: 16
   },
 
   fbBtn: {

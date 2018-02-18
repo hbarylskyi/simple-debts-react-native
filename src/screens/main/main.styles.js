@@ -6,6 +6,10 @@ export default StyleSheet.create({
     flex: 1
   },
 
+  scroll: {
+    flex: 1
+  },
+
   summaryContainer: {
     flex: 1,
     backgroundColor: colors.green,

@@ -83,7 +83,7 @@ export default class CurrencyModal extends Component {
       >
         <Swiper loop={false} paginationStyle={styles.pagination} activeDotColor={colors.white}>
           {slides.map(slide => (
-            <Button style={{ flex: 1, justifyContent: 'flex-start' }}>
+            <Button style={styles.slide}>
               {slide.map(row => (
                 <View style={{ flexDirection: 'row' }}>
                   {row.map(currency => (
@@ -93,7 +93,7 @@ export default class CurrencyModal extends Component {
                         { height: ITEM_WRAPPER_SIZE, width: ITEM_WRAPPER_SIZE }
                       ]}
                     >
-                      <View style={styles.item}>
+                      <View style={styles.item} key={currency.currency}>
                         <TouchableArea onPress={() => onSelected(currency)} noRipple>
                           <Text style={styles.itemText}>{currency.currency}</Text>
                         </TouchableArea>
@@ -106,7 +106,12 @@ export default class CurrencyModal extends Component {
           ))}
         </Swiper>
 
-        <Button title={'Cancel'} onPress={onBackdropPress} style={styles.cancelBtn} textStyle={styles.cancelBtnText} />
+        <Button
+          title={'Cancel'}
+          onPress={onBackdropPress}
+          style={styles.cancelBtn}
+          textStyle={styles.cancelBtnText}
+        />
       </Popup>
     );
   }

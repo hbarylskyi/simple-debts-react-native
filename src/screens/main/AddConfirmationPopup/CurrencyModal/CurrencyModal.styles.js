@@ -1,11 +1,18 @@
 import { StyleSheet } from 'react-native';
 import * as colors from '../../../../colors';
 
+export const CURRENCY_SIZE = 50;
+
 export default StyleSheet.create({
   popupContainer: {
     maxHeight: null,
     borderRadius: 0,
     backgroundColor: colors.blue
+  },
+
+  slide: {
+    flex: 1,
+    justifyContent: 'flex-start'
   },
 
   pagination: {
@@ -19,8 +26,8 @@ export default StyleSheet.create({
   },
 
   item: {
-    height: 50,
-    width: 50,
+    height: CURRENCY_SIZE,
+    width: CURRENCY_SIZE,
     borderRadius: 25,
     borderWidth: 1,
     borderColor: colors.white,
@@ -34,7 +41,8 @@ export default StyleSheet.create({
   },
 
   cancelBtn: {
-    padding: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
     alignSelf: 'center'
   },
 

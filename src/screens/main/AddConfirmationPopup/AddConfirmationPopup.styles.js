@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import * as colors from '../../../colors';
+import { CURRENCY_SIZE } from './CurrencyModal/CurrencyModal.styles';
 
 export default StyleSheet.create({
   container: {
@@ -9,7 +10,7 @@ export default StyleSheet.create({
 
   text: {
     textAlign: 'center',
-    fontSize: 14
+    fontSize: 20
   },
 
   avatar: {
@@ -18,10 +19,10 @@ export default StyleSheet.create({
     borderRadius: 20
   },
 
-  currencyContainer: {
-    margin: 20,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
+  currencyBtn: {
+    margin: 12,
+    padding: 12,
+    backgroundColor: colors.lightGray,
+    alignSelf: 'center'
   }
 });

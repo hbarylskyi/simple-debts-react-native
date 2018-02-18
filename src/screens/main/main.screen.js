@@ -150,6 +150,8 @@ export default class MainScreen extends Component {
               />
             }
             scrollEnabled={scrollEnabled}
+            contentContainerStyle={styles.scroll}
+            style={styles.scroll}
           />
         </View>
       </View>
