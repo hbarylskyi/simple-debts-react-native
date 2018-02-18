@@ -1,11 +1,17 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { View, TouchableNativeFeedback } from 'react-native';
+
+const getBackground = borderless =>
+  (borderless
+    ? TouchableNativeFeedback.SelectableBackgroundBorderless()
+    : TouchableNativeFeedback.SelectableBackground());
 
 const TouchableArea = ({ noRipple, onPress, borderless, ...rest }) => (
   <TouchableNativeFeedback
     onPress={onPress}
     delayLongPress={200}
-    background={noRipple ? null : TouchableNativeFeedback.Ripple(null, borderless)}
+    background={noRipple ? null : getBackground(borderless)}
   >
     <View {...rest} />
   </TouchableNativeFeedback>

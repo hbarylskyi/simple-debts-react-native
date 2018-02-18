@@ -9,3 +9,5 @@ export const lightGray = '#ededed';
 export const white = 'white';
 export const overlay = 'rgba(0, 0, 0, 0.3)';
 export const fb = '#3b5998';
+
+export const blue = '#258EA6';
