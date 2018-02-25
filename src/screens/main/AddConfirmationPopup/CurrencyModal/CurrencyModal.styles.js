@@ -7,7 +7,7 @@ export default StyleSheet.create({
   popupContainer: {
     maxHeight: null,
     borderRadius: 0,
-    backgroundColor: colors.blue
+    backgroundColor: colors.green
   },
 
   slide: {

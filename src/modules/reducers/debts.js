@@ -27,6 +27,11 @@ export default (state = initialState, action) => {
       break;
     }
 
+    case `${DebtActions.CREATE_DEBTS}_SUCCESS`: {
+      nextState = { ...state, debts: [action.payload, ...state.debts] };
+      break;
+    }
+
     case LOGOUT:
       nextState = initialState;
       break;

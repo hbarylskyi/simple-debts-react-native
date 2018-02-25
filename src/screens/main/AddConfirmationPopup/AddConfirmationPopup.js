@@ -18,7 +18,7 @@ export default class AddConfirmationPopup extends Component {
 
   state = {
     loading: false,
-    currencyModalVisible: true,
+    currencyModalVisible: false,
     currency: isoCurrency.getAllInfoByISO(DeviceInfo.getDeviceCountry())
   };
 
@@ -68,7 +68,7 @@ export default class AddConfirmationPopup extends Component {
         {this.renderCurrencyModal()}
         <Text style={styles.text}>{`Do you want to add ${user.name}?`}</Text>
         <Text style={styles.text}>Currency: {currency.currency}</Text>
-        <Button onPress={this.toggleCurrencyModal} title={'Choose another currency'} lowercase style={styles.currencyBtn} />
+        <Button onPress={this.toggleCurrencyModal} title={'Select different currency'} lowercase style={styles.currencyBtn} />
         <Image source={user.picture} style={styles.avatar} />
       </Popup>
     );

@@ -39,7 +39,9 @@ export default class SearchModal extends Component {
         {...this.props}
       >
         <SearchHeader onBackPress={onBackdropPress} onTextChange={this.searchTextChanged} />
-        {users.map(user => <SearchItem user={user} onPress={() => onSelected(user)} key={user.id} />)}
+        {users.map(user => (
+          <SearchItem user={user} onPress={() => onSelected(user)} key={user.id} />
+        ))}
       </Popup>
     );
   }

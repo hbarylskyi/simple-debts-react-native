@@ -1,5 +1,6 @@
 export const green = '#6EE0A1';
 export const greenSecondary = '#C2EFD0';
+export const greenDark = '#6EE0A1';
 export const red = '#FB4A65';
 export const redSecondary = '#FDC4C8';
 export const orange = '#FFD185';
