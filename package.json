@@ -1,5 +1,5 @@
 {
-  "name": "debtCollector",
+  "name": "simple-debts",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -14,8 +14,8 @@
     "metro-bundler": "^0.11.0",
     "moment": "^2.19.1",
     "prop-types": "^15.5.10",
-    "react": "16.0.0-alpha.12",
-    "react-native": "^0.46.4",
+    "react": "16.8.3",
+    "react-native": "0.59.9",
     "react-native-config": "^0.9.0",
     "react-native-device-info": "^0.13.0",
     "react-native-fbsdk": "^0.6.3",
