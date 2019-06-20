@@ -3,8 +3,8 @@ import { View, Keyboard } from 'react-native';
 import { MKTextField } from 'react-native-material-kit';
 import PropTypes from 'prop-types';
 import styles from './debtPopup.styles';
-import * as colors from '../../../colors';
-import Button from '../../../components/Button/Button';
+import * as colors from '../../../utils/colors';
+import ButtonDeprecated from '../../../components/Button/ButtonDeprecated';
 import Popup from '../../../components/Popup/Popup';
 
 export default class DebtPopup extends Component {
@@ -59,7 +59,7 @@ export default class DebtPopup extends Component {
             onSubmitEditing={Keyboard.dismiss}
           />
 
-          <Button
+          <ButtonDeprecated
             onPress={this.onSubmit}
             title={buttonText}
             loading={this.state.loading}

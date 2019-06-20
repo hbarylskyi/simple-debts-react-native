@@ -1,7 +1,7 @@
-import { CALL_API, RSAA } from 'redux-api-middleware';
+import { RSAA } from 'redux-api-middleware';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import config from 'react-native-config';
-import * as NavActions from '../../modules/actions/NavActions';
+import NavigationService from '../../utils/NavigationService';
 
 const baseUrl = config.host;
 
@@ -16,8 +16,8 @@ const loginCheckTypes = [
 ];
 
 const loginCheckAction = () => ({
-  [CALL_API]: {
-    endpoint: `${baseUrl}/login_status`,
+  [RSAA]: {
+    endpoint: `${baseUrl}/login/status`,
     method: 'GET',
     types: loginCheckTypes
   },
@@ -29,10 +29,14 @@ export const loginCheck = () => dispatch => dispatch(loginCheckAction());
 
 //
 
-const fbLoginTypes = [`${FB_LOGIN}_REQUEST`, `${FB_LOGIN}_SUCCESS`, `${FB_LOGIN}_FAILURE`];
+const fbLoginTypes = [
+  `${FB_LOGIN}_REQUEST`,
+  `${FB_LOGIN}_SUCCESS`,
+  `${FB_LOGIN}_FAILURE`
+];
 
 const fbLoginAction = fbToken => ({
-  [CALL_API]: {
+  [RSAA]: {
     endpoint: `${baseUrl}/login/facebook`,
     method: 'GET',
     types: fbLoginTypes,
@@ -49,9 +53,10 @@ export const fbLogin = () => dispatch => {
       AccessToken.getCurrentAccessToken().then(data => {
         dispatch(fbLoginAction(data.accessToken.toString())).then(response => {
           if (!response.error) {
-            dispatch(NavActions.goToMainScreen());
+            NavigationService.resetTo('MainScreen');
           } else {
-            alert('Login unsuccessful');
+            alert('Login unsuccessful:', response.error);
+            console.log(response);
           }
         });
       });
@@ -66,10 +71,14 @@ export const STANDARD_LOGIN_REQUEST = 'STANDARD_LOGIN_REQUEST';
 export const STANDARD_LOGIN_SUCCESS = 'STANDARD_LOGIN_SUCCESS';
 export const STANDARD_LOGIN_FAILURE = 'STANDARD_LOGIN_FAILURE';
 
-const standardLoginTypes = [STANDARD_LOGIN_REQUEST, STANDARD_LOGIN_SUCCESS, STANDARD_LOGIN_FAILURE];
+const standardLoginTypes = [
+  STANDARD_LOGIN_REQUEST,
+  STANDARD_LOGIN_SUCCESS,
+  STANDARD_LOGIN_FAILURE
+];
 
 const standardLoginAction = (email, password) => ({
-  [CALL_API]: {
+  [RSAA]: {
     endpoint: `${baseUrl}/login/local`,
     method: 'POST',
     types: standardLoginTypes,
@@ -90,7 +99,7 @@ export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
 const signUpTypes = [SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE];
 
 const signupAction = (email, password) => ({
-  [CALL_API]: {
+  [RSAA]: {
     endpoint: `${baseUrl}/signup/local`,
     method: 'PUT',
     headers: { 'content-type': 'application/json' },
@@ -99,7 +108,8 @@ const signupAction = (email, password) => ({
   }
 });
 
-export const signup = (email, pass) => dispatch => dispatch(signupAction(email, pass));
+export const signup = (email, pass) => dispatch =>
+  dispatch(signupAction(email, pass));
 
 //
 
@@ -109,6 +119,7 @@ const logoutAction = () => ({
 
 export const logout = () => dispatch => {
   LoginManager.logOut();
+  NavigationService.resetTo('LoginScreen');
   dispatch(logoutAction());
 };
 
@@ -118,11 +129,15 @@ export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST';
 export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
 export const REFRESH_TOKEN_FAILURE = 'REFRESH_TOKEN_FAILURE';
 
-const refreshTokenTypes = [REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_FAILURE];
+const refreshTokenTypes = [
+  REFRESH_TOKEN_REQUEST,
+  REFRESH_TOKEN_SUCCESS,
+  REFRESH_TOKEN_FAILURE
+];
 
 const refreshTokenAction = refreshToken => ({
   [RSAA]: {
-    endpoint: `${baseUrl}/refresh_token`,
+    endpoint: `${baseUrl}/login/refresh_token`,
     method: 'GET',
     types: refreshTokenTypes,
     headers: {
@@ -131,6 +146,5 @@ const refreshTokenAction = refreshToken => ({
   }
 });
 
-export const refreshToken = () => (dispatch, getState) => {
+export const refreshToken = () => (dispatch, getState) =>
   dispatch(refreshTokenAction(getState().auth.refreshToken));
-};

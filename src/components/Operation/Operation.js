@@ -1,10 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as colors from '../../colors';
+import * as colors from '../../utils/colors';
 import OperationBase from '../OperationBase/OperationBase';
 
-const Operation = ({ operation, debt, user, acceptOperation, declineOperation, ...rest }) => {
-  const { moneyReceiver, description, moneyAmount, status, statusAcceptor } = operation;
+const Operation = ({
+  operation,
+  debt,
+  user,
+  acceptOperation,
+  declineOperation,
+  ...rest
+}) => {
+  const {
+    moneyReceiver,
+    description,
+    moneyAmount,
+    status,
+    statusAcceptor
+  } = operation;
 
   const isTaken = moneyReceiver === user.id;
   const image = isTaken ? user.picture : debt.user.picture;
@@ -12,7 +25,8 @@ const Operation = ({ operation, debt, user, acceptOperation, declineOperation, .
   const showBtns = statusAcceptor === user.id && status === 'CREATION_AWAITING';
   let icon;
 
-  if (status === 'CREATION_AWAITING') icon = statusAcceptor === user.id ? 'bell-o' : 'clock-o';
+  if (status === 'CREATION_AWAITING')
+    icon = statusAcceptor === user.id ? 'bell-o' : 'clock-o';
 
   const onAccept = () => {
     acceptOperation(operation.id);
@@ -25,7 +39,7 @@ const Operation = ({ operation, debt, user, acceptOperation, declineOperation, .
   return (
     <OperationBase
       image={image}
-      topText={debt.currency + moneyAmount}
+      topText={(debt.currency || '') + moneyAmount}
       topTextStyle={{ color }}
       bottomText={description}
       icon={icon}

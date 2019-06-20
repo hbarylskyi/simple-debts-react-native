@@ -22,25 +22,31 @@ export default class SearchModal extends Component {
     this.setState({ searchTerm });
 
     const users = await this.props.search(searchTerm);
-    console.log(users);
     this.setState({ users });
   };
 
   render() {
-    const { onBackdropPress, onSelected } = this.props;
+    const { onBackdropPress, onSelected, ...rest } = this.props;
     const { users } = this.state;
 
     return (
       <Popup
         containerStyle={styles.popupContainer}
         noMargin
-        animationIn={'fadeInUp'}
-        animationOut={'fadeOutDown'}
-        {...this.props}
+        animationIn="fadeInUp"
+        animationOut="fadeOutDown"
+        {...rest}
       >
-        <SearchHeader onBackPress={onBackdropPress} onTextChange={this.searchTextChanged} />
+        <SearchHeader
+          onBackPress={onBackdropPress}
+          onTextChange={this.searchTextChanged}
+        />
         {users.map(user => (
-          <SearchItem user={user} onPress={() => onSelected(user)} key={user.id} />
+          <SearchItem
+            user={user}
+            onPress={() => onSelected(user)}
+            key={user.id}
+          />
         ))}
       </Popup>
     );

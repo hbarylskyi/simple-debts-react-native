@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import * as colors from '../../colors';
+import * as colors from '../../utils/colors';
 
 export default StyleSheet.create({
   container: {
@@ -11,6 +11,7 @@ export default StyleSheet.create({
   },
 
   summaryContainer: {
+    paddingTop: 50,
     flex: 1,
     backgroundColor: colors.green,
     justifyContent: 'center',
@@ -88,6 +89,7 @@ export default StyleSheet.create({
   },
 
   placeholderContainer: {
+    padding: 20,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
@@ -95,6 +97,7 @@ export default StyleSheet.create({
 
   placeholderText: {
     marginTop: 24,
-    fontSize: 18
+    fontSize: 18,
+    textAlign: 'center'
   }
 });

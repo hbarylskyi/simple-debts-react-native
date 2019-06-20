@@ -1,79 +1,61 @@
-import React, { Component } from 'react';
-import { Text, View, Platform, ActivityIndicator, ViewPropTypes } from 'react-native';
+import React from 'react';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+  View,
+  Text,
+  Image
+} from 'react-native';
 import PropTypes from 'prop-types';
-import TouchableArea from '../TouchableArea/TouchableArea';
-import styles from './Button.styles';
-import * as colors from '../../colors';
 
-const isIOS = Platform.OS === 'ios';
-
-export default class Button extends Component {
-  static propTypes = {
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-    onPress: PropTypes.func,
-    renderText: PropTypes.func,
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    disabled: PropTypes.bool,
-    loading: PropTypes.bool,
-    lowercase: PropTypes.bool,
-    style: ViewPropTypes.style,
-    disabledStyle: ViewPropTypes.style,
-    textStyle: Text.propTypes.style,
-    disabledTextStyle: Text.propTypes.style,
-    spinnerColor: PropTypes.string
-  };
-
-  static defaultProps = {
-    title: '',
-    disabled: false,
-    loading: false,
-    lowercase: false,
-    spinnerColor: colors.white
-  };
-
-  renderText = () => {
-    const { title, disabled, renderText, textStyle, disabledTextStyle, lowercase } = this.props;
-    let text;
-
-    if (renderText) return renderText();
-
-    if (Platform.OS === 'android' && !lowercase) {
-      text = typeof title === 'string' ? title.toUpperCase() : title;
-    } else {
-      text = title;
-    }
-
-    return (
+const Button = ({
+  onPress,
+  loading,
+  disabled,
+  text,
+  icon,
+  style,
+  textStyle,
+  iconStyle,
+  children,
+  ...props
+}) => (
+  <TouchableOpacity
+    onPress={loading || disabled ? undefined : onPress}
+    style={style}
+    {...props}
+  >
+    {loading ? (
+      <ActivityIndicator />
+    ) : (
       <View>
-        <Text
-          style={[
-            styles.defTextStyle,
-            textStyle,
-            disabled ? disabledTextStyle || styles.disabledText : null
-          ]}
-        >
-          {text}
-        </Text>
+        {text && <Text style={textStyle}>{text}</Text>}
+        {icon && <Image source={icon} style={[styles.btnIcon, iconStyle]} />}
+        {children && children}
       </View>
-    );
-  };
+    )}
+  </TouchableOpacity>
+);
 
-  renderSpinner = () => <ActivityIndicator color={this.props.spinnerColor} />;
+Button.propTypes = {
+  onPress: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  disabled: PropTypes.bool,
+  text: PropTypes.string
+};
 
-  renderContent = () => (this.props.children ? this.props.children : this.renderText());
+const styles = StyleSheet.create({
+  icon: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
 
-  render() {
-    const { disabled, loading, lowercase, style, disabledStyle, onPress, ...rest } = this.props;
-
-    return (
-      <TouchableArea
-        onPress={disabled || loading ? null : onPress}
-        style={[styles.container, style, disabled ? disabledStyle : null]}
-        noRipple={disabled || !onPress || (lowercase && !isIOS)}
-        {...rest}
-      >
-        {loading ? this.renderSpinner() : this.renderContent()}
-      </TouchableArea>
-    );
+  btnIcon: {
+    height: 20,
+    width: 20
   }
-}
+});
+
+export default Button;

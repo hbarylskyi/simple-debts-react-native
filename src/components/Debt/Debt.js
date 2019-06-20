@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isoCurrency from 'iso-country-currency';
 import styles from './Debt.styles';
-import * as colors from '../../colors';
+import * as colors from '../../utils/colors';
 import OperationBase from '../OperationBase/OperationBase';
 
 const icons = {

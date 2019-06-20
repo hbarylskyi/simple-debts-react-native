@@ -12,5 +12,16 @@ export default StyleSheet.create({
 
   disabledText: {
     opacity: 0.5
+  },
+
+  icon: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  btnIcon: {
+    height: 20,
+    width: 20
   }
 });

@@ -3,12 +3,15 @@ package com.simpledebts;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import com.github.xinthink.rnmk.ReactMaterialKitPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.github.xinthink.rnmk.ReactMaterialKitPackage;
-import com.cboy.rn.splashscreen.SplashScreenReactPackage;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -16,11 +19,6 @@ import com.facebook.soloader.SoLoader;
 
 import java.util.Arrays;
 import java.util.List;
-
-import com.facebook.CallbackManager;
-import com.facebook.FacebookSdk;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.facebook.appevents.AppEventsLogger;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -40,13 +38,19 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNDeviceInfo(),
-            new ReactNativeConfigPackage(),
+            new RNGestureHandlerPackage(),
             new VectorIconsPackage(),
-            new ReactMaterialKitPackage(),
             new SplashScreenReactPackage(),
-            new FBSDKPackage(mCallbackManager)
+            new ReactMaterialKitPackage(),
+            new FBSDKPackage(mCallbackManager),
+            new RNDeviceInfo(),
+            new ReactNativeConfigPackage()
       );
+    }
+
+    @Override
+    protected String getJSMainModuleName() {
+      return "index";
     }
   };
 
@@ -59,9 +63,5 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-
-    FacebookSdk.sdkInitialize(getApplicationContext());
-    // If you want to use AppEventsLogger to log events.
-    AppEventsLogger.activateApp(this);
   }
 }

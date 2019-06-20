@@ -1,11 +1,12 @@
-import { REHYDRATE } from 'redux-persist/constants';
+import { REHYDRATE } from 'redux-persist/src/constants';
 import * as AuthActions from '../actions/AuthActions';
-import { goToLoginScreen, goToMainScreen } from '../actions/NavActions';
+import NavigationService from '../../utils/NavigationService';
 
+// TODO rewrite?
 export default store => next => action => {
   const logout = () => {
     store.dispatch(AuthActions.logout());
-    store.dispatch(goToLoginScreen());
+    NavigationService.resetTo('LoginScreen');
   };
 
   // init loginCheck when auth state is persisted from local storage
@@ -13,7 +14,7 @@ export default store => next => action => {
     next(action);
 
     if (action.payload.auth && action.payload.auth.token) {
-      store.dispatch(goToMainScreen());
+      NavigationService.resetTo('MainScreen');
       store.dispatch(AuthActions.loginCheck());
       return;
     }
@@ -23,6 +24,14 @@ export default store => next => action => {
     return;
   }
 
+  if (
+    action.payload &&
+    action.payload.response &&
+    action.payload.response.error === 'Access Token Expired'
+  ) {
+    logout();
+  }
+
   if (action.type === AuthActions.REFRESH_TOKEN_FAILURE) {
     console.log(action);
     console.log('refresh token error');
@@ -30,7 +39,7 @@ export default store => next => action => {
   }
 
   if (action.type === `${AuthActions.LOGIN_CHECK}_REQUEST` && action.error) {
-    store.dispatch(goToMainScreen());
+    NavigationService.resetTo('MainScreen');
     store.dispatch({ type: 'HIDE_SPLASH' });
   }
 

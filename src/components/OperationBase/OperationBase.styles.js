@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import * as colors from '../../colors';
+import * as colors from '../../utils/colors';
 
 export default StyleSheet.create({
   swipeout: {
@@ -21,7 +21,6 @@ export default StyleSheet.create({
   },
 
   operation: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     padding: 15

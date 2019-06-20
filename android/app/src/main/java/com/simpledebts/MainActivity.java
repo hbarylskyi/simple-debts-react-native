@@ -1,11 +1,17 @@
 package com.simpledebts;
 
-import com.facebook.react.ReactActivity;
 import android.content.Intent;
-import com.cboy.rn.splashscreen.SplashScreen;
+import com.facebook.react.ReactActivity;
 import android.os.Bundle;
+import org.devio.rn.splashscreen.SplashScreen;
 
 public class MainActivity extends ReactActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.show(this);  // here
+        super.onCreate(savedInstanceState);
+    }
 
     /**
      * Returns the name of the main component registered from JavaScript.
@@ -13,18 +19,12 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "debtCollector";
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-       SplashScreen.show(this);
-       super.onCreate(savedInstanceState);
+        return "SimpleDebts";
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-      super.onActivityResult(requestCode, resultCode, data);
-      MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+        MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
     }
 }

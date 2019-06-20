@@ -2,15 +2,15 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './SearchItem.styles';
-import Button from '../../../../components/Button/Button';
+import ButtonDeprecated from '../../../../components/Button/ButtonDeprecated';
 
 const SearchItem = ({ user, ...rest }) =>
-  (<Button style={styles.user} {...rest}>
+  (<ButtonDeprecated style={styles.user} {...rest}>
     <Image source={{ uri: user.picture }} style={styles.avatar} />
     <View>
       <Text>{user.name}</Text>
     </View>
-  </Button>);
+  </ButtonDeprecated>);
 
 
 SearchItem.propTypes = {

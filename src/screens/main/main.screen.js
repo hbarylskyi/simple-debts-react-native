@@ -1,30 +1,49 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, FlatList, Image, RefreshControl, ActivityIndicator, Modal } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  RefreshControl,
+  ActivityIndicator,
+  Modal
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import Debt from '../../components/Debt/Debt.presenter';
 import styles from './main.styles';
-import * as colors from '../../colors';
+import * as colors from '../../utils/colors';
 import TouchableArea from '../../components/TouchableArea/TouchableArea';
 import AddPopup from './AddPopup/AddPopup';
-import headerStyle from '../../components/styles/opaqueHeader';
 import AddConfirmationPopup from './AddConfirmationPopup/AddConfirmationPopup.presenter';
+import HeaderButton from '../../components/HeaderButton/HeaderButton';
 
 export default class MainScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
+    const { signOut } = params;
 
     return {
+      headerLeft: (
+        <HeaderButton onPress={signOut}>
+          <IonIcon name="ios-log-out" size={22} color={colors.white} />
+        </HeaderButton>
+      ),
+
       headerRight: (
         <View style={styles.popupButtonWrapper}>
-          <TouchableArea onPress={params.toggleAddPopup} borderless style={styles.popupButton}>
-            <Icon name={'plus'} size={20} color={'white'} />
+          <TouchableArea
+            onPress={params.toggleAddPopup}
+            borderless
+            style={styles.popupButton}
+          >
+            <Icon name="plus" size={20} color="white" />
           </TouchableArea>
         </View>
       ),
 
-      headerStyle
+      headerTransparent: true
     };
   };
 
@@ -32,23 +51,35 @@ export default class MainScreen extends Component {
     user: PropTypes.object.isRequired,
     navigation: PropTypes.object.isRequired,
     fetchDebts: PropTypes.func.isRequired,
-    goToDebt: PropTypes.func.isRequired,
-    loadDebt: PropTypes.func.isRequired,
     debts: PropTypes.array.isRequired
   };
 
   state = {
     scrollEnabled: true,
     refreshing: false,
-    loading: false,
     popupVisible: false,
     userToAdd: {}
   };
 
   componentDidMount() {
-    this.props.fetchDebts();
-    this.props.navigation.setParams({ toggleAddPopup: this.toggleAddPopup });
+    const { navigation } = this.props;
+
+    navigation.setParams({
+      toggleAddPopup: this.toggleAddPopup,
+      signOut: this.signOut
+    });
+
+    navigation.addListener('didFocus', this.onFocus);
   }
+
+  onFocus = () => {
+    const { fetchDebts } = this.props;
+    fetchDebts();
+  };
+
+  signOut = () => {
+    this.props.signOut();
+  };
 
   onRefresh = async () => {
     this.setState({ refreshing: true });
@@ -56,38 +87,48 @@ export default class MainScreen extends Component {
     this.setState({ refreshing: false });
   };
 
-  toggleAddPopup = () => this.setState(prevState => ({ popupVisible: !prevState.popupVisible }));
+  toggleAddPopup = () =>
+    this.setState(prevState => ({ popupVisible: !prevState.popupVisible }));
 
-  toggleConfirmationPopup= () =>
-    this.setState(prevState => ({ confirmationPopupVisible: !prevState.confirmationPopupVisible }));
+  toggleConfirmationPopup = () =>
+    this.setState(prevState => ({
+      confirmationPopupVisible: !prevState.confirmationPopupVisible
+    }));
 
   renderEmptyPlaceholder = () => (
     <View style={styles.placeholderContainer}>
-      <IonIcon name={'ios-paper-outline'} size={80} />
-      <Text style={styles.placeholderText}>There are no records yet. Tap '+' to add one!</Text>
+      <IonIcon name="ios-paper" size={40} />
+      <Text style={styles.placeholderText}>
+        There are no records yet. Tap '+' to add one!
+      </Text>
     </View>
   );
 
-  renderAddPopup = () =>
-    (<AddPopup
+  renderAddPopup = () => (
+    <AddPopup
       isVisible={this.state.popupVisible}
       onBackdropPress={this.toggleAddPopup}
-      onUserSelected={(userToAdd) => {
+      onUserSelected={userToAdd => {
         this.setState({ userToAdd });
-        this.toggleAddPopup();
-        this.toggleConfirmationPopup();
-      }}
-    />);
 
-  renderAddConfirmationPopup = () =>
-    (
-      <AddConfirmationPopup
-        isVisible={this.state.confirmationPopupVisible}
-        onBackdropPress={this.toggleConfirmationPopup}
-        onConfirmation={this.toggleConfirmationPopup}
-        user={this.state.userToAdd}
-      />
-    );
+        this.toggleAddPopup();
+
+        setTimeout(this.toggleConfirmationPopup, 700);
+      }}
+    />
+  );
+
+  renderAddConfirmationPopup = () => (
+    <AddConfirmationPopup
+      isVisible={this.state.confirmationPopupVisible}
+      onBackdropPress={this.toggleConfirmationPopup}
+      onConfirmation={debtId => {
+        this.toggleConfirmationPopup();
+        this.props.navigation.navigate('DebtScreen', { debtId });
+      }}
+      user={this.state.userToAdd}
+    />
+  );
 
   renderSummary = () => {
     const { user } = this.props;
@@ -96,57 +137,42 @@ export default class MainScreen extends Component {
       <View style={styles.summaryContainer}>
         <Image source={{ uri: user.picture }} style={styles.summaryAvatar} />
 
-        <Text style={styles.summaryText}>
-          {user.name}
-        </Text>
+        <Text style={styles.summaryText}>{user.name}</Text>
       </View>
     );
   };
 
-  renderSpinner = () =>
-    (<Modal
-      transparent
-      visible={this.state.loading}
-      animationType={'fade'}
-      onRequestClose={() => {}}
-    >
-      <View style={styles.overlay}>
-        <ActivityIndicator size={'large'} color={colors.lightGray} />
-      </View>
-    </Modal>);
-
   render() {
-    const { debts, loadDebt, goToDebt } = this.props;
-    const { scrollEnabled } = this.state;
+    const { debts, navigation } = this.props;
+    const { scrollEnabled, refreshing } = this.state;
 
     return (
       <View style={styles.container}>
         {this.renderAddPopup()}
         {this.renderSummary()}
-        {this.renderSpinner()}
         {this.renderAddConfirmationPopup()}
         <View style={styles.listContainer}>
           <FlatList
             data={debts}
-            renderItem={({ item }) =>
-              (<Debt
+            renderItem={({ item }) => (
+              <Debt
                 debt={item}
-                onSwipe={swipeFinished => this.setState({ scrollEnabled: swipeFinished })}
+                onSwipe={swipeFinished =>
+                  this.setState({ scrollEnabled: swipeFinished })
+                }
                 onPress={async () => {
-                  this.setState({ loading: true });
-                  await loadDebt(item.id);
-                  this.setState({ loading: false });
-                  goToDebt();
+                  navigation.navigate('DebtScreen', { debtId: item.id });
                 }}
-              />)}
+              />
+            )}
             keyExtractor={item => item.id}
             ListEmptyComponent={this.renderEmptyPlaceholder}
             refreshControl={
               <RefreshControl
-                refreshing={this.state.refreshing}
+                refreshing={refreshing}
                 onRefresh={this.onRefresh}
                 colors={['gray']}
-                tintColor={'gray'}
+                tintColor="gray"
               />
             }
             scrollEnabled={scrollEnabled}

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import * as colors from '../../../../colors';
+import * as colors from '../../../../utils/colors';
 
 export default StyleSheet.create({
   container: {
@@ -32,10 +32,6 @@ export default StyleSheet.create({
   searchInput: {
     marginRight: 50,
     fontSize: 14
-  },
-
-  backIcon: {
-    tintColor: colors.black
   },
 
   searchIcon: {

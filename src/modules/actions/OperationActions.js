@@ -1,4 +1,4 @@
-import { CALL_API } from 'redux-api-middleware';
+import { RSAA } from 'redux-api-middleware';
 import config from 'react-native-config';
 
 const baseUrl = config.host;
@@ -12,7 +12,7 @@ const operationAcceptTypes = [
 ];
 
 const operationAcceptAction = (operationId, accepted) => ({
-  [CALL_API]: {
+  [RSAA]: {
     endpoint: `${baseUrl}/operation/${operationId}/creation`,
     method: accepted ? 'POST' : 'DELETE',
     types: operationAcceptTypes,
@@ -35,7 +35,7 @@ const newOperationTypes = [
 ];
 
 const newOperationAction = (debtsId, moneyAmount, moneyReceiver, description) => ({
-  [CALL_API]: {
+  [RSAA]: {
     endpoint: `${baseUrl}/operation`,
     method: 'PUT',
     types: newOperationTypes,
@@ -63,7 +63,7 @@ const deleteOperationTypes = [
 ];
 
 const deleteOperationAction = operationId => ({
-  [CALL_API]: {
+  [RSAA]: {
     endpoint: `${baseUrl}/operation/${operationId}`,
     method: 'DELETE',
     types: deleteOperationTypes,

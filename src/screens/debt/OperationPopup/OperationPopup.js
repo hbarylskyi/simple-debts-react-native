@@ -1,13 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import PopupDialog from 'react-native-popup-dialog';
 import isoCurrency from 'iso-country-currency';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import styles from './OperationPopup.styles';
-import * as colors from '../../../colors';
-import Button from '../../../components/Button/Button';
-import Popup from "../../../components/Popup/Popup";
+import * as colors from '../../../utils/colors';
+import ButtonDeprecated from '../../../components/Button/ButtonDeprecated';
+import Popup from '../../../components/Popup/Popup';
 
 const getCurrency = isoCode => {
   try {
@@ -22,29 +21,22 @@ const OperationPopup = ({ operation, user, debt, onClosePress, ...rest }) => {
   const isTaken = moneyReceiver === user.id;
   const backgroundColor = isTaken ? colors.red : colors.green;
   const topText = getCurrency(debt.countryCode) + moneyAmount;
-  const userName = operation.moneyReceiver === user.id ? user.name : debt.user.name;
+  const userName =
+    operation.moneyReceiver === user.id ? user.name : debt.user.name;
   const date = moment(new Date()).format('ll');
 
   return (
     <Popup {...rest}>
       <View style={[styles.top, { backgroundColor }]}>
-        <Text style={styles.moneyAmount}>
-          {topText}
-        </Text>
+        <Text style={styles.moneyAmount}>{topText}</Text>
       </View>
       <View style={styles.bottom}>
         <View style={styles.mainInfo}>
-          <Text style={[styles.text, styles.big]}>
-            {userName}
-          </Text>
-          <Text style={[styles.text, styles.big]}>
-            {date}
-          </Text>
+          <Text style={[styles.text, styles.big]}>{userName}</Text>
+          <Text style={[styles.text, styles.big]}>{date}</Text>
         </View>
-        <Text style={styles.text}>
-          {description}
-        </Text>
-        <Button
+        <Text style={styles.text}>{description}</Text>
+        <ButtonDeprecated
           onPress={onClosePress}
           title={'Close'}
           textStyle={styles.text}

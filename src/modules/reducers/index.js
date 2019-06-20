@@ -1,15 +1,11 @@
-import { combineReducers } from 'redux';
-
-import nav from './nav';
 import auth from './auth';
 import debts from './debts';
-import debt from './debt';
 import search from './search';
+import operations from './operations'
 
-export default combineReducers({
-  nav,
+export default {
   auth,
   debts,
-  debt,
-  search
-});
+  search,
+  operations
+};

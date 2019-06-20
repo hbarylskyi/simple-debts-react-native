@@ -1,9 +1,11 @@
 import React from 'react';
 import { AppRegistry, View, BackHandler } from 'react-native';
 import { Provider } from 'react-redux';
-import AppWithNavigationState from './screens/navigator';
+import AppWithNavigationState from './screens/navigation';
 import KeyboardDismissingView from './components/KeyboardDismissingView/KeyboardDismissingView';
 import store from './store';
+import './utils/NetworkLogFix';
+import NavigationService from './utils/NavigationService';
 
 class App extends React.Component {
   componentDidMount() {
@@ -24,7 +26,11 @@ class App extends React.Component {
       <Provider store={store}>
         <KeyboardDismissingView style={{ flex: 1 }}>
           <View style={{ flex: 1 }}>
-            <AppWithNavigationState />
+            <AppWithNavigationState
+              ref={navigationRef =>
+                NavigationService.setTopLevelNavigator(navigationRef)
+              }
+            />
           </View>
         </KeyboardDismissingView>
       </Provider>
@@ -32,6 +38,6 @@ class App extends React.Component {
   }
 }
 
-AppRegistry.registerComponent('debtCollector', () => App);
+AppRegistry.registerComponent('SimpleDebts', () => App);
 
 export default App;

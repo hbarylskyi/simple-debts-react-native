@@ -1,4 +1,4 @@
-import { CALL_API } from 'redux-api-middleware';
+import { RSAA } from 'redux-api-middleware';
 import config from 'react-native-config';
 import * as DebtsActions from './DebtsActions';
 
@@ -10,10 +10,14 @@ export const REQUESTS = {
   DECLINE: 'DELETE'
 };
 
-const fetchDebtTypes = [`${FETCH_DEBT}_REQUEST`, `${FETCH_DEBT}_SUCCESS`, `${FETCH_DEBT}_FAILURE`];
+const fetchDebtTypes = [
+  `${FETCH_DEBT}_REQUEST`,
+  `${FETCH_DEBT}_SUCCESS`,
+  `${FETCH_DEBT}_FAILURE`
+];
 
 const fetchDebtAction = debtId => ({
-  [CALL_API]: {
+  [RSAA]: {
     endpoint: `${baseUrl}/debts/${debtId}`,
     method: 'GET',
     types: fetchDebtTypes
@@ -22,7 +26,8 @@ const fetchDebtAction = debtId => ({
   authorize: true
 });
 
-export const fetchDebt = debtId => dispatch => dispatch(fetchDebtAction(debtId));
+export const fetchDebt = debtId => dispatch =>
+  dispatch(fetchDebtAction(debtId));
 
 // delete user from debt collection
 
@@ -30,10 +35,14 @@ export const DELETE_DEBT_REQUEST = 'DELETE_DEBT_REQUEST';
 export const DELETE_DEBT_SUCCESS = 'DELETE_DEBT_SUCCESS';
 export const DELETE_DEBT_FAILURE = 'DELETE_DEBT_FAILURE';
 
-const deleteDebtTypes = [DELETE_DEBT_REQUEST, DELETE_DEBT_SUCCESS, DELETE_DEBT_FAILURE];
+const deleteDebtTypes = [
+  DELETE_DEBT_REQUEST,
+  DELETE_DEBT_SUCCESS,
+  DELETE_DEBT_FAILURE
+];
 
 const deleteDebtAction = debtId => ({
-  [CALL_API]: {
+  [RSAA]: {
     endpoint: `${baseUrl}/debts/${debtId}`,
     method: 'DELETE',
     types: deleteDebtTypes,
@@ -55,10 +64,14 @@ export const ACCEPT_DEBT_REQUEST = 'ACCEPT_DEBT_REQUEST';
 export const ACCEPT_DEBT_SUCCESS = 'ACCEPT_DEBT_SUCCESS';
 export const ACCEPT_DEBT_FAILURE = 'ACCEPT_DEBT_FAILURE';
 
-const acceptDebtTypes = [ACCEPT_DEBT_REQUEST, ACCEPT_DEBT_SUCCESS, ACCEPT_DEBT_FAILURE];
+const acceptDebtTypes = [
+  ACCEPT_DEBT_REQUEST,
+  ACCEPT_DEBT_SUCCESS,
+  ACCEPT_DEBT_FAILURE
+];
 
 const acceptDebtAction = debtId => ({
-  [CALL_API]: {
+  [RSAA]: {
     endpoint: `${baseUrl}/debts/multiple/${debtId}/creation`,
     method: 'POST',
     types: acceptDebtTypes
@@ -76,10 +89,14 @@ export const DECLINE_DEBT_REQUEST = 'DECLINE_DEBT_REQUEST';
 export const DECLINE_DEBT_SUCCESS = 'DECLINE_DEBT_SUCCESS';
 export const DECLINE_DEBT_FAILURE = 'DECLINE_DEBT_FAILURE';
 
-const declineDebtTypes = [DECLINE_DEBT_REQUEST, DECLINE_DEBT_SUCCESS, DECLINE_DEBT_FAILURE];
+const declineDebtTypes = [
+  DECLINE_DEBT_REQUEST,
+  DECLINE_DEBT_SUCCESS,
+  DECLINE_DEBT_FAILURE
+];
 
 const declineDebtAction = debtId => ({
-  [CALL_API]: {
+  [RSAA]: {
     endpoint: `${baseUrl}/debts/multiple/${debtId}/creation`,
     method: 'DELETE',
     types: declineDebtTypes
@@ -109,7 +126,7 @@ const createDebtAction = (userIdOrName, isSingle) => {
   const body = isSingle ? { userName: userIdOrName } : { userId: userIdOrName };
 
   return {
-    [CALL_API]: {
+    [RSAA]: {
       endpoint: `${baseUrl}${endpoint}`,
       method: 'PUT',
       types: createDebtsTypes,
@@ -121,8 +138,10 @@ const createDebtAction = (userIdOrName, isSingle) => {
   };
 };
 
-export const createDebt = (userIdOrName, isSingle) => dispatch =>
-  dispatch(createDebtAction(userIdOrName, isSingle));
+export const createDebt = (userIdOrName, isSingle) => async dispatch => {
+  const { payload } = await dispatch(createDebtAction(userIdOrName, isSingle));
+  return payload;
+};
 
 //
 
@@ -130,10 +149,14 @@ export const CONNECT_USER_INVITE_REQUEST = 'CONNECT_USER_INVITE_REQUEST';
 export const CONNECT_USER_INVITE_SUCCESS = 'CONNECT_USER_INVITE_SUCCESS';
 export const CONNECT_USER_INVITE_FAILURE = 'CONNECT_USER_INVITE_FAILURE';
 
-const connectUserInviteTypes = [CONNECT_USER_INVITE_REQUEST, CONNECT_USER_INVITE_SUCCESS, CONNECT_USER_INVITE_FAILURE];
+const connectUserInviteTypes = [
+  CONNECT_USER_INVITE_REQUEST,
+  CONNECT_USER_INVITE_SUCCESS,
+  CONNECT_USER_INVITE_FAILURE
+];
 
 const connectUserInviteAction = (debtId, userId) => ({
-  [CALL_API]: {
+  [RSAA]: {
     endpoint: `${baseUrl}/debts/single/${debtId}/connect_user`,
     method: 'PUT',
     types: connectUserInviteTypes,
@@ -149,17 +172,20 @@ export const connectUserInvite = (debtId, userId) => async dispatch => {
   await dispatch(fetchDebt(debtId));
 };
 
-
 //
 
 export const ACCEPT_CONNECTION_REQUEST = 'ACCEPT_CONNECTION_REQUEST';
 export const ACCEPT_CONNECTION_SUCCESS = 'ACCEPT_CONNECTION_SUCCESS';
 export const ACCEPT_CONNECTION_FAILURE = 'ACCEPT_CONNECTION_FAILURE';
 
-const acceptUserConnectionTypes = [ACCEPT_CONNECTION_REQUEST, ACCEPT_CONNECTION_SUCCESS, ACCEPT_CONNECTION_FAILURE];
+const acceptUserConnectionTypes = [
+  ACCEPT_CONNECTION_REQUEST,
+  ACCEPT_CONNECTION_SUCCESS,
+  ACCEPT_CONNECTION_FAILURE
+];
 
 const acceptUserConnectionAction = debtId => ({
-  [CALL_API]: {
+  [RSAA]: {
     endpoint: `${baseUrl}/debts/single/${debtId}/connect_user`,
     method: 'POST',
     types: acceptUserConnectionTypes
@@ -172,17 +198,23 @@ export const acceptUserConnection = debtId => async dispatch => {
   await dispatch(acceptUserConnectionAction(debtId));
 };
 
-
 //
 
-export const DECLINE_USER_CONNECTION_REQUEST = 'DECLINE_USER_CONNECTION_REQUEST';
-export const DECLINE_USER_CONNECTION_SUCCESS = 'DECLINE_USER_CONNECTION_SUCCESS';
-export const DECLINE_USER_CONNECTION_FAILURE = 'DECLINE_USER_CONNECTION_FAILURE';
+export const DECLINE_USER_CONNECTION_REQUEST =
+  'DECLINE_USER_CONNECTION_REQUEST';
+export const DECLINE_USER_CONNECTION_SUCCESS =
+  'DECLINE_USER_CONNECTION_SUCCESS';
+export const DECLINE_USER_CONNECTION_FAILURE =
+  'DECLINE_USER_CONNECTION_FAILURE';
 
-const declineUserConnectionTypes = [DECLINE_USER_CONNECTION_REQUEST, DECLINE_USER_CONNECTION_SUCCESS, DECLINE_USER_CONNECTION_FAILURE];
+const declineUserConnectionTypes = [
+  DECLINE_USER_CONNECTION_REQUEST,
+  DECLINE_USER_CONNECTION_SUCCESS,
+  DECLINE_USER_CONNECTION_FAILURE
+];
 
 const declineUserConnectionAction = debtId => ({
-  [CALL_API]: {
+  [RSAA]: {
     endpoint: `${baseUrl}/debts/single/${debtId}/connect_user`,
     method: 'DELETE',
     types: declineUserConnectionTypes
@@ -194,4 +226,3 @@ const declineUserConnectionAction = debtId => ({
 export const declineUserConnection = debtId => async dispatch => {
   await dispatch(declineUserConnectionAction(debtId));
 };
-

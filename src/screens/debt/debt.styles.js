@@ -1,7 +1,5 @@
-import { Dimensions, StyleSheet } from 'react-native';
-import * as colors from '../../colors';
-
-const { width } = Dimensions.get('window');
+import { StyleSheet } from 'react-native';
+import * as colors from '../../utils/colors';
 
 export default StyleSheet.create({
   container: {
@@ -46,15 +44,12 @@ export default StyleSheet.create({
   },
 
   listContent: {
-    paddingBottom: 50
+    flex: 1
   },
 
   creationButtons: {
     height: 50,
-    width,
-    flexDirection: 'row',
-    position: 'absolute',
-    bottom: 0
+    flexDirection: 'row'
   },
 
   creationText: { fontSize: 20, color: 'white' },
@@ -63,5 +58,7 @@ export default StyleSheet.create({
 
   redBtn: { backgroundColor: colors.red },
 
-  greenBtn: { backgroundColor: colors.green }
+  greenBtn: { backgroundColor: colors.green },
+
+  spinner: { alignItems: 'center', paddingTop: 30 }
 });

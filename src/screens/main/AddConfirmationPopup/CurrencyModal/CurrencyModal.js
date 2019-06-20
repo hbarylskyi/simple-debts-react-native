@@ -5,8 +5,8 @@ import isoCurrency from 'iso-country-currency';
 import PropTypes from 'prop-types';
 import styles from './CurrencyModal.styles';
 import Popup from '../../../../components/Popup/Popup';
-import Button from '../../../../components/Button/Button';
-import * as colors from '../../../../colors';
+import ButtonDeprecated from '../../../../components/Button/ButtonDeprecated';
+import * as colors from '../../../../utils/colors';
 import TouchableArea from '../../../../components/TouchableArea/TouchableArea.android';
 
 const { width, height } = Dimensions.get('window');
@@ -83,7 +83,7 @@ export default class CurrencyModal extends Component {
       >
         <Swiper loop={false} paginationStyle={styles.pagination} activeDotColor={colors.white}>
           {slides.map(slide => (
-            <Button style={styles.slide}>
+            <ButtonDeprecated style={styles.slide}>
               {slide.map(row => (
                 <View style={{ flexDirection: 'row' }}>
                   {row.map(currency => (
@@ -102,11 +102,11 @@ export default class CurrencyModal extends Component {
                   ))}
                 </View>
               ))}
-            </Button>
+            </ButtonDeprecated>
           ))}
         </Swiper>
 
-        <Button
+        <ButtonDeprecated
           title={'Cancel'}
           onPress={onBackdropPress}
           style={styles.cancelBtn}

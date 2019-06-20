@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
-
 import MainScreen from './main.screen';
+import * as AuthActions from '../../modules/actions/AuthActions';
 import * as DebtsActions from '../../modules/actions/DebtsActions';
-import * as NavActions from '../../modules/actions/NavActions';
 import * as DebtActions from '../../modules/actions/DebtActions';
 
 const mapStateToProps = state => ({
@@ -13,8 +12,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchDebts: () => dispatch(DebtsActions.fetchDebts()),
-  goToDebt: () => dispatch(NavActions.goToDebtScreen()),
-  loadDebt: debtId => dispatch(DebtActions.fetchDebt(debtId))
+  loadDebt: debtId => dispatch(DebtActions.fetchDebt(debtId)),
+  signOut: () => dispatch(AuthActions.logout())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MainScreen);

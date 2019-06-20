@@ -4,9 +4,9 @@ import { MKButton } from 'react-native-material-kit';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Swipeout from 'react-native-swipeout';
-import * as colors from '../../colors';
+import * as colors from '../../utils/colors';
 import styles from './OperationBase.styles';
-import Button from '../Button/Button';
+import ButtonDeprecated from '../Button/ButtonDeprecated';
 
 const OperationBase = ({
   image,
@@ -54,11 +54,11 @@ const OperationBase = ({
       scroll={onSwipe}
       style={styles.swipeout}
     >
-      <Button style={styles.operation} {...rest}>
+      <ButtonDeprecated style={styles.operation} {...rest}>
         <Image source={{ uri: image }} style={styles.avatar} />
         {renderMiddle()}
         <Icon name={icon} size={30} color={iconColor} />
-      </Button>
+      </ButtonDeprecated>
     </Swipeout>
   );
 };

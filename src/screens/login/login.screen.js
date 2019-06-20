@@ -4,14 +4,15 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import { View, Text, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './login.styles';
-import Button from '../../components/Button/Button';
+import ButtonDeprecated from '../../components/Button/ButtonDeprecated';
+import { createResetAction } from '../../utils/helpers';
 
 export default class LoginScreen extends Component {
   static propTypes = {
     fbLogin: PropTypes.func.isRequired,
     standardLogin: PropTypes.func.isRequired,
     signup: PropTypes.func.isRequired,
-    goToMainScreen: PropTypes.func.isRequired
+    navigation: PropTypes.object.isRequired
   };
 
   static navigationOptions = {
@@ -19,8 +20,9 @@ export default class LoginScreen extends Component {
   };
 
   state = {
-    email: '',
-    pass: '',
+    // TODO remove
+    email: 'hleb.barylskyi@gmail.com',
+    pass: 'secret',
     signinLoading: false,
     signupLoading: false,
     fbLoading: false
@@ -33,7 +35,8 @@ export default class LoginScreen extends Component {
 
     try {
       await this.props.standardLogin(email, pass);
-      this.props.goToMainScreen();
+
+      this.props.navigation.dispatch(createResetAction('MainScreen'));
     } catch (e) {
       console.error(e.message);
     } finally {
@@ -48,7 +51,7 @@ export default class LoginScreen extends Component {
 
     try {
       await this.props.signup(email, pass);
-      this.props.goToMainScreen();
+      this.props.navigation.navigate('MainScreen');
     } catch (e) {
       console.error(e.message);
     } finally {
@@ -68,9 +71,7 @@ export default class LoginScreen extends Component {
     return (
       <View style={styles.main}>
         <View style={styles.top}>
-          <Text style={styles.title}>
-            {'Simple\nDebts'}
-          </Text>
+          <Text style={styles.title}>{'Simple\nDebts'}</Text>
         </View>
 
         <View style={styles.middle} />
@@ -82,22 +83,23 @@ export default class LoginScreen extends Component {
               <TextInput
                 onChangeText={email => this.setState({ email })}
                 onSubmitEditing={() => this.passInput.focus()}
-                returnKeyType={'next'}
+                returnKeyType="next"
                 placeholder="Email"
                 style={styles.input}
-                underlineColorAndroid={'transparent'}
+                underlineColorAndroid="transparent"
                 autoCorrect={false}
+                autoCapitalize="none"
               />
             </View>
 
             <View style={styles.inputRow}>
-              <IonIcon size={36} name="ios-lock-outline" style={styles.icon} />
+              <IonIcon size={36} name="ios-key" style={styles.icon} />
               <TextInput
                 ref={ref => (this.passInput = ref)}
                 onChangeText={pass => this.setState({ pass })}
                 placeholder="Password"
                 style={styles.input}
-                underlineColorAndroid={'transparent'}
+                underlineColorAndroid="transparent"
                 autoCorrect={false}
                 secureTextEntry
               />
@@ -105,14 +107,14 @@ export default class LoginScreen extends Component {
           </View>
 
           <View style={styles.buttonsRow}>
-            <Button
+            <ButtonDeprecated
               title="Sign up"
               onPress={this.signUp}
               disabled={!email || !pass}
               loading={signupLoading}
               style={styles.btn}
             />
-            <Button
+            <ButtonDeprecated
               title="Sign in"
               onPress={this.standardLogin}
               disabled={!email || !pass}
@@ -120,10 +122,14 @@ export default class LoginScreen extends Component {
               style={styles.btn}
             />
           </View>
-          <Button onPress={this.fbLogin} loading={fbLoading} style={styles.fbBtn}>
+          <ButtonDeprecated
+            onPress={this.fbLogin}
+            loading={fbLoading}
+            style={styles.fbBtn}
+          >
             <Icon name="facebook-square" size={30} color={'white'} />
             <Text style={styles.fbText}>Log in with Facebook</Text>
-          </Button>
+          </ButtonDeprecated>
         </View>
       </View>
     );

@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, RefreshControl } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  RefreshControl,
+  ActivityIndicator
+} from 'react-native';
 import PropTypes from 'prop-types';
+import Icon from 'react-native-vector-icons/Ionicons';
 import styles from './debt.styles';
 import DebtPopup from './debtPopup/debtPopup';
 import Operation from '../../components/Operation/Operation.presenter';
-import opaqueHeader from '../../components/styles/opaqueHeader';
 import OperationPopup from './OperationPopup/OperationPopup';
-import Button from '../../components/Button/Button';
-import * as colors from '../../colors';
+import ButtonDeprecated from '../../components/Button/ButtonDeprecated';
+import * as colors from '../../utils/colors';
 import Hamburger from '../../components/Hamburger/Hamburger';
 import SearchModal from '../main/SearchModal/SearchModal.presenter';
+import Button from '../../components/Button/Button';
+import HeaderButton from '../../components/HeaderButton/HeaderButton';
 
 // list of states the debt can be in. Calculated depending on
 // debt.statusAcceptor and debt.status
@@ -37,16 +45,22 @@ export default class DebtScreen extends Component {
     deleteDebt: PropTypes.func.isRequired,
     connectUser: PropTypes.func.isRequired,
     declineUserConnection: PropTypes.func.isRequired,
-    acceptUserConnection: PropTypes.func.isRequired
+    acceptUserConnection: PropTypes.func.isRequired,
+    operations: PropTypes.arrayOf(PropTypes.object)
   };
 
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
+    const { hamburgerData = [] } = params;
 
     return {
-      headerStyle: opaqueHeader,
+      headerTransparent: true,
       headerTintColor: 'white',
-      headerRight: params.headerRight
+      headerRight: (
+        <View style={{ marginHorizontal: 22 }}>
+          <Hamburger data={hamburgerData} />
+        </View>
+      )
     };
   };
 
@@ -55,18 +69,41 @@ export default class DebtScreen extends Component {
     takePopupVisible: false,
     scrollEnabled: true,
     refreshing: false,
+    loading: false,
     opPopupShown: false,
-    chosenOperation: {},
-    searchModalVisible: false
+    chosenOperation: {}
   };
 
-  componentDidMount() {
-    this.props.navigation.setParams({ headerRight: this.renderHeaderRight() });
+  async componentDidMount() {
+    const { navigation, fetchDebt, debt } = this.props;
+    navigation.setParams({
+      hamburgerData: this.getHamburgerData()
+    });
+
+    this.setState({ loading: true });
+    await fetchDebt(debt.id);
+    this.setState({ loading: false });
   }
 
+  getHamburgerData = () => {
+    const { debt } = this.props;
+    const data = [];
+
+    if (this.getDebtState() === debtStates.NORMAL) {
+      data.push({ text: 'Delete this debt', onPress: this.deleteDebt });
+      if (debt.type === 'SINGLE_USER') {
+        // data.push({ text: 'Connect to a friend', onPress: this.toggleSearch }); TODO
+      }
+    }
+
+    return data;
+  };
+
   onRefresh = async () => {
+    const { fetchDebt, debt } = this.props;
+
     this.setState({ refreshing: true });
-    await this.props.fetchDebt(this.props.debt.id);
+    await fetchDebt(debt.id);
     this.setState({ refreshing: false });
   };
 
@@ -113,44 +150,57 @@ export default class DebtScreen extends Component {
 
     if (!val || !descr) return;
 
-    return this.props.newOperation(debt.id, val, receiver, descr).then(response => {
-      if (response.error) {
-        const { payload } = response;
-        this.props.processError(payload.message, payload.response);
-      } else if (isGiven) {
-        this.toggleGivePopup();
-      } else {
-        this.toggleTakePopup();
-      }
-    });
+    return this.props
+      .newOperation(debt.id, val, receiver, descr)
+      .then(response => {
+        if (response.error) {
+          const { payload } = response;
+          this.props.processError(payload.message, payload.response);
+        } else if (isGiven) {
+          this.toggleGivePopup();
+        } else {
+          this.toggleTakePopup();
+        }
+      });
   };
 
   toggleSearch = () =>
     this.setState(prevState => ({ searchVisible: !prevState.searchVisible }));
 
   toggleTakePopup = () =>
-    this.setState(prevState => ({ takePopupVisible: !prevState.takePopupVisible }));
+    this.setState(prevState => ({
+      takePopupVisible: !prevState.takePopupVisible
+    }));
 
   toggleGivePopup = () =>
-    this.setState(prevState => ({ givePopupVisible: !prevState.givePopupVisible }));
+    this.setState(prevState => ({
+      givePopupVisible: !prevState.givePopupVisible
+    }));
 
   toggleOpPopup = item =>
-    this.setState(prevState => ({ opPopupShown: !prevState.opPopupShown,
-      chosenOperation: item || prevState.chosenOperation }));
+    this.setState(prevState => ({
+      opPopupShown: !prevState.opPopupShown,
+      chosenOperation: item || prevState.chosenOperation
+    }));
 
   goBack = async () => {
-    await this.props.fetchDebts();
-    this.props.navigation.goBack();
+    const { navigation } = this.props;
+    navigation.goBack();
   };
 
   // Operations with debt
 
   deleteDebt = async () => {
+    const { debt, deleteDebt } = this.props;
+
     try {
-      await this.props.deleteDebt();
-      this.goBack();
+      if (debt.type === 'SINGLE_USER') {
+        this.goBack();
+      }
+
+      await deleteDebt();
     } catch (e) {
-      console.error(e.message);
+      alert(e.message);
     }
   };
 
@@ -159,23 +209,17 @@ export default class DebtScreen extends Component {
       await this.props.declineDebt();
       this.goBack();
     } catch (e) {
-      console.error(e.message);
+      alert(e.message);
     }
   };
 
   acceptUserConnection = async () => {
-    const { fetchDebt, acceptUserConnection, debt } = this.props;
+    const { acceptUserConnection } = this.props;
 
     try {
       await acceptUserConnection();
     } catch (e) {
-      console.error(e.message);
-    }
-
-    try {
-      await fetchDebt(debt.id);
-    } catch (e) {
-      console.error(e.message);
+      alert(e.message);
     }
   };
 
@@ -188,56 +232,44 @@ export default class DebtScreen extends Component {
       if (isSingle) await fetchDebt(debt.id);
       else this.goBack();
     } catch (e) {
-      console.error(e.message);
+      alert(e.message);
     }
   };
 
-  renderHeaderRight = () => {
-    const { debt } = this.props;
-    const data = [];
-
-    if (this.getDebtState() === debtStates.NORMAL) {
-      data.push({ text: 'Delete', onPress: this.deleteDebt });
-      if (debt.type === 'SINGLE_USER') data.push({ text: 'Connect to a friend', onPress: this.toggleSearch });
-    }
-
-    return <Hamburger data={data} />;
-  };
-
-  renderTakePopup = () =>
-    (<DebtPopup
+  renderTakePopup = () => (
+    <DebtPopup
       isGivePopup={false}
       isVisible={this.state.takePopupVisible}
       onChangeVal={text => this.setTakeValue(text)}
       onChangeDescr={takeDescr => this.setState({ takeDescr })}
       onBackdropPress={this.toggleTakePopup}
       onSubmit={() => this.newOperation(this.state.takeValue, false)}
-    />);
+    />
+  );
 
-  renderGivePopup = () =>
-    (<DebtPopup
+  renderGivePopup = () => (
+    <DebtPopup
       isGivePopup
       isVisible={this.state.givePopupVisible}
       onChangeVal={text => this.setGiveValue(text)}
       onChangeDescr={giveDescr => this.setState({ giveDescr })}
       onBackdropPress={this.toggleGivePopup}
       onSubmit={() => this.newOperation(this.state.giveValue, true)}
-    />);
+    />
+  );
 
   renderSummary = () => {
     const { debt, user } = this.props;
 
     const isTaken = debt.moneyReceiver === user.id;
     const style = isTaken ? styles.summaryTaken : styles.summaryGiven;
-    const debtText = `${isTaken
-      ? `you owe ${debt.user.name}`
-      : `${debt.user.name} owes you`}\n${debt.currency}${debt.summary}`;
+    const debtText = `${
+      isTaken ? `you owe ${debt.user.name}` : `${debt.user.name} owes you`
+    }\n${debt.currency}${debt.summary}`;
 
     return (
       <View style={[styles.summaryContainer, style]}>
-        <Text style={styles.moneyAmount}>
-          {debtText}
-        </Text>
+        <Text style={styles.moneyAmount}>{debtText}</Text>
       </View>
     );
   };
@@ -245,6 +277,8 @@ export default class DebtScreen extends Component {
   renderBottomButtons = () => {
     const { acceptDebt } = this.props;
     const buttons = [];
+
+    console.log(this.getDebtState());
 
     switch (this.getDebtState()) {
       case debtStates.REQUEST_RECEIVED:
@@ -255,18 +289,34 @@ export default class DebtScreen extends Component {
         break;
 
       case debtStates.REQUEST_SENT:
-        buttons.push({ color: colors.red, text: 'Cancel request', onPress: this.declineDebt });
+        buttons.push({
+          color: colors.red,
+          text: 'Cancel request',
+          onPress: this.declineDebt
+        });
         break;
 
       case debtStates.JOIN_VIRTUAL_RECEIVED:
         buttons.push(
-          { color: colors.green, text: 'Accept', onPress: this.acceptUserConnection },
-          { color: colors.red, text: 'Decline', onPress: () => this.declineUserConnection(false) }
+          {
+            color: colors.green,
+            text: 'Accept',
+            onPress: this.acceptUserConnection
+          },
+          {
+            color: colors.red,
+            text: 'Decline',
+            onPress: () => this.declineUserConnection(false)
+          }
         );
         break;
 
       case debtStates.JOIN_VIRTUAL_SENT:
-        buttons.push({ color: colors.red, text: 'Cancel request', onPress: () => this.declineUserConnection(true) });
+        buttons.push({
+          color: colors.red,
+          text: 'Cancel request',
+          onPress: () => this.declineUserConnection(true)
+        });
         break;
 
       default:
@@ -279,15 +329,15 @@ export default class DebtScreen extends Component {
 
     return (
       <View style={styles.creationButtons}>
-        {buttons.map((btn, index) =>
-          (<Button
+        {buttons.map((btn, index) => (
+          <ButtonDeprecated
             key={index}
             onPress={btn.onPress}
             title={btn.text}
             style={[styles.creationButton, { backgroundColor: btn.color }]}
             textStyle={styles.creationText}
-          />)
-        )}
+          />
+        ))}
       </View>
     );
   };
@@ -315,55 +365,72 @@ export default class DebtScreen extends Component {
 
     return (
       <View style={styles.stateMessage}>
-        <Text style={styles.messageText}>
-          {text}
-        </Text>
+        <Text style={styles.messageText}>{text}</Text>
       </View>
     );
   };
 
-  renderOperationPopup = () =>
-    (<OperationPopup
+  renderOperationPopup = () => (
+    <OperationPopup
       isVisible={this.state.opPopupShown}
       onBackdropPress={this.toggleOpPopup}
+      onClosePress={this.toggleOpPopup}
       operation={this.state.chosenOperation}
       user={this.props.user}
       debt={this.props.debt}
-    />);
+    />
+  );
 
-  renderSearchModal = () => (<SearchModal
-    isVisible={this.state.searchVisible}
-    onBackdropPress={this.toggleSearch}
-    onSelected={user => {
-      this.props.connectUser(user.id);
-      this.toggleSearch();
-    }}
-  />);
+  renderSearchModal = () => (
+    <SearchModal
+      isVisible={this.state.searchVisible}
+      onBackdropPress={this.toggleSearch}
+      onSelected={user => {
+        this.props.connectUser(user.id);
+        this.toggleSearch();
+      }}
+    />
+  );
+
+  renderListEmpty = () => {
+    const { loading } = this.state;
+
+    return loading ? (
+      <ActivityIndicator size="large" style={styles.spinner} />
+    ) : (
+      // button is here to make it possible to use pull-to-refresh when
+      // the list is empty
+      <Button onPress={() => {}} style={{ flex: 1 }} />
+    );
+  };
 
   render() {
-    const { debt, user } = this.props;
+    const { debt, user, operations } = this.props;
     const { scrollEnabled } = this.state;
+
+    if (!debt) return null;
 
     return (
       <View style={styles.container}>
         {this.renderTakePopup()}
         {this.renderGivePopup()}
-        {this.renderSummary()}
         {this.renderOperationPopup()}
-        {this.renderStateMessage()}
         {this.renderSearchModal()}
+        {this.renderSummary()}
 
         <View style={styles.listContainer}>
+          {this.renderStateMessage()}
           <FlatList
-            data={debt.moneyOperations}
-            renderItem={({ item }) =>
-              (<Operation
+            data={operations}
+            renderItem={({ item }) => (
+              <Operation
                 operation={item}
                 debt={debt}
                 user={user}
                 onSwipe={event => this.setState({ scrollEnabled: event })}
                 onPress={() => this.toggleOpPopup(item)}
-              />)}
+              />
+            )}
             keyExtractor={item => item.id}
             scrollEnabled={scrollEnabled}
             contentContainerStyle={styles.listContent}
@@ -372,12 +439,14 @@ export default class DebtScreen extends Component {
                 refreshing={this.state.refreshing}
                 onRefresh={this.onRefresh}
                 colors={['gray']}
-                tintColor={'gray'}
+                tintColor="gray"
               />
             }
+            ListEmptyComponent={this.renderListEmpty}
           />
+
+          {this.renderBottomButtons()}
         </View>
-        {this.renderBottomButtons()}
       </View>
     );
   }

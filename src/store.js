@@ -2,23 +2,35 @@ import { AsyncStorage } from 'react-native';
 import { createStore, applyMiddleware } from 'redux';
 import { apiMiddleware } from 'redux-api-middleware';
 import thunk from 'redux-thunk';
+import { persistCombineReducers, persistStore } from 'redux-persist';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
-import { persistStore, autoRehydrate } from 'redux-persist';
-import AppReducer from './modules/reducers/index';
+import reducers from './modules/reducers/index';
 import beforeRequestHooks from './modules/middlewares/beforeRequestHooks';
+import afterRequestHooks from './modules/middlewares/afterRequestHooks';
 import appMiddlewares from './modules/middlewares/index';
 
+const config = {
+  key: 'primary',
+  storage: AsyncStorage,
+  blacklist: ['debt', 'search']
+};
+
+const reducer = persistCombineReducers(config, reducers);
+
 const store = createStore(
-  AppReducer,
+  reducer,
+  undefined,
   composeWithDevTools(
-    applyMiddleware(thunk, ...beforeRequestHooks, apiMiddleware, ...appMiddlewares)
-  ),
-  autoRehydrate()
+    applyMiddleware(
+      thunk,
+      ...beforeRequestHooks,
+      apiMiddleware,
+      ...afterRequestHooks,
+      ...appMiddlewares
+    )
+  )
 );
 
-persistStore(store, {
-  storage: AsyncStorage,
-  blacklist: ['debt', 'nav', 'search']
-});
+persistStore(store);
 
 export default store;

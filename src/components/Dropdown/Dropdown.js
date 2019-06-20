@@ -3,7 +3,7 @@ import { View, ScrollView, Dimensions } from 'react-native';
 import Modal from 'react-native-modal';
 import PropTypes from 'prop-types';
 import styles from './Dropdown.styles';
-import Button from '../Button/Button';
+import ButtonDeprecated from '../Button/ButtonDeprecated';
 
 export default class Dropdown extends Component {
     static propTypes = {
@@ -29,7 +29,7 @@ export default class Dropdown extends Component {
     toggleDropdown = () => this.setState(prevState => ({ visible: !prevState.visible }));
 
     renderItem = (item, index) =>
-      (<Button
+      (<ButtonDeprecated
         onPress={() => {
           this.toggleDropdown();
           this.props.onSelect(item);
@@ -63,7 +63,7 @@ export default class Dropdown extends Component {
         <View>
           {this.renderDropdown()}
           <View ref={button => (this.button = button)} collapsable={false} >
-            <Button onPress={this.toggleDropdown} {...this.props} />
+            <ButtonDeprecated onPress={this.toggleDropdown} {...this.props} />
           </View>
         </View>
       );

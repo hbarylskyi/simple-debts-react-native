@@ -1,10 +1,10 @@
-import { CALL_API } from 'redux-api-middleware';
+import { RSAA } from 'redux-api-middleware';
 import config from 'react-native-config';
 
 const baseUrl = config.host;
 const debtsEndpoint = '/debts';
 
-export const FETCH_DEBTS = 'FETCH_DEBTS'
+export const FETCH_DEBTS = 'FETCH_DEBTS';
 
 const fetchDebtsTypes = [
   `${FETCH_DEBTS}_REQUEST`,
@@ -13,7 +13,7 @@ const fetchDebtsTypes = [
 ];
 
 const fetchDebtsAction = () => ({
-  [CALL_API]: {
+  [RSAA]: {
     endpoint: baseUrl + debtsEndpoint,
     method: 'GET',
     types: fetchDebtsTypes

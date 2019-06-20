@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { MKTextField } from 'react-native-material-kit';
 import PropTypes from 'prop-types';
-import Button from '../../../components/Button/Button';
+import ButtonDeprecated from '../../../components/Button/ButtonDeprecated';
 import styles from './AddPopup.styles';
 import Divider from './Divider/Divider';
 import Popup from '../../../components/Popup/Popup';
 import SearchModal from '../SearchModal/SearchModal.presenter';
-import * as colors from '../../../colors';
+import * as colors from '../../../utils/colors';
 
 export default class AddPopup extends Component {
   static propTypes = {
@@ -21,21 +21,32 @@ export default class AddPopup extends Component {
 
   setVirtName = virtName => this.setState({ virtName });
 
-  toggleSearch = () => this.setState(prevState => ({ searchVisible: !prevState.searchVisible }));
+  onUserSelected = user => {
+    this.toggleSearch();
+    this.props.onUserSelected(user);
+  };
 
-  renderSearchModal = () =>
-    (<SearchModal
+  toggleSearch = () =>
+    this.setState(prevState => ({ searchVisible: !prevState.searchVisible }));
+
+  renderSearchModal = () => (
+    <SearchModal
       isVisible={this.state.searchVisible}
       onBackdropPress={this.toggleSearch}
-      onSelected={this.props.onUserSelected}
-    />);
+      onSelected={this.onUserSelected}
+    />
+  );
 
   render() {
     const { onUserSelected } = this.props;
     const { virtName } = this.state;
 
     return (
-      <Popup title={'Create a debt collection'} style={styles.popup} {...this.props}>
+      <Popup
+        title="Create a debt collection"
+        style={styles.popup}
+        {...this.props}
+      >
         {this.renderSearchModal()}
 
         <View style={styles.top}>
@@ -48,12 +59,13 @@ export default class AddPopup extends Component {
             onChangeText={this.setVirtName}
             style={styles.input}
             value={virtName}
-            autoCapitalize={'sentences'}
+            autoCapitalize="sentences"
+            autoCorrect={false}
           />
         </View>
 
         <View style={{ alignItems: 'center' }}>
-          <Button
+          <ButtonDeprecated
             onPress={() => onUserSelected({ name: virtName })}
             disabled={!virtName}
             title={'Add virtual user'}
@@ -63,7 +75,11 @@ export default class AddPopup extends Component {
           <Divider />
 
           <View style={styles.bottom}>
-            <Button onPress={this.toggleSearch} title={'Find your friend'} style={styles.button} />
+            <ButtonDeprecated
+              onPress={this.toggleSearch}
+              title={'Find your friend'}
+              style={styles.button}
+            />
           </View>
         </View>
       </Popup>
