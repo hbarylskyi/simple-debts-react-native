@@ -11,23 +11,21 @@ const icons = {
   CHANGE_AWAITING: { name: 'clock-o', color: colors.orange }
 };
 
-const Debt = ({
-  debt,
-  userId,
-  acceptDebt,
-  declineDebt,
-  ...rest
-}) => {
+const Debt = ({ debt, userId, acceptDebt, declineDebt, ...rest }) => {
   const { moneyReceiver, summary } = debt;
   const isTaken = moneyReceiver === userId;
   const color = isTaken ? colors.red : colors.green;
   const icon = icons[debt.status] || {};
   let currency;
   try {
+    // TODO remove
     currency = isoCurrency.getAllInfoByISO(debt.countryCode).symbol;
   } catch (e) {
     console.warn(e.message);
   }
+
+  const summarySign = isTaken ? '-' : '';
+  const debtSummary = summarySign + currency + summary.toString();
 
   // const showBtns =
   //   debt.statusAcceptor === userId &&
@@ -47,7 +45,7 @@ const Debt = ({
     <OperationBase
       image={debt.user.picture}
       topText={debt.user.name}
-      bottomText={currency + summary.toString()}
+      bottomText={debtSummary}
       bottomTextStyle={[styles.bottomText, { color }]}
       icon={icon.name}
       iconColor={icon.color}

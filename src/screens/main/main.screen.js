@@ -6,8 +6,6 @@ import {
   FlatList,
   Image,
   RefreshControl,
-  ActivityIndicator,
-  Modal
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IonIcon from 'react-native-vector-icons/Ionicons';

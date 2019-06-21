@@ -43,6 +43,7 @@ export default class DebtPopup extends Component {
             placeholder="Debt value"
             onChangeText={onChangeVal}
             floatingLabelEnabled
+            autoFocus
           />
         </View>
 
