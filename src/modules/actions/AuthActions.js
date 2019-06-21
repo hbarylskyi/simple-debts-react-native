@@ -47,22 +47,24 @@ const fbLoginAction = fbToken => ({
   }
 });
 
-export const fbLogin = () => dispatch => {
-  LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
-    () => {
-      AccessToken.getCurrentAccessToken().then(data => {
-        dispatch(fbLoginAction(data.accessToken.toString())).then(response => {
-          if (!response.error) {
-            NavigationService.resetTo('MainScreen');
-          } else {
-            alert('Login unsuccessful:', response.error);
-            console.log(response);
-          }
-        });
-      });
-    },
-    error => alert(`Login failed with error: ${error.errorMessage}`)
-  );
+export const fbLogin = () => async dispatch => {
+  try {
+    await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
+    const data = await AccessToken.getCurrentAccessToken();
+
+    if (!data) return;
+
+    const response = await dispatch(fbLoginAction(data.accessToken.toString()));
+
+    if (!response.error) {
+      NavigationService.resetTo('MainScreen');
+    } else {
+      alert('Login unsuccessful:', response.error);
+      console.log(response);
+    }
+  } catch (error) {
+    alert(`Login failed with error: ${error.errorMessage}`);
+  }
 };
 
 //

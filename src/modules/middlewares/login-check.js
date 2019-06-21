@@ -6,7 +6,6 @@ import NavigationService from '../../utils/NavigationService';
 export default store => next => action => {
   const logout = () => {
     store.dispatch(AuthActions.logout());
-    NavigationService.resetTo('LoginScreen');
   };
 
   // init loginCheck when auth state is persisted from local storage
@@ -16,11 +15,14 @@ export default store => next => action => {
     if (action.payload.auth && action.payload.auth.token) {
       NavigationService.resetTo('MainScreen');
       store.dispatch(AuthActions.loginCheck());
+
+      setTimeout(() => store.dispatch({ type: 'HIDE_SPLASH' }), 100);
       return;
     }
-    logout();
 
     store.dispatch({ type: 'HIDE_SPLASH' });
+    logout();
+
     return;
   }
 
@@ -40,7 +42,6 @@ export default store => next => action => {
 
   if (action.type === `${AuthActions.LOGIN_CHECK}_REQUEST` && action.error) {
     NavigationService.resetTo('MainScreen');
-    store.dispatch({ type: 'HIDE_SPLASH' });
   }
 
   return next(action);
