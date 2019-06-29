@@ -36,6 +36,7 @@ export default (state = initialState, action) => {
       nextState.accessTokenExpiresAt = getTokenExpirationDate(
         action.payload.token
       );
+
       break;
 
     case AuthActions.REFRESH_TOKEN_SUCCESS:

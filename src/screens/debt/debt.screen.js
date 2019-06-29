@@ -31,9 +31,7 @@ const debtStates = {
 export default class DebtScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    processError: PropTypes.func.isRequired,
     fetchDebt: PropTypes.func.isRequired,
-    fetchDebts: PropTypes.func.isRequired,
     processOperation: PropTypes.func.isRequired,
     newOperation: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
@@ -132,34 +130,34 @@ export default class DebtScreen extends Component {
     this.state.giveValue = parseInt(text, 10);
   };
 
-  processOperation = (oid, accepted) => {
-    this.props.processOperation(oid, accepted).then(response => {
-      if (response.error) {
-        const { payload } = response;
-        this.props.processError(payload.message, payload.response);
-      }
-    });
+  processOperation = async (oid, accepted) => {
+    const { processOperation } = this.props;
+
+    try {
+      await processOperation(oid, accepted);
+    } catch ({ message }) {
+      alert(message);
+    }
   };
 
-  newOperation = (val, isGiven) => {
-    const { debt, user } = this.props;
+  newOperation = async (val, isGiven) => {
+    const { debt, user, newOperation } = this.props;
     const receiver = isGiven ? debt.user.id : user.id;
     const descr = isGiven ? this.state.giveDescr : this.state.takeDescr;
 
     if (!val || !descr) return;
 
-    return this.props
-      .newOperation(debt.id, val, receiver, descr)
-      .then(response => {
-        if (response.error) {
-          const { payload } = response;
-          this.props.processError(payload.message, payload.response);
-        } else if (isGiven) {
-          this.toggleGivePopup();
-        } else {
-          this.toggleTakePopup();
-        }
-      });
+    try {
+      await newOperation(debt.id, val, receiver, descr);
+
+      if (isGiven) {
+        this.toggleGivePopup();
+      } else {
+        this.toggleTakePopup();
+      }
+    } catch ({ message }) {
+      alert(message);
+    }
   };
 
   toggleSearch = () =>

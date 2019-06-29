@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import DebtScreen from './debt.screen';
 import * as DebtActions from '../../modules/actions/DebtActions';
 import * as DebtsActions from '../../modules/actions/DebtsActions';
-import { processError } from '../../modules/actions/ProcessError';
 import * as OperationActions from '../../modules/actions/OperationActions';
 
 const mapStateToProps = (state, { navigation }) => {
@@ -17,7 +16,6 @@ const mapStateToProps = (state, { navigation }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  processError: (message, response) => processError(message, response),
   fetchDebt: debtId => dispatch(DebtActions.fetchDebt(debtId)),
   fetchDebts: () => dispatch(DebtsActions.fetchDebts()),
   processOperation: (operationId, isAccepted) =>

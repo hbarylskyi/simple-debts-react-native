@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import config from 'react-native-config';
 import { View, Text, TextInput, Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IonIcon from 'react-native-vector-icons/Ionicons';
@@ -7,6 +8,8 @@ import styles from './login.styles';
 import ButtonDeprecated from '../../components/Button/ButtonDeprecated';
 import { createResetAction } from '../../utils/helpers';
 import Button from '../../components/Button/Button';
+
+const isDevEnv = config.env === 'dev';
 
 export default class LoginScreen extends Component {
   static propTypes = {
@@ -21,9 +24,8 @@ export default class LoginScreen extends Component {
   };
 
   state = {
-    // TODO remove
-    email: 'hleb.barylskyi@gmail.com',
-    pass: 'secret',
+    email: isDevEnv ? 'hleb.barylskyi@gmail.com' : '',
+    pass: isDevEnv ? 'secret' : '',
     signinLoading: false,
     signupLoading: false,
     fbLoading: false
@@ -38,8 +40,8 @@ export default class LoginScreen extends Component {
     try {
       await standardLogin(email, pass);
       navigation.dispatch(createResetAction('MainScreen'));
-    } catch (e) {
-      alert(e.message);
+    } catch ({ message }) {
+      alert(message);
     } finally {
       this.setState({ signinLoading: false });
     }
@@ -52,11 +54,10 @@ export default class LoginScreen extends Component {
     this.setState({ signupLoading: true });
 
     try {
-      const r = await signup(email, pass);
-      console.log(r);
+      await signup(email, pass);
       navigation.dispatch(createResetAction('MainScreen'));
-    } catch (e) {
-      alert(e.message);
+    } catch ({ message }) {
+      alert(message);
     } finally {
       this.setState({ signupLoading: false });
     }
