@@ -2,7 +2,6 @@ import { RSAA } from 'redux-api-middleware';
 import config from 'react-native-config';
 
 const baseUrl = config.host;
-const searchEndpoint = '/users';
 
 export const USER_SEARCH_REQUEST = 'USER_SEARCH_REQUEST';
 export const USER_SEARCH_SUCCESS = 'USER_SEARCH_SUCCESS';
@@ -12,7 +11,7 @@ const userSearchTypes = [USER_SEARCH_REQUEST, USER_SEARCH_SUCCESS, USER_SEARCH_F
 
 const userSearchAction = nameOrEmail => ({
   [RSAA]: {
-    endpoint: `${baseUrl + searchEndpoint}?name=${nameOrEmail}`,
+    endpoint: `${baseUrl}/users?name=${nameOrEmail}`,
     method: 'GET',
     types: userSearchTypes
   },

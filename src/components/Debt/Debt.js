@@ -19,7 +19,7 @@ const Debt = ({ debt, userId, acceptDebt, declineDebt, ...rest }) => {
   let currency;
   try {
     // TODO remove
-    currency = isoCurrency.getAllInfoByISO(debt.countryCode).symbol;
+    currency = '$' || isoCurrency.getAllInfoByISO(debt.countryCode).symbol;
   } catch (e) {
     console.warn(e.message);
   }

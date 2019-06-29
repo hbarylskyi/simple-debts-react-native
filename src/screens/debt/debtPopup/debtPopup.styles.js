@@ -11,15 +11,23 @@ export default StyleSheet.create({
   },
 
   input: {
-    width: 175
+    width: 175,
+    color: colors.white,
+    borderBottomWidth: StyleSheet.hairlineWidth*2,
+    borderBottomColor: colors.white,
+    padding: 0
   },
 
-  debtText: {
-    color: 'white'
+  inputBlack: {
+    width: 175,
+    color: colors.black,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.black,
+    padding: 0
   },
 
   top: {
-    flex:1,
+    flex: 1,
     paddingHorizontal: 16,
     paddingTop: 16,
     borderTopRightRadius: 3,
@@ -32,7 +40,7 @@ export default StyleSheet.create({
   },
 
   bottom: {
-    flex:1,
+    flex: 1,
     paddingHorizontal: 16,
     paddingBottom: 16,
     justifyContent: 'center',

@@ -72,7 +72,7 @@ const acceptDebtTypes = [
 
 const acceptDebtAction = debtId => ({
   [RSAA]: {
-    endpoint: `${baseUrl}/debts/multiple/${debtId}/creation`,
+    endpoint: `${baseUrl}/debts/multiple/${debtId}/creation/accept`,
     method: 'POST',
     types: acceptDebtTypes
   },
@@ -97,8 +97,8 @@ const declineDebtTypes = [
 
 const declineDebtAction = debtId => ({
   [RSAA]: {
-    endpoint: `${baseUrl}/debts/multiple/${debtId}/creation`,
-    method: 'DELETE',
+    endpoint: `${baseUrl}/debts/multiple/${debtId}/creation/decline`,
+    method: 'POST',
     types: declineDebtTypes
   },
 
@@ -128,7 +128,7 @@ const createDebtAction = (userIdOrName, isSingle) => {
   return {
     [RSAA]: {
       endpoint: `${baseUrl}${endpoint}`,
-      method: 'PUT',
+      method: 'POST',
       types: createDebtsTypes,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...body, countryCode: 'ua' })
@@ -158,7 +158,7 @@ const connectUserInviteTypes = [
 const connectUserInviteAction = (debtId, userId) => ({
   [RSAA]: {
     endpoint: `${baseUrl}/debts/single/${debtId}/connect_user`,
-    method: 'PUT',
+    method: 'POST',
     types: connectUserInviteTypes,
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ userId })
@@ -186,7 +186,7 @@ const acceptUserConnectionTypes = [
 
 const acceptUserConnectionAction = debtId => ({
   [RSAA]: {
-    endpoint: `${baseUrl}/debts/single/${debtId}/connect_user`,
+    endpoint: `${baseUrl}/debts/single/${debtId}/connect_user/accept`,
     method: 'POST',
     types: acceptUserConnectionTypes
   },
@@ -215,8 +215,8 @@ const declineUserConnectionTypes = [
 
 const declineUserConnectionAction = debtId => ({
   [RSAA]: {
-    endpoint: `${baseUrl}/debts/single/${debtId}/connect_user`,
-    method: 'DELETE',
+    endpoint: `${baseUrl}/debts/single/${debtId}/connect_user/decline`,
+    method: 'POST',
     types: declineUserConnectionTypes
   },
 

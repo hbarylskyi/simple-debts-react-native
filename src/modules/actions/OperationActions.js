@@ -13,8 +13,10 @@ const operationAcceptTypes = [
 
 const operationAcceptAction = (operationId, accepted) => ({
   [RSAA]: {
-    endpoint: `${baseUrl}/operation/${operationId}/creation`,
-    method: accepted ? 'POST' : 'DELETE',
+    endpoint: `${baseUrl}/operations/${operationId}/creation/${
+      accepted ? 'accept' : 'decline'
+    }`,
+    method: 'POST',
     types: operationAcceptTypes,
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -34,10 +36,15 @@ const newOperationTypes = [
   `${NEW_OPERATION}_FAILURE`
 ];
 
-const newOperationAction = (debtsId, moneyAmount, moneyReceiver, description) => ({
+const newOperationAction = (
+  debtsId,
+  moneyAmount,
+  moneyReceiver,
+  description
+) => ({
   [RSAA]: {
-    endpoint: `${baseUrl}/operation`,
-    method: 'PUT',
+    endpoint: `${baseUrl}/operations`,
+    method: 'POST',
     types: newOperationTypes,
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -51,8 +58,15 @@ const newOperationAction = (debtsId, moneyAmount, moneyReceiver, description) =>
   authorize: true
 });
 
-export const newOperation = (debtsId, moneyAmount, moneyReceiver, description) => dispatch =>
-  dispatch(newOperationAction(debtsId, moneyAmount, moneyReceiver, description.trim()));
+export const newOperation = (
+  debtsId,
+  moneyAmount,
+  moneyReceiver,
+  description
+) => dispatch =>
+  dispatch(
+    newOperationAction(debtsId, moneyAmount, moneyReceiver, description.trim())
+  );
 
 export const DELETE_OPERATION = 'DELETE_OPERATION';
 
@@ -64,7 +78,7 @@ const deleteOperationTypes = [
 
 const deleteOperationAction = operationId => ({
   [RSAA]: {
-    endpoint: `${baseUrl}/operation/${operationId}`,
+    endpoint: `${baseUrl}/operations/${operationId}`,
     method: 'DELETE',
     types: deleteOperationTypes,
     headers: { 'Content-Type': 'application/json' }
@@ -73,5 +87,17 @@ const deleteOperationAction = operationId => ({
   authorize: true
 });
 
-export const deleteOperation = (debtsId, moneyAmount, moneyReceiver, description) => dispatch =>
-  dispatch(deleteOperationAction(debtsId, moneyAmount, moneyReceiver, description.trim()));
+export const deleteOperation = (
+  debtsId,
+  moneyAmount,
+  moneyReceiver,
+  description
+) => dispatch =>
+  dispatch(
+    deleteOperationAction(
+      debtsId,
+      moneyAmount,
+      moneyReceiver,
+      description.trim()
+    )
+  );

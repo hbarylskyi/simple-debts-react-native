@@ -7,7 +7,6 @@ import {
   ActivityIndicator
 } from 'react-native';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/Ionicons';
 import styles from './debt.styles';
 import DebtPopup from './debtPopup/debtPopup';
 import Operation from '../../components/Operation/Operation.presenter';
@@ -17,7 +16,6 @@ import * as colors from '../../utils/colors';
 import Hamburger from '../../components/Hamburger/Hamburger';
 import SearchModal from '../main/SearchModal/SearchModal.presenter';
 import Button from '../../components/Button/Button';
-import HeaderButton from '../../components/HeaderButton/HeaderButton';
 
 // list of states the debt can be in. Calculated depending on
 // debt.statusAcceptor and debt.status
@@ -194,11 +192,11 @@ export default class DebtScreen extends Component {
     const { debt, deleteDebt } = this.props;
 
     try {
+      await deleteDebt();
+
       if (debt.type === 'SINGLE_USER') {
         this.goBack();
       }
-
-      await deleteDebt();
     } catch (e) {
       alert(e.message);
     }
@@ -251,7 +249,7 @@ export default class DebtScreen extends Component {
     <DebtPopup
       isGivePopup
       isVisible={this.state.givePopupVisible}
-      onChangeVal={text => this.setGiveValue(text)}
+      onChangeVal={text => this.setGiveValue(text, console.log(text))}
       onChangeDescr={giveDescr => this.setState({ giveDescr })}
       onBackdropPress={this.toggleGivePopup}
       onSubmit={() => this.newOperation(this.state.giveValue, true)}

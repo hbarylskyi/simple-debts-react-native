@@ -12,7 +12,7 @@ import appMiddlewares from './modules/middlewares/index';
 const config = {
   key: 'primary',
   storage: AsyncStorage,
-  blacklist: ['debt', 'search']
+  blacklist: ['search']
 };
 
 const reducer = persistCombineReducers(config, reducers);

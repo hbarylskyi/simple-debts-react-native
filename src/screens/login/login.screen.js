@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import { View, Text, TextInput, Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import { View, Text, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './login.styles';
 import ButtonDeprecated from '../../components/Button/ButtonDeprecated';
 import { createResetAction } from '../../utils/helpers';
+import Button from '../../components/Button/Button';
 
 export default class LoginScreen extends Component {
   static propTypes = {
@@ -30,15 +31,15 @@ export default class LoginScreen extends Component {
 
   standardLogin = async () => {
     const { email, pass } = this.state;
+    const { standardLogin, navigation } = this.props;
 
     this.setState({ signinLoading: true });
 
     try {
-      await this.props.standardLogin(email, pass);
-
-      this.props.navigation.dispatch(createResetAction('MainScreen'));
+      await standardLogin(email, pass);
+      navigation.dispatch(createResetAction('MainScreen'));
     } catch (e) {
-      console.error(e.message);
+      alert(e.message);
     } finally {
       this.setState({ signinLoading: false });
     }
@@ -46,14 +47,16 @@ export default class LoginScreen extends Component {
 
   signUp = async () => {
     const { email, pass } = this.state;
+    const { signup, navigation } = this.props;
 
     this.setState({ signupLoading: true });
 
     try {
-      await this.props.signup(email, pass);
-      this.props.navigation.navigate('MainScreen');
+      const r = await signup(email, pass);
+      console.log(r);
+      navigation.dispatch(createResetAction('MainScreen'));
     } catch (e) {
-      console.error(e.message);
+      alert(e.message);
     } finally {
       this.setState({ signupLoading: false });
     }
@@ -63,6 +66,10 @@ export default class LoginScreen extends Component {
     this.setState({ fbLoading: true });
     await this.props.fbLogin();
     this.setState({ fbLoading: false });
+  };
+
+  openPrivacyPolicy = () => {
+    Linking.openURL('https://simple-debts.flycricket.io/privacy.html');
   };
 
   render() {
@@ -93,7 +100,7 @@ export default class LoginScreen extends Component {
             </View>
 
             <View style={styles.inputRow}>
-              <IonIcon size={36} name="ios-key" style={styles.icon} />
+              <IonIcon size={30} name="ios-key" style={styles.icon} />
               <TextInput
                 ref={ref => (this.passInput = ref)}
                 onChangeText={pass => this.setState({ pass })}
@@ -106,22 +113,36 @@ export default class LoginScreen extends Component {
             </View>
           </View>
 
-          <View style={styles.buttonsRow}>
-            <ButtonDeprecated
-              title="Sign up"
-              onPress={this.signUp}
-              disabled={!email || !pass}
-              loading={signupLoading}
-              style={styles.btn}
-            />
-            <ButtonDeprecated
-              title="Sign in"
-              onPress={this.standardLogin}
-              disabled={!email || !pass}
-              loading={signinLoading}
-              style={styles.btn}
-            />
+          <View>
+            <View style={styles.buttonsRow}>
+              <ButtonDeprecated
+                title="Sign up"
+                onPress={this.signUp}
+                disabled={!email || !pass}
+                loading={signupLoading}
+                style={styles.btn}
+              />
+              <ButtonDeprecated
+                title="Sign in"
+                onPress={this.standardLogin}
+                disabled={!email || !pass}
+                loading={signinLoading}
+                style={styles.btn}
+              />
+            </View>
+
+            <View style={styles.policyRow}>
+              <Text style={styles.policyText}>
+                By continuing you accept our
+              </Text>
+              <Button
+                onPress={this.openPrivacyPolicy}
+                text=" privacy policy"
+                textStyle={styles.policyBtnText}
+              />
+            </View>
           </View>
+
           <ButtonDeprecated
             onPress={this.fbLogin}
             loading={fbLoading}

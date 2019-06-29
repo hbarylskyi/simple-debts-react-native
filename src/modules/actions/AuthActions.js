@@ -102,8 +102,8 @@ const signUpTypes = [SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE];
 
 const signupAction = (email, password) => ({
   [RSAA]: {
-    endpoint: `${baseUrl}/signup/local`,
-    method: 'PUT',
+    endpoint: `${baseUrl}/sign_up/local`,
+    method: 'POST',
     headers: { 'content-type': 'application/json' },
     types: signUpTypes,
     body: JSON.stringify({ email, password })

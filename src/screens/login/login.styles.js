@@ -60,6 +60,20 @@ export default StyleSheet.create({
     paddingVertical: 16
   },
 
+  policyRow: {
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+
+  policyText: {
+    fontSize: 10
+  },
+
+  policyBtnText: {
+    fontSize: 10,
+    color: colors.red
+  },
+
   btn: {
     minWidth: 120,
     padding: 16

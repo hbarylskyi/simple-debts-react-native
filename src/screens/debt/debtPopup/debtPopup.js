@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { View, Keyboard } from 'react-native';
-import { MKTextField } from 'react-native-material-kit';
+import { View, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './debtPopup.styles';
-import * as colors from '../../../utils/colors';
 import ButtonDeprecated from '../../../components/Button/ButtonDeprecated';
 import Popup from '../../../components/Popup/Popup';
 
@@ -33,31 +31,25 @@ export default class DebtPopup extends Component {
     return (
       <Popup {...rest}>
         <View style={[styles.top, backgr]}>
-          <MKTextField
-            style={styles.input}
-            textInputStyle={styles.debtText}
-            highlightColor={'white'}
-            tintColor={'white'}
-            placeholderTextColor={'white'}
-            keyboardType="numeric"
+          <TextInput
             placeholder="Debt value"
             onChangeText={onChangeVal}
-            floatingLabelEnabled
+            placeholderTextColor="white"
+            keyboardType="numeric"
             autoFocus
+            style={styles.input}
           />
         </View>
 
         <View style={styles.bottom}>
-          <MKTextField
-            autoCorrect={false}
-            style={styles.input}
+          <TextInput
             placeholder="Description"
             onChangeText={onChangeDescr}
-            floatingLabelEnabled
-            highlightColor={colors.gray}
+            onSubmitEditing={this.onSubmit}
+            autoCorrect={false}
+            autoCapitalize="sentences"
             returnKeyType="done"
-            autoCapitalize={'sentences'}
-            onSubmitEditing={Keyboard.dismiss}
+            style={styles.inputBlack}
           />
 
           <ButtonDeprecated
