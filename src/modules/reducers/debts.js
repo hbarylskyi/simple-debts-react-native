@@ -1,4 +1,3 @@
-import getSymbolFromCurrency from 'currency-symbol-map';
 import { FETCH_DEBTS } from '../actions/DebtsActions';
 import * as DebtActions from '../actions/DebtActions';
 import { LOGOUT } from '../actions/AuthActions';
@@ -17,21 +16,9 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
     case DebtActions.DECLINE_DEBT_SUCCESS:
-    case `${FETCH_DEBTS}_SUCCESS`: {
-      const { debts } = action.payload;
-
-      debts.forEach(debt => {
-        const currency = getSymbolFromCurrency(debt.currency);
-
-        if (currency) {
-          debt.currency = currency;
-        }
-      });
-
+    case `${FETCH_DEBTS}_SUCCESS`:
       nextState = action.payload;
-
       break;
-    }
 
     case `${NEW_OPERATION}_SUCCESS`: {
       const newDebt = action.payload;

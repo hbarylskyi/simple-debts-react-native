@@ -76,7 +76,8 @@ export default StyleSheet.create({
 
   btn: {
     minWidth: 120,
-    padding: 16
+    padding: 16,
+    backgroundColor: colors.lightGray
   },
 
   fbBtn: {

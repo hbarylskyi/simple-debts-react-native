@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Dimensions, Text, View } from 'react-native';
 import Swiper from 'react-native-swiper';
-import isoCurrency from 'iso-country-currency';
+import currencies from 'currency-symbol-map/map';
 import PropTypes from 'prop-types';
 import styles from './CurrencyModal.styles';
 import Popup from '../../../../components/Popup/Popup';
 import ButtonDeprecated from '../../../../components/Button/ButtonDeprecated';
 import * as colors from '../../../../utils/colors';
-import TouchableArea from '../../../../components/TouchableArea/TouchableArea.android';
+import Button from '../../../../components/Button/Button';
 
 const { width, height } = Dimensions.get('window');
 const FOOTER_HEIGHT = 150;
@@ -15,18 +15,7 @@ const ITEMS_PER_ROW = 4;
 const ITEM_WRAPPER_SIZE = width / ITEMS_PER_ROW;
 const ROWS_PER_SLIDE = (height - FOOTER_HEIGHT) / ITEM_WRAPPER_SIZE;
 
-const sortedCurrenciesWithDupes = isoCurrency.getAllISOCodes().sort((first, second) => {
-  if (first.currency < second.currency) return -1;
-  if (first.currency > second.currency) return 1;
-  return 0;
-});
-
-const sortedCurrencies = sortedCurrenciesWithDupes.filter((curr, index, arr) => {
-  const nextCurrency = arr[index + 1] || {};
-  return curr.currency && curr.currency !== nextCurrency.currency;
-});
-
-const rows = sortedCurrencies.reduce(
+const rows = Object.keys(currencies).reduce(
   (accum, currency) => {
     const currentRow = accum[accum.length - 1];
 
@@ -64,12 +53,6 @@ export default class CurrencyModal extends Component {
 
   state = {};
 
-  renderItem = currency => (
-    <View key={currency.id}>
-      <Text>asd</Text>
-    </View>
-  );
-
   render() {
     const { onBackdropPress, onSelected } = this.props;
 
@@ -81,7 +64,11 @@ export default class CurrencyModal extends Component {
         animationOut={'fadeOutDown'}
         {...this.props}
       >
-        <Swiper loop={false} paginationStyle={styles.pagination} activeDotColor={colors.white}>
+        <Swiper
+          loop={false}
+          paginationStyle={styles.pagination}
+          activeDotColor={colors.white}
+        >
           {slides.map(slide => (
             <ButtonDeprecated style={styles.slide}>
               {slide.map(row => (
@@ -93,11 +80,12 @@ export default class CurrencyModal extends Component {
                         { height: ITEM_WRAPPER_SIZE, width: ITEM_WRAPPER_SIZE }
                       ]}
                     >
-                      <View style={styles.item} key={currency.currency}>
-                        <TouchableArea onPress={() => onSelected(currency)} noRipple>
-                          <Text style={styles.itemText}>{currency.currency}</Text>
-                        </TouchableArea>
-                      </View>
+                      <Button
+                        onPress={() => onSelected(currency)}
+                        text={currency}
+                        textStyle={styles.itemText}
+                        style={styles.item}
+                      />
                     </View>
                   ))}
                 </View>

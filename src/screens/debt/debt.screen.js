@@ -16,6 +16,7 @@ import * as colors from '../../utils/colors';
 import Hamburger from '../../components/Hamburger/Hamburger';
 import SearchModal from '../main/SearchModal/SearchModal.presenter';
 import Button from '../../components/Button/Button';
+import { currencyToSymbol } from '../../utils/helpers';
 
 // list of states the debt can be in. Calculated depending on
 // debt.statusAcceptor and debt.status
@@ -261,7 +262,7 @@ export default class DebtScreen extends Component {
     const style = isTaken ? styles.summaryTaken : styles.summaryGiven;
     const debtText = `${
       isTaken ? `you owe ${debt.user.name}` : `${debt.user.name} owes you`
-    }\n${debt.currency}${debt.summary}`;
+    }\n${currencyToSymbol(debt.currency)}${debt.summary}`;
 
     return (
       <View style={[styles.summaryContainer, style]}>

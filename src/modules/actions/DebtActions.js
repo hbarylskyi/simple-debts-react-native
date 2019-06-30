@@ -120,7 +120,7 @@ const createDebtsTypes = [
   `${CREATE_DEBTS}_FAILURE`
 ];
 
-const createDebtAction = (userIdOrName, isSingle) => {
+const createDebtAction = (userIdOrName, isSingle, currency) => {
   const endpoint = isSingle ? '/debts/single' : '/debts/multiple';
   const body = isSingle ? { userName: userIdOrName } : { userId: userIdOrName };
 
@@ -130,15 +130,21 @@ const createDebtAction = (userIdOrName, isSingle) => {
       method: 'POST',
       types: createDebtsTypes,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...body, currency: 'UAH' })
+      body: JSON.stringify({ ...body, currency })
     },
 
     authorize: true
   };
 };
 
-export const createDebt = (userIdOrName, isSingle) => async dispatch => {
-  const { payload } = await dispatch(createDebtAction(userIdOrName, isSingle));
+export const createDebt = (
+  userIdOrName,
+  isSingle,
+  currency
+) => async dispatch => {
+  const { payload } = await dispatch(
+    createDebtAction(userIdOrName, isSingle, currency)
+  );
   return payload;
 };
 

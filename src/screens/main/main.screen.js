@@ -114,6 +114,7 @@ export default class MainScreen extends Component {
     <AddConfirmationPopup
       isVisible={this.state.confirmationPopupVisible}
       onBackdropPress={this.toggleConfirmationPopup}
+      onClose={this.toggleConfirmationPopup}
       onConfirmation={debtId => {
         this.toggleConfirmationPopup();
         this.props.navigation.navigate('DebtScreen', { debtId });

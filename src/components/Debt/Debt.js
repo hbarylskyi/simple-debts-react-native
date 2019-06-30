@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './Debt.styles';
 import * as colors from '../../utils/colors';
 import OperationBase from '../OperationBase/OperationBase';
+import { currencyToSymbol } from '../../utils/helpers';
 
 const icons = {
   CREATION_AWAITING: { name: 'user', color: colors.green },
@@ -17,7 +18,8 @@ const Debt = ({ debt, userId, acceptDebt, declineDebt, ...rest }) => {
   const icon = icons[debt.status] || {};
 
   const summarySign = isTaken ? '-' : '';
-  const debtSummary = summarySign + debt.currency + summary.toString();
+  const debtSummary =
+    summarySign + currencyToSymbol(debt.currency) + summary.toString();
 
   // const showBtns =
   //   debt.statusAcceptor === userId &&
