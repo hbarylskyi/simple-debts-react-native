@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import isoCurrency from 'iso-country-currency';
 import DeviceInfo from 'react-native-device-info';
 import Popup from '../../../components/Popup/Popup';
-import ButtonDeprecated from '../../../components/Button/ButtonDeprecated';
 import styles from './AddConfirmationPopup.styles';
 import CurrencyModal from './CurrencyModal/CurrencyModal';
 

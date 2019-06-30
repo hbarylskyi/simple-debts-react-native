@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isoCurrency from 'iso-country-currency';
 import styles from './Debt.styles';
 import * as colors from '../../utils/colors';
 import OperationBase from '../OperationBase/OperationBase';
@@ -16,16 +15,9 @@ const Debt = ({ debt, userId, acceptDebt, declineDebt, ...rest }) => {
   const isTaken = moneyReceiver === userId;
   const color = isTaken ? colors.red : colors.green;
   const icon = icons[debt.status] || {};
-  let currency;
-  try {
-    // TODO remove
-    currency = '$' || isoCurrency.getAllInfoByISO(debt.countryCode).symbol;
-  } catch (e) {
-    console.warn(e.message);
-  }
 
   const summarySign = isTaken ? '-' : '';
-  const debtSummary = summarySign + currency + summary.toString();
+  const debtSummary = summarySign + debt.currency + summary.toString();
 
   // const showBtns =
   //   debt.statusAcceptor === userId &&

@@ -1,4 +1,3 @@
 module.exports = {
-  presets: ['module:metro-react-native-babel-preset'],
-  plugins: ['functional-hmr']
+  presets: ['module:metro-react-native-babel-preset']
 };

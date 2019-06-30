@@ -39,7 +39,7 @@ const Operation = ({
   return (
     <OperationBase
       image={image}
-      topText={(debt.currency || '') + moneyAmount}
+      topText={debt.currency + moneyAmount}
       topTextStyle={{ color }}
       bottomText={description}
       icon={icon}

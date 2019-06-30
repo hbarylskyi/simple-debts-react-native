@@ -1,6 +1,5 @@
 import { RSAA } from 'redux-api-middleware';
 import config from 'react-native-config';
-import * as DebtsActions from './DebtsActions';
 
 const baseUrl = config.host;
 export const FETCH_DEBT = 'FETCH_DEBT';
@@ -131,7 +130,7 @@ const createDebtAction = (userIdOrName, isSingle) => {
       method: 'POST',
       types: createDebtsTypes,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...body, countryCode: 'ua' })
+      body: JSON.stringify({ ...body, currency: 'UAH' })
     },
 
     authorize: true
