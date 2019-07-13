@@ -1,26 +1,18 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import isoCurrency from 'iso-country-currency';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import styles from './OperationPopup.styles';
 import * as colors from '../../../utils/colors';
 import ButtonDeprecated from '../../../components/Button/ButtonDeprecated';
 import Popup from '../../../components/Popup/Popup';
-
-const getCurrency = isoCode => {
-  try {
-    return isoCurrency.getAllInfoByISO(isoCode).symbol;
-  } catch (e) {
-    console.warn(e);
-  }
-};
+import { currencyToSymbol } from '../../../utils/helpers';
 
 const OperationPopup = ({ operation, user, debt, onClosePress, ...rest }) => {
   const { moneyReceiver, moneyAmount, description } = operation;
   const isTaken = moneyReceiver === user.id;
   const backgroundColor = isTaken ? colors.red : colors.green;
-  const topText = getCurrency(debt.countryCode) + moneyAmount;
+  const topText = currencyToSymbol(debt.currency) + moneyAmount;
   const userName =
     operation.moneyReceiver === user.id ? user.name : debt.user.name;
   const date = moment(new Date()).format('ll');

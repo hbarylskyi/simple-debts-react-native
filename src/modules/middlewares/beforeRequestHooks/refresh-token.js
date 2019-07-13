@@ -15,18 +15,24 @@ export default store => next => async action => {
   if (rsaa && action.authorize) {
     const { auth } = store.getState();
 
-    // if token is expired, refresh it before dispatching rsaa.
-    // if token is already being refreshed, wait for the request to finish
-    if (isTokenExpired(auth.accessTokenExpiresAt)) {
-      if (!global.refreshTokenPromise) {
-        const refreshTokenPromise = store.dispatch(AuthActions.refreshToken());
+    try {
+      // if token is expired, refresh it before dispatching rsaa.
+      // if token is already being refreshed, wait for the request to finish
+      if (isTokenExpired(auth.accessTokenExpiresAt)) {
+        if (!global.refreshTokenPromise) {
+          const refreshTokenPromise = store.dispatch(
+            AuthActions.refreshToken()
+          );
 
-        global.refreshTokenPromise = refreshTokenPromise;
-        await refreshTokenPromise;
-        delete global.refreshTokenPromise;
-      } else {
-        await global.refreshTokenPromise;
+          global.refreshTokenPromise = refreshTokenPromise;
+          await refreshTokenPromise;
+          delete global.refreshTokenPromise;
+        } else {
+          await global.refreshTokenPromise;
+        }
       }
+    } catch ({ message }) {
+      console.warn(message);
     }
   }
   return next(action);

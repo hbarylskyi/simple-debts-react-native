@@ -66,7 +66,9 @@ export default class MainScreen extends Component {
 
   onFocus = () => {
     const { fetchDebts } = this.props;
-    fetchDebts();
+    fetchDebts().catch(({ message }) =>
+      console.log(`Error while fetching debt: ${message}`)
+    );
   };
 
   signOut = () => {

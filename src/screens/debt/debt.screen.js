@@ -174,11 +174,10 @@ export default class DebtScreen extends Component {
       givePopupVisible: !prevState.givePopupVisible
     }));
 
-  toggleOpPopup = item =>
-    this.setState(prevState => ({
-      opPopupShown: !prevState.opPopupShown,
-      chosenOperation: item || prevState.chosenOperation
-    }));
+  showOpPopup = item =>
+    this.setState({ opPopupShown: true, chosenOperation: item });
+
+  hideOpPopup = () => this.setState({ opPopupShown: false });
 
   goBack = async () => {
     const { navigation } = this.props;
@@ -370,8 +369,8 @@ export default class DebtScreen extends Component {
   renderOperationPopup = () => (
     <OperationPopup
       isVisible={this.state.opPopupShown}
-      onBackdropPress={this.toggleOpPopup}
-      onClosePress={this.toggleOpPopup}
+      onBackdropPress={this.hideOpPopup}
+      onClosePress={this.hideOpPopup}
       operation={this.state.chosenOperation}
       user={this.props.user}
       debt={this.props.debt}
@@ -425,7 +424,7 @@ export default class DebtScreen extends Component {
                 debt={debt}
                 user={user}
                 onSwipe={event => this.setState({ scrollEnabled: event })}
-                onPress={() => this.toggleOpPopup(item)}
+                onPress={() => this.showOpPopup(item)}
               />
             )}
             keyExtractor={item => item.id}

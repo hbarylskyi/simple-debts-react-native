@@ -2,8 +2,8 @@ import { REHYDRATE } from 'redux-persist/src/constants';
 import * as AuthActions from '../actions/AuthActions';
 import NavigationService from '../../utils/NavigationService';
 
-// TODO rewrite?
-export default store => next => action => {
+// TODO rewrite
+export default store => next => async action => {
   const logout = () => {
     store.dispatch(AuthActions.logout());
   };
@@ -14,9 +14,12 @@ export default store => next => action => {
 
     if (action.payload.auth && action.payload.auth.token) {
       NavigationService.resetTo('MainScreen');
-      store.dispatch(AuthActions.loginCheck());
-
       setTimeout(() => store.dispatch({ type: 'HIDE_SPLASH' }), 100);
+      await store.dispatch(AuthActions.loginCheck()).catch(({ message }) => {
+        console.log(`Error while requesting login check: ${message}`);
+        logout();
+      });
+
       return;
     }
 
