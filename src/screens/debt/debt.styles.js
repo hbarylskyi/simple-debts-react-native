@@ -16,6 +16,21 @@ export default StyleSheet.create({
 
   summaryTaken: { backgroundColor: colors.red },
 
+  acceptAllBtn: {
+    position: 'absolute',
+    right: 15,
+    bottom: 15,
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    paddingHorizontal: 8,
+    paddingVertical: 6
+  },
+
+  acceptAllWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+
   name: {
     fontSize: 30,
     color: 'white',

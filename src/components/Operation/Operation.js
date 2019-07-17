@@ -2,15 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as colors from '../../utils/colors';
 import OperationBase from '../OperationBase/OperationBase';
+import { currencyToSymbol } from '../../utils/helpers';
 
-const Operation = ({
-  operation,
-  debt,
-  user,
-  acceptOperation,
-  declineOperation,
-  ...rest
-}) => {
+const Operation = ({ operation, debt, user, processOperation, ...rest }) => {
   const {
     moneyReceiver,
     description,
@@ -31,25 +25,26 @@ const Operation = ({
     icon = 'md-close-circle-outline';
   }
 
-  const onAccept = () => {
-    acceptOperation(operation.id);
-  };
+  const _processOperation = async (oid, accepted) => {
+    const { error, payload } = await processOperation(operation.id, accepted);
 
-  const onDecline = () => {
-    declineOperation(operation.id);
+    if (error) {
+      const { response = {} } = payload;
+      alert(response.error || payload.message);
+    }
   };
 
   return (
     <OperationBase
       image={image}
-      topText={debt.currency + moneyAmount}
+      topText={currencyToSymbol(debt.currency) + moneyAmount}
       topTextStyle={{ color }}
       bottomText={description}
       icon={icon}
       iconColor={colors.orange}
       showBtns={showBtns}
-      onAccept={onAccept}
-      onDecline={onDecline}
+      onAccept={() => _processOperation(true)}
+      onDecline={() => _processOperation(false)}
       {...rest}
     />
   );
@@ -59,8 +54,7 @@ Operation.propTypes = {
   operation: PropTypes.object,
   debt: PropTypes.object,
   user: PropTypes.object,
-  acceptOperation: PropTypes.func.isRequired,
-  declineOperation: PropTypes.func.isRequired
+  processOperation: PropTypes.func.isRequired
 };
 
 export default Operation;

@@ -18,8 +18,6 @@ const mapStateToProps = (state, { navigation }) => {
 const mapDispatchToProps = dispatch => ({
   fetchDebt: debtId => dispatch(DebtActions.fetchDebt(debtId)),
   fetchDebts: () => dispatch(DebtsActions.fetchDebts()),
-  processOperation: (operationId, isAccepted) =>
-    OperationActions.processOperation(operationId, isAccepted),
   newOperation: (debtId, val, uid, descr) =>
     dispatch(OperationActions.newOperation(debtId, val, uid, descr)),
   acceptDebt: debtId => dispatch(DebtActions.acceptDebt(debtId)),

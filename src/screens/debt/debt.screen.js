@@ -7,7 +7,6 @@ import {
   ActivityIndicator
 } from 'react-native';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/Ionicons';
 import styles from './debt.styles';
 import DebtPopup from './debtPopup/debtPopup';
 import Operation from '../../components/Operation/Operation.presenter';
@@ -17,7 +16,7 @@ import * as colors from '../../utils/colors';
 import Hamburger from '../../components/Hamburger/Hamburger';
 import SearchModal from '../main/SearchModal/SearchModal.presenter';
 import Button from '../../components/Button/Button';
-import { createResetAction, currencyToSymbol } from '../../utils/helpers';
+import { currencyToSymbol } from '../../utils/helpers';
 
 // list of states the debt can be in. Calculated depending on
 // debt.statusAcceptor and debt.status
@@ -34,7 +33,6 @@ export default class DebtScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     fetchDebt: PropTypes.func.isRequired,
-    processOperation: PropTypes.func.isRequired,
     newOperation: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     debt: PropTypes.object.isRequired,
@@ -130,17 +128,6 @@ export default class DebtScreen extends Component {
 
   setGiveValue = text => {
     this.state.giveValue = parseInt(text, 10);
-  };
-
-  processOperation = async (oid, accepted) => {
-    const { processOperation } = this.props;
-
-    const { error, payload } = await processOperation(oid, accepted);
-
-    if (error) {
-      const { response = {} } = payload;
-      alert(response.error || payload.message);
-    }
   };
 
   newOperation = async (val, isGiven) => {
@@ -290,20 +277,9 @@ export default class DebtScreen extends Component {
             fontSize: 16
           }}
           onPress={this.acceptAll}
-          style={{
-            position: 'absolute',
-            right: 15,
-            bottom: 15,
-            backgroundColor: colors.white,
-            borderRadius: 16,
-            paddingHorizontal: 8,
-            paddingVertical: 6
-          }}
-          wrapperStyle={{
-            flexDirection: 'row',
-            alignItems: 'center'
-          }}
-        ></Button>
+          style={styles.acceptAllBtn}
+          wrapperStyle={styles.acceptAllWrapper}
+        />
       </View>
     );
   };

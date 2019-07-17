@@ -6,8 +6,8 @@ import * as OperationActions from '../../modules/actions/OperationActions';
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-  acceptOperation: operationId => dispatch(OperationActions.processOperation(operationId, true)),
-  declineOperation: operationId => dispatch(OperationActions.processOperation(operationId, false))
+  processOperation: (operationId, isAccepted) =>
+    dispatch(OperationActions.processOperation(operationId, isAccepted))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Operation);
