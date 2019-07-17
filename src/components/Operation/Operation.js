@@ -25,7 +25,7 @@ const Operation = ({ operation, debt, user, processOperation, ...rest }) => {
     icon = 'md-close-circle-outline';
   }
 
-  const _processOperation = async (oid, accepted) => {
+  const _processOperation = async (accepted) => {
     const { error, payload } = await processOperation(operation.id, accepted);
 
     if (error) {

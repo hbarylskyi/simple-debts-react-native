@@ -451,9 +451,8 @@ export default class DebtScreen extends Component {
             }
             ListEmptyComponent={this.renderListEmpty}
           />
-
-          {this.renderBottomButtons()}
         </View>
+        {this.renderBottomButtons()}
       </View>
     );
   }
