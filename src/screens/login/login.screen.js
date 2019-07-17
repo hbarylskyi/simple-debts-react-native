@@ -36,14 +36,14 @@ export default class LoginScreen extends Component {
     const { standardLogin, navigation } = this.props;
 
     this.setState({ signinLoading: true });
+    const { error, payload } = await standardLogin(email, pass);
+    this.setState({ signinLoading: false });
 
-    try {
-      await standardLogin(email, pass);
+    if (error) {
+      const { response = {} } = payload;
+      alert(response.error || payload.message);
+    } else {
       navigation.dispatch(createResetAction('MainScreen'));
-    } catch ({ message }) {
-      alert(message);
-    } finally {
-      this.setState({ signinLoading: false });
     }
   };
 
@@ -52,14 +52,14 @@ export default class LoginScreen extends Component {
     const { signup, navigation } = this.props;
 
     this.setState({ signupLoading: true });
+    const { error, payload } = await signup(email, pass);
+    this.setState({ signupLoading: false });
 
-    try {
-      await signup(email, pass);
+    if (error) {
+      const { response = {} } = payload;
+      alert(response.error || payload.message);
+    } else {
       navigation.dispatch(createResetAction('MainScreen'));
-    } catch ({ message }) {
-      alert(message);
-    } finally {
-      this.setState({ signupLoading: false });
     }
   };
 

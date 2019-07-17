@@ -25,8 +25,11 @@ const Operation = ({
   const showBtns = statusAcceptor === user.id && status === 'CREATION_AWAITING';
   let icon;
 
-  if (status === 'CREATION_AWAITING')
-    icon = statusAcceptor === user.id ? 'bell-o' : 'clock-o';
+  if (status === 'CREATION_AWAITING') {
+    icon = statusAcceptor === user.id ? 'md-notifications-outline' : 'md-time';
+  } else if (status === 'CANCELLED') {
+    icon = 'md-close-circle-outline';
+  }
 
   const onAccept = () => {
     acceptOperation(operation.id);

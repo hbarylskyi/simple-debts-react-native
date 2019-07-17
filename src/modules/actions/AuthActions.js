@@ -54,13 +54,15 @@ export const fbLogin = () => async dispatch => {
 
     if (!data) return;
 
-    const response = await dispatch(fbLoginAction(data.accessToken.toString()));
+    const { error, payload } = await dispatch(
+      fbLoginAction(data.accessToken.toString())
+    );
 
-    if (!response.error) {
-      NavigationService.resetTo('MainScreen');
+    if (error) {
+      const { response = {} } = payload;
+      alert('Login unsuccessful:', response.error || payload.message);
     } else {
-      alert('Login unsuccessful:', response.error);
-      console.log(response);
+      NavigationService.resetTo('MainScreen');
     }
   } catch (error) {
     alert(`Login failed with error: ${error.errorMessage}`);

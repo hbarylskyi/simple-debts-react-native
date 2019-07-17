@@ -152,12 +152,9 @@ export default class MainScreen extends Component {
             renderItem={({ item }) => (
               <Debt
                 debt={item}
-                onSwipe={swipeFinished =>
-                  this.setState({ scrollEnabled: swipeFinished })
+                onPress={async () =>
+                  navigation.navigate('DebtScreen', { debtId: item.id })
                 }
-                onPress={async () => {
-                  navigation.navigate('DebtScreen', { debtId: item.id });
-                }}
               />
             )}
             keyExtractor={item => item.id}

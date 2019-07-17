@@ -6,9 +6,9 @@ import OperationBase from '../OperationBase/OperationBase';
 import { currencyToSymbol } from '../../utils/helpers';
 
 const icons = {
-  CREATION_AWAITING: { name: 'user', color: colors.green },
+  CREATION_AWAITING: { name: 'ios-person-add', color: colors.green },
   DELETE_AWAITING: { name: 'trash', color: colors.red },
-  CHANGE_AWAITING: { name: 'clock-o', color: colors.orange }
+  CHANGE_AWAITING: { name: 'clock', color: colors.orange }
 };
 
 const Debt = ({ debt, userId, acceptDebt, declineDebt, ...rest }) => {

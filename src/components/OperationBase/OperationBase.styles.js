@@ -2,14 +2,13 @@ import { StyleSheet } from 'react-native';
 import * as colors from '../../utils/colors';
 
 export default StyleSheet.create({
-  swipeout: {
-    backgroundColor: 'white',
-    borderBottomWidth: 0.5,
-    borderBottomColor: colors.lightGray
+  icon: {
+    marginHorizontal: 10
   },
 
   acceptanceButton: {
-    flex: 1,
+    height: 40,
+    width: 40,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -44,5 +43,10 @@ export default StyleSheet.create({
 
   descr: {
     color: colors.black
+  },
+
+  actionsRow: {
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 });

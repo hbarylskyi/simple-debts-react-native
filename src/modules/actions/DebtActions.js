@@ -141,12 +141,8 @@ export const createDebt = (
   userIdOrName,
   isSingle,
   currency
-) => async dispatch => {
-  const { payload } = await dispatch(
-    createDebtAction(userIdOrName, isSingle, currency)
-  );
-  return payload;
-};
+) => async dispatch =>
+  dispatch(createDebtAction(userIdOrName, isSingle, currency));
 
 //
 

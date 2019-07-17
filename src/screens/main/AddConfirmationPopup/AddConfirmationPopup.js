@@ -38,14 +38,18 @@ export default class AddConfirmationPopup extends Component {
     const { user, createDebt, onConfirmation } = this.props;
 
     this.setState({ createLoading: true });
-    try {
-      const debt = await createDebt(user.id || user.name, !user.id, currency);
+    const { payload, error } = await createDebt(
+      user.id || user.name,
+      !user.id,
+      currency
+    );
+    this.setState({ createLoading: false });
 
-      onConfirmation(debt.id);
-    } catch (e) {
-      alert(e.message);
-    } finally {
-      this.setState({ createLoading: false });
+    if (error) {
+      const { response = {} } = payload;
+      alert(response.error || payload.message);
+    } else {
+      onConfirmation(payload.id);
     }
   };
 

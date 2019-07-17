@@ -2,8 +2,7 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { MKButton } from 'react-native-material-kit';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Swipeout from 'react-native-swipeout';
+import Icon from 'react-native-vector-icons/Ionicons';
 import * as colors from '../../utils/colors';
 import styles from './OperationBase.styles';
 import ButtonDeprecated from '../Button/ButtonDeprecated';
@@ -16,55 +15,45 @@ const OperationBase = ({
   bottomTextStyle,
   icon,
   iconColor,
-  onSwipe,
   onAccept,
   onDecline,
   showBtns,
   ...rest
 }) => {
   const renderAcceptanceBtn = (accept, onPress) => {
-    const icoName = accept ? 'check' : 'times';
+    const iconName = accept ? 'md-checkmark' : 'md-close';
     const color = accept ? colors.green : colors.red;
 
     return (
-      <MKButton onPress={onPress} style={[styles.acceptanceButton, { backgroundColor: color }]}>
-        <Icon name={icoName} size={30} color={'white'} />
+      <MKButton onPress={onPress} style={styles.acceptanceButton}>
+        <Icon name={iconName} size={30} color={color} />
       </MKButton>
     );
   };
 
-  const getAcceptanceBtns = () => [
-    { component: renderAcceptanceBtn(true, onAccept) },
-    { component: renderAcceptanceBtn(false, onDecline) }
-  ];
-
-  const renderMiddle = () =>
-    (<View style={styles.operationMiddle}>
-      <Text style={[styles.top, topTextStyle]}>
-        {topText}
-      </Text>
-      <Text style={[styles.descr, bottomTextStyle]}>
-        {`${bottomText}`}
-      </Text>
-    </View>);
+  const renderMiddle = () => (
+    <View style={styles.operationMiddle}>
+      <Text style={[styles.top, topTextStyle]}>{topText}</Text>
+      <Text style={[styles.descr, bottomTextStyle]}>{`${bottomText}`}</Text>
+    </View>
+  );
 
   return (
-    <Swipeout
-      right={showBtns ? getAcceptanceBtns() : null}
-      scroll={onSwipe}
-      style={styles.swipeout}
-    >
+    <View style={styles.swipeout}>
       <ButtonDeprecated style={styles.operation} {...rest}>
         <Image source={{ uri: image }} style={styles.avatar} />
         {renderMiddle()}
-        <Icon name={icon} size={30} color={iconColor} />
+        <View style={styles.actionsRow}>
+          <Icon name={icon} size={30} color={iconColor} style={styles.icon} />
+          {showBtns && renderAcceptanceBtn(true, onAccept)}
+          {showBtns && renderAcceptanceBtn(false, onDecline)}
+        </View>
       </ButtonDeprecated>
-    </Swipeout>
+    </View>
   );
 };
 
 OperationBase.propTypes = {
-  onSwipe: PropTypes.func.isRequired,
   image: PropTypes.string.isRequired,
   topText: PropTypes.string.isRequired,
   bottomText: PropTypes.string.isRequired,

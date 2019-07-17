@@ -7,6 +7,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import PropTypes from 'prop-types';
+import Icon from 'react-native-vector-icons/Ionicons';
 import styles from './debt.styles';
 import DebtPopup from './debtPopup/debtPopup';
 import Operation from '../../components/Operation/Operation.presenter';
@@ -16,7 +17,7 @@ import * as colors from '../../utils/colors';
 import Hamburger from '../../components/Hamburger/Hamburger';
 import SearchModal from '../main/SearchModal/SearchModal.presenter';
 import Button from '../../components/Button/Button';
-import { currencyToSymbol } from '../../utils/helpers';
+import { createResetAction, currencyToSymbol } from '../../utils/helpers';
 
 // list of states the debt can be in. Calculated depending on
 // debt.statusAcceptor and debt.status
@@ -134,10 +135,11 @@ export default class DebtScreen extends Component {
   processOperation = async (oid, accepted) => {
     const { processOperation } = this.props;
 
-    try {
-      await processOperation(oid, accepted);
-    } catch ({ message }) {
-      alert(message);
+    const { error, payload } = await processOperation(oid, accepted);
+
+    if (error) {
+      const { response = {} } = payload;
+      alert(response.error || payload.message);
     }
   };
 
@@ -148,16 +150,22 @@ export default class DebtScreen extends Component {
 
     if (!val || !descr) return;
 
-    try {
-      await newOperation(debt.id, val, receiver, descr);
+    const { error, payload } = await newOperation(
+      debt.id,
+      val,
+      receiver,
+      descr
+    );
 
+    if (error) {
+      const { response = {} } = payload;
+      alert(response.error || payload.message);
+    } else {
       if (isGiven) {
         this.toggleGivePopup();
       } else {
         this.toggleTakePopup();
       }
-    } catch ({ message }) {
-      alert(message);
     }
   };
 
@@ -189,48 +197,57 @@ export default class DebtScreen extends Component {
   deleteDebt = async () => {
     const { debt, deleteDebt } = this.props;
 
-    try {
-      await deleteDebt();
+    const { error, payload } = await deleteDebt();
 
+    if (error) {
+      const { response = {} } = payload;
+      alert(response.error || payload.message);
+    } else {
       if (debt.type === 'SINGLE_USER') {
         this.goBack();
       }
-    } catch (e) {
-      alert(e.message);
     }
   };
 
   declineDebt = async () => {
-    try {
-      await this.props.declineDebt();
+    const { declineDebt } = this.props;
+
+    const { error, payload } = await declineDebt();
+
+    if (error) {
+      const { response = {} } = payload;
+      alert(response.error || payload.message);
+    } else {
       this.goBack();
-    } catch (e) {
-      alert(e.message);
     }
   };
 
   acceptUserConnection = async () => {
     const { acceptUserConnection } = this.props;
 
-    try {
-      await acceptUserConnection();
-    } catch (e) {
-      alert(e.message);
+    const { error, payload } = await acceptUserConnection();
+
+    if (error) {
+      const { response = {} } = payload;
+      alert(response.error || payload.message);
     }
   };
 
   declineUserConnection = async isSingle => {
     const { fetchDebt, declineUserConnection, debt } = this.props;
 
-    try {
-      await declineUserConnection();
+    const { error, payload } = await declineUserConnection();
 
+    if (error) {
+      const { response = {} } = payload;
+      alert(response.error || payload.message);
+    } else {
       if (isSingle) await fetchDebt(debt.id);
       else this.goBack();
-    } catch (e) {
-      alert(e.message);
     }
   };
+
+  acceptAll = () => {};
 
   renderTakePopup = () => (
     <DebtPopup
@@ -266,6 +283,27 @@ export default class DebtScreen extends Component {
     return (
       <View style={[styles.summaryContainer, style]}>
         <Text style={styles.moneyAmount}>{debtText}</Text>
+        <Button
+          text="Accept all"
+          textStyle={{
+            color: isTaken ? colors.red : colors.green,
+            fontSize: 16
+          }}
+          onPress={this.acceptAll}
+          style={{
+            position: 'absolute',
+            right: 15,
+            bottom: 15,
+            backgroundColor: colors.white,
+            borderRadius: 16,
+            paddingHorizontal: 8,
+            paddingVertical: 6
+          }}
+          wrapperStyle={{
+            flexDirection: 'row',
+            alignItems: 'center'
+          }}
+        ></Button>
       </View>
     );
   };
@@ -273,8 +311,6 @@ export default class DebtScreen extends Component {
   renderBottomButtons = () => {
     const { acceptDebt } = this.props;
     const buttons = [];
-
-    console.log(this.getDebtState());
 
     switch (this.getDebtState()) {
       case debtStates.REQUEST_RECEIVED:
@@ -423,7 +459,6 @@ export default class DebtScreen extends Component {
                 operation={item}
                 debt={debt}
                 user={user}
-                onSwipe={event => this.setState({ scrollEnabled: event })}
                 onPress={() => this.showOpPopup(item)}
               />
             )}

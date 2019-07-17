@@ -17,6 +17,7 @@ const Button = ({
   icon,
   style,
   textStyle,
+  wrapperStyle,
   iconStyle,
   children,
   ...props
@@ -29,7 +30,7 @@ const Button = ({
     {loading ? (
       <ActivityIndicator />
     ) : (
-      <View>
+      <View style={wrapperStyle}>
         {text && <Text style={textStyle}>{text}</Text>}
         {icon && <Image source={icon} style={[styles.btnIcon, iconStyle]} />}
         {children && children}
