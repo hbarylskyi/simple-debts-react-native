@@ -438,7 +438,7 @@ export default class DebtScreen extends Component {
     ) : (
       // button is here to make it possible to use pull-to-refresh when
       // the list is empty
-      <Button onPress={() => {}} style={{ flex: 1 }} />
+      <Button onPress={() => {}} style={{ flex: 1, height: 400 }} />
     );
   };
 
