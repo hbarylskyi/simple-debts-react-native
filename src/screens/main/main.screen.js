@@ -47,7 +47,6 @@ export default class MainScreen extends Component {
   };
 
   state = {
-    scrollEnabled: true,
     refreshing: false,
     popupVisible: false,
     userToAdd: {}
@@ -139,7 +138,7 @@ export default class MainScreen extends Component {
 
   render() {
     const { debts, navigation } = this.props;
-    const { scrollEnabled, refreshing } = this.state;
+    const { refreshing } = this.state;
 
     return (
       <View style={styles.container}>
@@ -167,7 +166,6 @@ export default class MainScreen extends Component {
                 tintColor="gray"
               />
             }
-            scrollEnabled={scrollEnabled}
           />
         </View>
       </View>

@@ -58,10 +58,6 @@ export default StyleSheet.create({
     flex: 2
   },
 
-  listContent: {
-    flex: 1
-  },
-
   creationButtons: {
     height: 50,
     flexDirection: 'row'

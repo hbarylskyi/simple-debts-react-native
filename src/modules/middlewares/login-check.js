@@ -12,7 +12,7 @@ export default store => next => async action => {
   if (action.type === REHYDRATE) {
     next(action);
 
-    if (action.payload.auth && action.payload.auth.token) {
+    if (action.payload && action.payload.auth && action.payload.auth.token) {
       NavigationService.resetTo('MainScreen');
       setTimeout(() => store.dispatch({ type: 'HIDE_SPLASH' }), 100);
       await store.dispatch(AuthActions.loginCheck()).catch(({ message }) => {

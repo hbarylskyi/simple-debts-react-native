@@ -63,7 +63,6 @@ export default class DebtScreen extends Component {
   state = {
     givePopupVisible: false,
     takePopupVisible: false,
-    scrollEnabled: true,
     refreshing: false,
     loading: false,
     opPopupShown: false,
@@ -86,7 +85,10 @@ export default class DebtScreen extends Component {
     const data = [];
 
     if (this.getDebtState() === debtStates.NORMAL) {
-      data.push({ text: 'Delete this debt', onPress: this.deleteDebt });
+      data.push({
+        text: 'Delete this debt',
+        onPress: this.deleteDebt
+      });
       if (debt.type === 'SINGLE_USER') {
         // data.push({ text: 'Connect to a friend', onPress: this.toggleSearch }); TODO
       }
@@ -157,7 +159,9 @@ export default class DebtScreen extends Component {
   };
 
   toggleSearch = () =>
-    this.setState(prevState => ({ searchVisible: !prevState.searchVisible }));
+    this.setState(prevState => ({
+      searchVisible: !prevState.searchVisible
+    }));
 
   toggleTakePopup = () =>
     this.setState(prevState => ({
@@ -206,6 +210,17 @@ export default class DebtScreen extends Component {
       alert(response.error || payload.message);
     } else {
       this.goBack();
+    }
+  };
+
+  acceptDebt = async () => {
+    const { acceptDebt } = this.props;
+
+    const { error, payload } = await acceptDebt();
+
+    if (error) {
+      const { response = {} } = payload;
+      alert(response.error || payload.message);
     }
   };
 
@@ -285,14 +300,21 @@ export default class DebtScreen extends Component {
   };
 
   renderBottomButtons = () => {
-    const { acceptDebt } = this.props;
     const buttons = [];
 
     switch (this.getDebtState()) {
       case debtStates.REQUEST_RECEIVED:
         buttons.push(
-          { color: colors.green, text: 'Accept', onPress: acceptDebt },
-          { color: colors.red, text: 'Decline', onPress: this.declineDebt }
+          {
+            color: colors.green,
+            text: 'Accept',
+            onPress: this.acceptDebt
+          },
+          {
+            color: colors.red,
+            text: 'Decline',
+            onPress: this.declineDebt
+          }
         );
         break;
 
@@ -329,8 +351,16 @@ export default class DebtScreen extends Component {
 
       default:
         buttons.push(
-          { color: colors.green, text: 'Give', onPress: this.toggleGivePopup },
-          { color: colors.red, text: 'Take', onPress: this.toggleTakePopup }
+          {
+            color: colors.green,
+            text: 'Give',
+            onPress: this.toggleGivePopup
+          },
+          {
+            color: colors.red,
+            text: 'Take',
+            onPress: this.toggleTakePopup
+          }
         );
         break;
     }
@@ -414,7 +444,6 @@ export default class DebtScreen extends Component {
 
   render() {
     const { debt, user, operations } = this.props;
-    const { scrollEnabled } = this.state;
 
     if (!debt) return null;
 
@@ -439,8 +468,6 @@ export default class DebtScreen extends Component {
               />
             )}
             keyExtractor={item => item.id}
-            scrollEnabled={scrollEnabled}
-            contentContainerStyle={styles.listContent}
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refreshing}
