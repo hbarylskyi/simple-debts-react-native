@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, FlatList, Image, RefreshControl } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  RefreshControl,
+  TouchableWithoutFeedback
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import Debt from '../../components/Debt/Debt.presenter';
@@ -89,12 +96,14 @@ export default class MainScreen extends Component {
     }));
 
   renderEmptyPlaceholder = () => (
-    <View style={styles.placeholderContainer}>
-      <IonIcon name="ios-paper" size={40} />
-      <Text style={styles.placeholderText}>
-        There are no records yet. Tap '+' to add one!
-      </Text>
-    </View>
+    <TouchableWithoutFeedback>
+      <View style={styles.placeholderContainer}>
+        <IonIcon name="ios-paper" size={40} />
+        <Text style={styles.placeholderText}>
+          There are no records yet. Tap '+' to add one!
+        </Text>
+      </View>
+    </TouchableWithoutFeedback>
   );
 
   renderAddPopup = () => (
