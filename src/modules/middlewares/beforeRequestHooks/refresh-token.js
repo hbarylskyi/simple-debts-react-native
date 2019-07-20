@@ -22,7 +22,12 @@ export default store => next => async action => {
         const refreshTokenPromise = store.dispatch(AuthActions.refreshToken());
 
         global.refreshTokenPromise = refreshTokenPromise;
-        await refreshTokenPromise;
+        const { error } = await refreshTokenPromise;
+
+        if (error) {
+          store.dispatch(AuthActions.logout());
+        }
+
         delete global.refreshTokenPromise;
       } else {
         await global.refreshTokenPromise;
