@@ -1,0 +1,6 @@
+framework module Pods_SimpleDebts_tvOS {
+  umbrella header "Pods-SimpleDebts-tvOS-umbrella.h"
+
+  export *
+  module * { export * }
+}

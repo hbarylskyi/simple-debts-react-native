@@ -1,0 +1,33 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '10.0'
+
+target 'SimpleDebts' do
+  # Comment the next line if you don't want to use dynamic frameworks
+#  use_frameworks!
+
+  pod 'Firebase/Core', '~> 6.3.0'
+  pod 'Firebase/Messaging', '~> 6.3.0'
+
+  # Pods for SimpleDebts
+
+  pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
+
+  target 'SimpleDebtsTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'SimpleDebts-tvOS' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for SimpleDebts-tvOS
+
+  target 'SimpleDebts-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
