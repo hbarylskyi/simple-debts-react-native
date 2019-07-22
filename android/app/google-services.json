@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1098172154574",
+    "firebase_url": "https://simple-debts-7f905.firebaseio.com",
+    "project_id": "simple-debts-7f905",
+    "storage_bucket": "simple-debts-7f905.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1098172154574:android:065f8f6a2fc8c213",
+        "android_client_info": {
+          "package_name": "com.simpledebts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1098172154574-7aqt8hvlj82uu9s3donuruliidu197bo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA53CouWNx8q30Vq2lRwwMBgcVpz4ubNVE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1098172154574-7aqt8hvlj82uu9s3donuruliidu197bo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
