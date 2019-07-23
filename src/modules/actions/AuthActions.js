@@ -52,11 +52,14 @@ export const fbLogin = () => async dispatch => {
     await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
     const data = await AccessToken.getCurrentAccessToken();
 
-    if (!data) return;
+    if (!data) throw new Error('access token was empty');
 
     return dispatch(fbLoginAction(data.accessToken.toString()));
   } catch (error) {
-    alert(`Login failed with error: ${error.errorMessage}`);
+    return {
+      error: true,
+      payload: { message: error.errorMessage || error.message }
+    };
   }
 };
 
