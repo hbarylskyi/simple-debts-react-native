@@ -3,7 +3,8 @@ package com.simpledebts;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import io.invertase.firebase.RNFirebaseAdMobPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
@@ -39,7 +40,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNFirebaseAdMobPackage(),
+            new RNFirebasePackage(),
+            new RNFirebaseMessagingPackage(),
             new RNGestureHandlerPackage(),
             new VectorIconsPackage(),
             new SplashScreenReactPackage(),
