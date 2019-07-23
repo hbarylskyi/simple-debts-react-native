@@ -25,7 +25,6 @@
 		1D1288BF3DF241328E83E07D /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF1EB32F1D6D40C79E3C0F13 /* Entypo.ttf */; };
 		251D574DEE18461AAE47C7CB /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3043BF6F176E4F868C611FC7 /* libRNVectorIcons.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4C21E0B4AEC006451C7 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		2D02E4C31E0B4AEC006451C7 /* libRCTImage-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */; };
 		2D02E4C41E0B4AEC006451C7 /* libRCTLinking-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E881DF850E9000B6D8A /* libRCTLinking-tvOS.a */; };
@@ -68,6 +67,7 @@
 		F50CC19A22E60DBC006D35E0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F50CC16922E60DBB006D35E0 /* GoogleService-Info.plist */; };
 		F518997A22E6E249008AD3C1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F518997922E6E23A008AD3C1 /* libRCTGeolocation.a */; };
 		F51899D722E6E478008AD3C1 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F51899AB22E6E3F4008AD3C1 /* libRCTFBSDK.a */; };
+		F5520ACD22E77FA800D89672 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		F55F220022BA8D7D00471348 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F55F21FD22BA8D7D00471348 /* Bolts.framework */; };
 		F587DC1522BA54B400546A17 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F587DC1422BA54B400546A17 /* Ionicons.ttf */; };
 		F587DC1622BA54B400546A17 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F587DC1422BA54B400546A17 /* Ionicons.ttf */; };
@@ -1709,7 +1709,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */,
+				F5520ACD22E77FA800D89672 /* main.m in Sources */,
 				2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

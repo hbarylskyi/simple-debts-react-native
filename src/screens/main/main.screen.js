@@ -17,6 +17,7 @@ import TouchableArea from '../../components/TouchableArea/TouchableArea';
 import AddPopup from './AddPopup/AddPopup';
 import AddConfirmationPopup from './AddConfirmationPopup/AddConfirmationPopup.presenter';
 import HeaderButton from '../../components/HeaderButton/HeaderButton';
+import * as firebase from 'react-native-firebase';
 
 export default class MainScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -50,7 +51,8 @@ export default class MainScreen extends Component {
     user: PropTypes.object.isRequired,
     navigation: PropTypes.object.isRequired,
     fetchDebts: PropTypes.func.isRequired,
-    debts: PropTypes.array.isRequired
+    debts: PropTypes.array.isRequired,
+    uploadPushToken: PropTypes.func.isRequired
   };
 
   state = {
@@ -68,7 +70,31 @@ export default class MainScreen extends Component {
     });
 
     navigation.addListener('didFocus', this.onFocus);
+
+    this.requestPushNotificationsPermissions();
   }
+
+  requestPushNotificationsPermissions = async () => {
+    const enabled = await firebase.messaging().hasPermission();
+
+    if (enabled) {
+      console.log("we've got push permissions");
+    } else {
+      try {
+        console.log('requesting permission');
+        await firebase.messaging().requestPermission();
+      } catch (error) {
+        console.log('permissions rejected :(');
+      }
+    }
+
+    const fcmToken = await firebase.messaging().getToken();
+    if (fcmToken) {
+      this.props.uploadPushToken(fcmToken);
+    } else {
+      console.log('could not get push token from firebase');
+    }
+  };
 
   onFocus = () => {
     const { fetchDebts } = this.props;
