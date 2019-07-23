@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>478529226778-d6342rpdnpccd795pkruht2p10v6qsgb.apps.googleusercontent.com</string>
+	<string>35427873415-iu4q7ihsgu30g6vg77fo0ncmbj544ocs.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.478529226778-d6342rpdnpccd795pkruht2p10v6qsgb</string>
+	<string>com.googleusercontent.apps.35427873415-iu4q7ihsgu30g6vg77fo0ncmbj544ocs</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBiwDFIlQqHO1FGgNbcMVeZYbucYMOM6us</string>
+	<string>AIzaSyC1gwIpYUf9IQ0VEaEHZWaujUriTY7srrI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>478529226778</string>
+	<string>35427873415</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.simpledebts</string>
 	<key>PROJECT_ID</key>
-	<string>simple-debts-api</string>
+	<string>simple-debts-api-dev</string>
 	<key>STORAGE_BUCKET</key>
-	<string>simple-debts-api.appspot.com</string>
+	<string>simple-debts-api-dev.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:478529226778:ios:065f8f6a2fc8c213</string>
+	<string>1:35427873415:ios:065f8f6a2fc8c213</string>
 	<key>DATABASE_URL</key>
-	<string>https://simple-debts-api.firebaseio.com</string>
+	<string>https://simple-debts-api-dev.firebaseio.com</string>
 </dict>
 </plist>

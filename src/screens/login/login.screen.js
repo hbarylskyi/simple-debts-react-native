@@ -8,6 +8,7 @@ import styles from './login.styles';
 import ButtonDeprecated from '../../components/Button/ButtonDeprecated';
 import { createResetAction } from '../../utils/helpers';
 import Button from '../../components/Button/Button';
+import NavigationService from '../../utils/NavigationService';
 
 const isDevEnv = config.env === 'dev';
 
@@ -64,8 +65,19 @@ export default class LoginScreen extends Component {
   };
 
   fbLogin = async () => {
+    const { fbLogin } = this.props;
+
     this.setState({ fbLoading: true });
-    await this.props.fbLogin();
+
+    const { error, payload } = await fbLogin();
+
+    if (error) {
+      const { response = {} } = payload;
+      alert(`Login unsuccessful: ${response.error || payload.message}`);
+    } else {
+      NavigationService.resetTo('MainScreen');
+    }
+
     this.setState({ fbLoading: false });
   };
 
