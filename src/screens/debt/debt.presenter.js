@@ -22,6 +22,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(OperationActions.newOperation(debtId, val, uid, descr)),
   acceptDebt: debtId => dispatch(DebtActions.acceptDebt(debtId)),
   declineDebt: debtId => dispatch(DebtActions.declineDebt(debtId)),
+  acceptAll: debtId => dispatch(DebtsActions.acceptAll(debtId)),
   deleteDebt: (debtId, isSingle) =>
     dispatch(DebtActions.deleteDebt(debtId, isSingle)),
   connectUser: (debtId, userId) =>

@@ -104,13 +104,8 @@ const declineDebtAction = debtId => ({
   authorize: true
 });
 
-export const declineDebt = debtId => async dispatch => {
-  const res = await dispatch(declineDebtAction(debtId, REQUESTS.DECLINE));
-
-  if (res.error) {
-    throw new Error(res.payload.name);
-  }
-};
+export const declineDebt = debtId => dispatch =>
+  dispatch(declineDebtAction(debtId, REQUESTS.DECLINE));
 
 export const CREATE_DEBTS = 'CREATE_DEBTS';
 

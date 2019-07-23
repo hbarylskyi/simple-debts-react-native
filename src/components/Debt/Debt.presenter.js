@@ -8,8 +8,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  acceptDebt: debtId => dispatch(DebtActions.acceptDebt(debtId, DebtActions.REQUESTS.ACCEPT)),
-  declineDebt: debtId => dispatch(DebtActions.acceptDebt(debtId, DebtActions.REQUESTS.DECLINE))
+  acceptDebt: debtId => dispatch(DebtActions.acceptDebt(debtId)),
+  declineDebt: debtId => dispatch(DebtActions.declineDebt(debtId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Debt);

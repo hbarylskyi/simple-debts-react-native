@@ -14,6 +14,7 @@ export default store => next => async action => {
 
   if (rsaa && action.authorize) {
     const { auth } = store.getState();
+    console.log(auth);
 
     // if token is expired, refresh it before dispatching rsaa.
     // if token is already being refreshed, wait for the request to finish

@@ -42,7 +42,8 @@ export default class DebtScreen extends Component {
     connectUser: PropTypes.func.isRequired,
     declineUserConnection: PropTypes.func.isRequired,
     acceptUserConnection: PropTypes.func.isRequired,
-    operations: PropTypes.arrayOf(PropTypes.object)
+    operations: PropTypes.arrayOf(PropTypes.object),
+    acceptAll: PropTypes.func.isRequired
   };
 
   static navigationOptions = ({ navigation }) => {
@@ -249,7 +250,26 @@ export default class DebtScreen extends Component {
     }
   };
 
-  acceptAll = () => {};
+  acceptAll = async () => {
+    const { acceptAll, debt } = this.props;
+
+    const { error, payload } = await acceptAll(debt.id);
+
+    if (error) {
+      const { response = {} } = payload;
+      alert(response.error || payload.message);
+    }
+  };
+
+  shouldRenderAcceptAll = () => {
+    const { operations, user } = this.props;
+
+    const operationToAccept = operations.find(
+      op => op.status === 'CREATION_AWAITING' && op.statusAcceptor === user.id
+    );
+
+    return Boolean(operationToAccept);
+  };
 
   renderTakePopup = () => (
     <DebtPopup
@@ -285,16 +305,19 @@ export default class DebtScreen extends Component {
     return (
       <View style={[styles.summaryContainer, style]}>
         <Text style={styles.moneyAmount}>{debtText}</Text>
-        <Button
-          text="Accept all"
-          textStyle={{
-            color: isTaken ? colors.red : colors.green,
-            fontSize: 16
-          }}
-          onPress={this.acceptAll}
-          style={styles.acceptAllBtn}
-          wrapperStyle={styles.acceptAllWrapper}
-        />
+
+        {this.shouldRenderAcceptAll() ? (
+          <Button
+            text="Accept all"
+            textStyle={{
+              color: isTaken ? colors.red : colors.green,
+              fontSize: 16
+            }}
+            onPress={this.acceptAll}
+            style={styles.acceptAllBtn}
+            wrapperStyle={styles.acceptAllWrapper}
+          />
+        ) : null}
       </View>
     );
   };
