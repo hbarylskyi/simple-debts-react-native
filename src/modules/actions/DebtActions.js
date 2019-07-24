@@ -29,25 +29,18 @@ export const fetchDebt = debtId => dispatch =>
   dispatch(fetchDebtAction(debtId));
 
 // delete user from debt collection
+export const DELETE_SINGLE_DEBT_REQUEST = 'DELETE_SINGLE_DEBT_REQUEST';
+export const DELETE_SINGLE_DEBT_SUCCESS = 'DELETE_SINGLE_DEBT_SUCCESS';
+export const DELETE_SINGLE_DEBT_FAILURE = 'DELETE_SINGLE_DEBT_FAILURE';
 
-export const DELETE_DEBT_REQUEST = 'DELETE_DEBT_REQUEST';
-export const DELETE_DEBT_SUCCESS = 'DELETE_DEBT_SUCCESS';
-export const DELETE_DEBT_FAILURE = 'DELETE_DEBT_FAILURE';
-
-const deleteDebtTypes = [
-  DELETE_DEBT_REQUEST,
-  DELETE_DEBT_SUCCESS,
-  DELETE_DEBT_FAILURE
-];
-
-const deleteDebtAction = debtId => ({
+const deleteSingleDebtAction = debtId => ({
   [RSAA]: {
     endpoint: `${baseUrl}/debts/${debtId}`,
     method: 'DELETE',
     types: [
-      DELETE_DEBT_REQUEST,
-      { type: DELETE_DEBT_SUCCESS, meta: debtId },
-      DELETE_DEBT_FAILURE
+      DELETE_SINGLE_DEBT_REQUEST,
+      { type: DELETE_SINGLE_DEBT_SUCCESS, meta: debtId },
+      DELETE_SINGLE_DEBT_FAILURE
     ],
     headers: { 'Content-Type': 'application/json' }
   },
@@ -55,11 +48,36 @@ const deleteDebtAction = debtId => ({
   authorize: true
 });
 
-export const deleteDebt = debtId => async dispatch =>
-  dispatch(deleteDebtAction(debtId));
+export const DELETE_MULTI_DEBT_REQUEST = 'DELETE_MULTI_DEBT_REQUEST';
+export const DELETE_MULTI_DEBT_SUCCESS = 'DELETE_MULTI_DEBT_SUCCESS';
+export const DELETE_MULTI_DEBT_FAILURE = 'DELETE_MULTI_DEBT_FAILURE';
+
+const deleteMultiDebtAction = debtId => ({
+  [RSAA]: {
+    endpoint: `${baseUrl}/debts/${debtId}`,
+    method: 'DELETE',
+    types: [
+      DELETE_MULTI_DEBT_REQUEST,
+      DELETE_MULTI_DEBT_SUCCESS,
+      DELETE_MULTI_DEBT_FAILURE
+    ],
+    headers: { 'Content-Type': 'application/json' }
+  },
+
+  authorize: true
+});
+
+export const deleteDebt = debtId => async (dispatch, getState) => {
+  const { debts } = getState().debts;
+
+  const debt = debts.find(stateDebt => stateDebt.id === debtId);
+
+  return debt.type === 'SINGLE_USER'
+    ? dispatch(deleteSingleDebtAction(debtId))
+    : dispatch(deleteMultiDebtAction(debtId));
+};
 
 // accept debt creation request
-
 export const ACCEPT_DEBT_REQUEST = 'ACCEPT_DEBT_REQUEST';
 export const ACCEPT_DEBT_SUCCESS = 'ACCEPT_DEBT_SUCCESS';
 export const ACCEPT_DEBT_FAILURE = 'ACCEPT_DEBT_FAILURE';

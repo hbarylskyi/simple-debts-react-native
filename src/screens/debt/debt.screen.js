@@ -5,7 +5,8 @@ import {
   FlatList,
   RefreshControl,
   ActivityIndicator,
-  Image, TouchableWithoutFeedback
+  Image,
+  TouchableWithoutFeedback
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import PropTypes from 'prop-types';
@@ -29,7 +30,8 @@ const debtStates = {
   REQUEST_SENT: 'REQUEST_SENT',
   BECAME_VITUAL: 'BECAME_VITUAL',
   JOIN_VIRTUAL_SENT: 'JOIN_VIRTUAL_SENT',
-  JOIN_VIRTUAL_RECEIVED: 'JOIN_VIRTUAL_RECEIVED'
+  JOIN_VIRTUAL_RECEIVED: 'JOIN_VIRTUAL_RECEIVED',
+  USER_DELETED: 'USER_DELETED'
 };
 
 export default class DebtScreen extends Component {
@@ -114,18 +116,20 @@ export default class DebtScreen extends Component {
 
     if (debt.statusAcceptor === null || debt.status === 'CHANGE_AWAITING') {
       return debtStates.NORMAL;
-    } else if (debt.status === 'CREATION_AWAITING') {
+    }
+    if (debt.status === 'CREATION_AWAITING') {
       return debt.statusAcceptor === user.id
         ? debtStates.REQUEST_RECEIVED
         : debtStates.REQUEST_SENT;
-    } else if (debt.status === 'CONNECT_USER') {
+    }
+    if (debt.status === 'CONNECT_USER') {
       return debt.statusAcceptor === user.id
         ? debtStates.JOIN_VIRTUAL_RECEIVED
         : debtStates.JOIN_VIRTUAL_SENT;
     }
-    // else if (debt.status === 'USER_DELETED') {
-    //
-    // }
+    if (debt.status === 'USER_DELETED') {
+      return debtStates.USER_DELETED;
+    }
   };
 
   setTakeValue = text => {
@@ -153,12 +157,10 @@ export default class DebtScreen extends Component {
     if (error) {
       const { response = {} } = payload;
       alert(response.error || payload.message);
+    } else if (isGiven) {
+      this.toggleGivePopup();
     } else {
-      if (isGiven) {
-        this.toggleGivePopup();
-      } else {
-        this.toggleTakePopup();
-      }
+      this.toggleTakePopup();
     }
   };
 
@@ -197,10 +199,8 @@ export default class DebtScreen extends Component {
     if (error) {
       const { response = {} } = payload;
       alert(response.error || payload.message);
-    } else {
-      if (debt.type === 'SINGLE_USER') {
-        this.goBack();
-      }
+    } else if (debt.type === 'SINGLE_USER') {
+      this.goBack();
     }
   };
 
@@ -247,10 +247,8 @@ export default class DebtScreen extends Component {
     if (error) {
       const { response = {} } = payload;
       alert(response.error || payload.message);
-    } else {
-      if (isSingle) await fetchDebt(debt.id);
-      else this.goBack();
-    }
+    } else if (isSingle) await fetchDebt(debt.id);
+    else this.goBack();
   };
 
   acceptAll = async () => {
@@ -263,6 +261,10 @@ export default class DebtScreen extends Component {
       alert(response.error || payload.message);
     }
   };
+
+  saveDeletedDebt = () => {};
+
+  deleteDeletedDebt = () => {};
 
   shouldRenderAcceptAll = () => {
     const { operations, user } = this.props;
@@ -379,6 +381,21 @@ export default class DebtScreen extends Component {
         });
         break;
 
+      case debtStates.USER_DELETED:
+        buttons.push(
+          {
+            color: colors.green,
+            text: 'Save',
+            onPress: this.saveDeletedDebt
+          },
+          {
+            color: colors.red,
+            text: 'Delete',
+            onPress: this.deleteDeletedDebt
+          }
+        );
+        break;
+
       default:
         buttons.push(
           {
@@ -416,17 +433,24 @@ export default class DebtScreen extends Component {
 
     switch (this.getDebtState()) {
       case debtStates.REQUEST_RECEIVED:
-        text = `${debt.user.name} sent you a request\nto create new debts collection`;
+        text = `${debt.user.name} sent you a request\nto create new debts collection.`;
         break;
       case debtStates.REQUEST_SENT:
-        text = `You have sent a request to ${debt.user.name}.\nWait for the response`;
+        text = `You have sent a request to ${debt.user.name}.\nWait for them to accept it.`;
         break;
       case debtStates.JOIN_VIRTUAL_RECEIVED:
-        text = `${debt.user.name} sent you a request\nto join their debts collection`;
+        text = `${debt.user.name} sent you a request\nto join this debts collection.`;
         break;
       case debtStates.JOIN_VIRTUAL_SENT:
-        text = `You have requested ${debt.user.name}\nto join this collection`;
+        text = `You have requested ${debt.user.name}\nto join this collection.`;
         break;
+      case debtStates.USER_DELETED:
+        text =
+          `${debt.user.name} deleted this debts collection. ` +
+          `You can save it and continue using it; ${debt.user.name} will ` +
+          "become your 'virtual' user. Or you can delete this collection and it will disappear.";
+        break;
+
       default:
         return;
     }
@@ -462,6 +486,7 @@ export default class DebtScreen extends Component {
 
   renderListEmpty = () => {
     const { loading } = this.state;
+    const { debt } = this.props;
 
     return loading ? (
       <ActivityIndicator size="large" style={styles.spinner} />
@@ -470,10 +495,15 @@ export default class DebtScreen extends Component {
       // the list is empty
       <TouchableWithoutFeedback>
         <View style={mainScreenStyles.placeholderContainer}>
-          <IonIcon name="ios-paper" size={40} color={colors.black} />
-          <Text style={mainScreenStyles.placeholderText}>
-            There are no records yet. You can create one by tapping on buttons below
-          </Text>
+          {debt.status === 'UNCHANGED' ? (
+            <View>
+              <IonIcon name="ios-paper" size={40} color={colors.black} />
+              <Text style={mainScreenStyles.placeholderText}>
+                There are no records yet. You can create one by tapping on
+                buttons below
+              </Text>
+            </View>
+          ) : null}
         </View>
       </TouchableWithoutFeedback>
     );
