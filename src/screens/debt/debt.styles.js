@@ -9,7 +9,9 @@ export default StyleSheet.create({
 
   summaryContainer: {
     flex: 1.5,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 30
   },
 
   summaryGiven: { backgroundColor: colors.green },
@@ -35,6 +37,15 @@ export default StyleSheet.create({
     fontSize: 30,
     color: 'white',
     textAlign: 'center'
+  },
+
+  summaryAvatar: {
+    height: 100,
+    width: 100,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: 'white',
+    marginBottom: 10
   },
 
   moneyAmount: {

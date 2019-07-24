@@ -31,6 +31,7 @@ export default class SearchModal extends Component {
 
     return (
       <Popup
+        onBackdropPress={onBackdropPress}
         containerStyle={styles.popupContainer}
         noMargin
         animationIn="fadeInUp"

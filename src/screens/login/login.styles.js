@@ -77,13 +77,14 @@ export default StyleSheet.create({
   btn: {
     minWidth: 120,
     padding: 16,
+    borderRadius: 10,
     backgroundColor: colors.lightGray
   },
 
   fbBtn: {
     backgroundColor: colors.fb,
     flexDirection: 'row',
-    borderRadius: 8,
+    borderRadius: 10,
     height: 50,
     paddingHorizontal: 14
   },

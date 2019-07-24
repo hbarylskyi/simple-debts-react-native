@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import config from 'react-native-config';
-import {
-  View,
-  Text,
-  TextInput,
-  Linking,
-  ActivityIndicator
-} from 'react-native';
+import { View, Text, TextInput, Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import PropTypes from 'prop-types';
@@ -15,6 +9,7 @@ import ButtonDeprecated from '../../components/Button/ButtonDeprecated';
 import { createResetAction } from '../../utils/helpers';
 import Button from '../../components/Button/Button';
 import NavigationService from '../../utils/NavigationService';
+import * as colors from '../../utils/colors';
 
 const isDevEnv = config.env === 'dev';
 
@@ -105,7 +100,12 @@ export default class LoginScreen extends Component {
         <View style={styles.bottom}>
           <View>
             <View style={styles.inputRow}>
-              <Icon size={24} name="envelope-o" style={styles.icon} />
+              <Icon
+                size={24}
+                name="envelope-o"
+                style={styles.icon}
+                color={colors.black}
+              />
               <TextInput
                 onChangeText={email => this.setState({ email })}
                 onSubmitEditing={() => this.passInput.focus()}
@@ -119,7 +119,12 @@ export default class LoginScreen extends Component {
             </View>
 
             <View style={styles.inputRow}>
-              <IonIcon size={30} name="ios-key" style={styles.icon} />
+              <IonIcon
+                size={30}
+                name="ios-key"
+                style={styles.icon}
+                color={colors.black}
+              />
               <TextInput
                 ref={ref => (this.passInput = ref)}
                 onChangeText={pass => this.setState({ pass })}
@@ -141,6 +146,7 @@ export default class LoginScreen extends Component {
                 loading={signupLoading}
                 style={styles.btn}
               />
+
               <ButtonDeprecated
                 title="Sign in"
                 onPress={this.standardLogin}

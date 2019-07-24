@@ -4,7 +4,8 @@ import {
   Text,
   FlatList,
   RefreshControl,
-  ActivityIndicator
+  ActivityIndicator,
+  Image
 } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './debt.styles';
@@ -304,6 +305,7 @@ export default class DebtScreen extends Component {
 
     return (
       <View style={[styles.summaryContainer, style]}>
+        <Image source={{ uri: debt.user.picture }} style={styles.summaryAvatar} />
         <Text style={styles.moneyAmount}>{debtText}</Text>
 
         {this.shouldRenderAcceptAll() ? (
