@@ -7,24 +7,37 @@ import Popup from '../../../components/Popup/Popup';
 
 export default class DebtPopup extends Component {
   static propTypes = {
-    onChangeVal: PropTypes.func.isRequired,
-    onChangeDescr: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     isGivePopup: PropTypes.bool.isRequired
   };
 
   state = {
-    loading: false
+    loading: false,
+    value: '',
+    description: ''
   };
 
   onSubmit = async () => {
+    const { isGivePopup, onSubmit } = this.props;
+    const { value, description } = this.state;
+
     this.setState({ loading: true });
-    await this.props.onSubmit();
+    await onSubmit(isGivePopup, value, description);
     this.setState({ loading: false });
+
+    // clear values after popup is hidden
+    setTimeout(() => {
+      this.setState({ value: '', description: '' });
+    }, 300);
   };
 
+  onChangeDescr = description => this.setState({ description });
+
+  onChangeVal = value => this.setState({ value: parseInt(value, 10) });
+
   render() {
-    const { isGivePopup, onChangeVal, onChangeDescr, ...rest } = this.props;
+    const { isGivePopup, ...rest } = this.props;
+    const { value, description, loading } = this.state;
     const backgr = isGivePopup ? styles.giveBackgr : styles.takeBackgr;
     const buttonText = isGivePopup ? 'Give' : 'Take';
 
@@ -33,7 +46,7 @@ export default class DebtPopup extends Component {
         <View style={[styles.top, backgr]}>
           <TextInput
             placeholder={`How much you ${isGivePopup ? 'gave' : 'took'}?`}
-            onChangeText={onChangeVal}
+            onChangeText={this.onChangeVal}
             placeholderTextColor="white"
             keyboardType="numeric"
             autoFocus
@@ -45,7 +58,7 @@ export default class DebtPopup extends Component {
         <View style={styles.bottom}>
           <TextInput
             placeholder="Description"
-            onChangeText={onChangeDescr}
+            onChangeText={this.onChangeDescr}
             onSubmitEditing={this.onSubmit}
             autoCorrect={false}
             autoCapitalize="sentences"
@@ -57,8 +70,9 @@ export default class DebtPopup extends Component {
           <ButtonDeprecated
             onPress={this.onSubmit}
             title={buttonText}
-            loading={this.state.loading}
+            loading={loading}
             textStyle={styles.submitText}
+            disabled={!value || !description}
             style={styles.submit}
           />
         </View>

@@ -140,18 +140,17 @@ export default class DebtScreen extends Component {
     this.state.giveValue = parseInt(text, 10);
   };
 
-  newOperation = async (val, isGiven) => {
+  newOperation = async (isGiven, value, description) => {
     const { debt, user, newOperation } = this.props;
     const receiver = isGiven ? debt.user.id : user.id;
-    const descr = isGiven ? this.state.giveDescr : this.state.takeDescr;
 
-    if (!val || !descr) return;
+    if (!value || !description) return;
 
     const { error, payload } = await newOperation(
       debt.id,
-      val,
+      value,
       receiver,
-      descr
+      description
     );
 
     if (error) {
@@ -280,10 +279,8 @@ export default class DebtScreen extends Component {
     <DebtPopup
       isGivePopup={false}
       isVisible={this.state.takePopupVisible}
-      onChangeVal={text => this.setTakeValue(text)}
-      onChangeDescr={takeDescr => this.setState({ takeDescr })}
       onBackdropPress={this.toggleTakePopup}
-      onSubmit={() => this.newOperation(this.state.takeValue, false)}
+      onSubmit={this.newOperation}
     />
   );
 
@@ -291,10 +288,8 @@ export default class DebtScreen extends Component {
     <DebtPopup
       isGivePopup
       isVisible={this.state.givePopupVisible}
-      onChangeVal={text => this.setGiveValue(text, console.log(text))}
-      onChangeDescr={giveDescr => this.setState({ giveDescr })}
       onBackdropPress={this.toggleGivePopup}
-      onSubmit={() => this.newOperation(this.state.giveValue, true)}
+      onSubmit={this.newOperation}
     />
   );
 
