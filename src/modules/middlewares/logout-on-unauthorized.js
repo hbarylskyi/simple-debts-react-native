@@ -5,7 +5,11 @@ export default store => next => action => {
   if (action.error) {
     const { response = {} } = action.payload;
 
-    if (response.error === 'Unauthorized') {
+    if (
+      response.error === 'Unauthorized' ||
+      response.error === 'Invalid Token' ||
+      response.error === 'Access Token Expired'
+    ) {
       store.dispatch(AuthActions.logout());
     }
   }

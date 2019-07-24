@@ -84,9 +84,8 @@ export default StyleSheet.create({
     backgroundColor: colors.fb,
     flexDirection: 'row',
     borderRadius: 8,
-    padding: 10,
-    paddingHorizontal: 14,
-    alignSelf: 'center'
+    height: 50,
+    paddingHorizontal: 14
   },
 
   fbText: {
@@ -94,6 +93,5 @@ export default StyleSheet.create({
     fontSize: 16,
     marginLeft: 10,
     fontWeight: '600'
-    // fontFamily: fonts.medium
   }
 });

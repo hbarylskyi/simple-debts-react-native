@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import config from 'react-native-config';
-import { View, Text, TextInput, Linking } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Linking,
+  ActivityIndicator
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import PropTypes from 'prop-types';
