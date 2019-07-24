@@ -192,7 +192,6 @@ export default class MainScreen extends Component {
 
   renderSummary = () => {
     const { user } = this.props;
-
     return (
       <View style={styles.summaryContainer}>
         <Image source={{ uri: user.picture }} style={styles.summaryAvatar} />
@@ -203,7 +202,7 @@ export default class MainScreen extends Component {
   };
 
   render() {
-    const { debts, navigation } = this.props;
+    const { debts } = this.props;
     const { refreshing } = this.state;
 
     return (

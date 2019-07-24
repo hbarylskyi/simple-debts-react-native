@@ -10,12 +10,12 @@ export default store => next => async action => {
 
     if (action.payload && action.payload.auth && action.payload.auth.token) {
       // check if app was shut down and then opened from notification
-      const {
-        notification
-      } = await firebase.notifications().getInitialNotification();
+      const data = await firebase.notifications().getInitialNotification();
 
-      if (notification && notification.data.debtsId) {
-        NavigationService.resetToDebtWithMainScreen(notification.data.debtsId);
+      if (data && data.notification.data.debtsId) {
+        NavigationService.resetToDebtWithMainScreen(
+          data.notification.data.debtsId
+        );
       } else {
         NavigationService.resetTo('MainScreen');
       }
