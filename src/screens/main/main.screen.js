@@ -124,7 +124,7 @@ export default class MainScreen extends Component {
   renderEmptyPlaceholder = () => (
     <TouchableWithoutFeedback>
       <View style={styles.placeholderContainer}>
-        <IonIcon name="ios-paper" size={40} />
+        <IonIcon name="ios-paper" size={40} color={colors.black} />
         <Text style={styles.placeholderText}>
           There are no records yet. Tap '+' to add one!
         </Text>

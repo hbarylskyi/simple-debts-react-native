@@ -4,6 +4,7 @@ import * as colors from '../../utils/colors';
 const { height } = Dimensions.get('window');
 
 const btn = {
+  borderRadius: 10,
   minWidth: 100,
   marginBottom: 16,
   padding: 16,
@@ -13,7 +14,7 @@ const btn = {
 export default StyleSheet.create({
   container: {
     flex: 1,
-    borderRadius: 3,
+    borderRadius: 10,
     maxHeight: height / 1.8,
     backgroundColor: colors.white
   },
@@ -46,6 +47,6 @@ export default StyleSheet.create({
   btn,
 
   btnText: {
-
+    color: colors.black
   }
 });

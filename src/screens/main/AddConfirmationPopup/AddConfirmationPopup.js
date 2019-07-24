@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Image } from 'react-native';
+import { Text, Image, View } from 'react-native';
 import PropTypes from 'prop-types';
 import isoCurrency from 'iso-country-currency';
 import DeviceInfo from 'react-native-device-info';
@@ -65,13 +65,11 @@ export default class AddConfirmationPopup extends Component {
     const { user, onClose } = this.props;
     const { createLoading, currency } = this.state;
 
-    console.log(user);
-
     if (!user) return null;
 
     return (
       <Popup
-        title={'Create a debt collection'}
+        title={`Do you want to add ${user.name}?`}
         style={styles.container}
         {...this.props}
         confirmBtnProps={{
@@ -82,15 +80,15 @@ export default class AddConfirmationPopup extends Component {
         cancelBtnProps={{ onPress: onClose, title: 'No' }}
       >
         {this.renderCurrencyModal()}
-        <Text style={styles.text}>{`Do you want to add ${user.name}?`}</Text>
-        <Image source={{ uri: user.picture }} style={styles.avatar} />
 
-        <Text style={styles.text}>Currency: {currency}</Text>
-        <Button
-          onPress={this.toggleCurrencyModal}
-          text="Select different currency"
-          style={styles.currencyBtn}
-        />
+        <View>
+          <Text style={styles.text}>Currency: {currency}</Text>
+          <Button
+            onPress={this.toggleCurrencyModal}
+            text="Select another currency"
+            style={styles.currencyBtn}
+          />
+        </View>
       </Popup>
     );
   }

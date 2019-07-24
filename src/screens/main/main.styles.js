@@ -96,8 +96,10 @@ export default StyleSheet.create({
   },
 
   placeholderText: {
+    marginHorizontal: 40,
     marginTop: 24,
-    fontSize: 18,
-    textAlign: 'center'
+    fontSize: 16,
+    textAlign: 'center',
+    color: colors.black
   }
 });

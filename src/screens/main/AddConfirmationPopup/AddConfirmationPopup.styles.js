@@ -4,12 +4,13 @@ import * as colors from '../../../utils/colors';
 export default StyleSheet.create({
   container: {
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'space-around'
   },
 
   text: {
     textAlign: 'center',
-    fontSize: 20
+    fontSize: 20,
+    color: colors.black
   },
 
   avatar: {
@@ -21,8 +22,10 @@ export default StyleSheet.create({
 
   currencyBtn: {
     margin: 12,
-    padding: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
     backgroundColor: colors.lightGray,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    borderRadius: 10
   }
 });

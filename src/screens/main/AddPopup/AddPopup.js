@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { MKTextField } from 'react-native-material-kit';
 import PropTypes from 'prop-types';
 import ButtonDeprecated from '../../../components/Button/ButtonDeprecated';
@@ -42,45 +42,43 @@ export default class AddPopup extends Component {
     const { virtName } = this.state;
 
     return (
-      <Popup
-        title="Create a debt collection"
-        style={styles.popup}
-        {...this.props}
-      >
+      <Popup title="Create a Debt" style={styles.popup} {...this.props}>
         {this.renderSearchModal()}
 
         <View style={styles.top}>
-          <MKTextField
-            placeholder="Friend name"
-            floatingLabelEnabled
-            underlineEnabled
-            highlightColor={colors.lightGray}
-            tintColor={colors.lightGray}
-            onChangeText={this.setVirtName}
-            style={styles.input}
-            value={virtName}
-            autoCapitalize="sentences"
-            autoCorrect={false}
-          />
-        </View>
+          <View>
+            <Text style={styles.description}>
+              You can create a Debt with a 'virtual' user:
+            </Text>
+            <MKTextField
+              placeholder="User name"
+              underlineEnabled
+              highlightColor={colors.lightGray}
+              tintColor={colors.lightGray}
+              onChangeText={this.setVirtName}
+              value={virtName}
+              autoCapitalize="sentences"
+              autoCorrect={false}
+              style={styles.input}
+            />
 
-        <View style={{ alignItems: 'center' }}>
+          </View>
           <ButtonDeprecated
             onPress={() => onUserSelected({ name: virtName })}
             disabled={!virtName}
-            title={'Add virtual user'}
+            title="Create a Debt with virtual user"
             style={styles.button}
           />
+        </View>
 
-          <Divider />
+        <Divider />
 
-          <View style={styles.bottom}>
-            <ButtonDeprecated
-              onPress={this.toggleSearch}
-              title={'Find your friend'}
-              style={styles.button}
-            />
-          </View>
+        <View style={styles.bottom}>
+          <ButtonDeprecated
+            onPress={this.toggleSearch}
+            title="Search for a registered user"
+            style={styles.button}
+          />
         </View>
       </Popup>
     );

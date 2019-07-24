@@ -5,10 +5,12 @@ import {
   FlatList,
   RefreshControl,
   ActivityIndicator,
-  Image
+  Image, TouchableWithoutFeedback
 } from 'react-native';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 import PropTypes from 'prop-types';
 import styles from './debt.styles';
+import mainScreenStyles from '../main/main.styles';
 import DebtPopup from './debtPopup/debtPopup';
 import Operation from '../../components/Operation/Operation.presenter';
 import OperationPopup from './OperationPopup/OperationPopup';
@@ -305,7 +307,10 @@ export default class DebtScreen extends Component {
 
     return (
       <View style={[styles.summaryContainer, style]}>
-        <Image source={{ uri: debt.user.picture }} style={styles.summaryAvatar} />
+        <Image
+          source={{ uri: debt.user.picture }}
+          style={styles.summaryAvatar}
+        />
         <Text style={styles.moneyAmount}>{debtText}</Text>
 
         {this.shouldRenderAcceptAll() ? (
@@ -463,7 +468,14 @@ export default class DebtScreen extends Component {
     ) : (
       // button is here to make it possible to use pull-to-refresh when
       // the list is empty
-      <Button onPress={() => {}} style={{ flex: 1, height: 400 }} />
+      <TouchableWithoutFeedback>
+        <View style={mainScreenStyles.placeholderContainer}>
+          <IonIcon name="ios-paper" size={40} color={colors.black} />
+          <Text style={mainScreenStyles.placeholderText}>
+            There are no records yet. You can create one by tapping on buttons below
+          </Text>
+        </View>
+      </TouchableWithoutFeedback>
     );
   };
 

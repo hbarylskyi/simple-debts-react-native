@@ -4,8 +4,8 @@ import * as colors from '../../../utils/colors';
 export default StyleSheet.create({
   top: {
     flex: 1.4,
-    borderTopLeftRadius: 2,
-    borderTopRightRadius: 2,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomWidth: 1,

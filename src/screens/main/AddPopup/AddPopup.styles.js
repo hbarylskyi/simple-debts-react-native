@@ -1,26 +1,36 @@
 import { StyleSheet } from 'react-native';
+import * as colors from '../../../utils/colors';
 
 export default StyleSheet.create({
   popup: {
-    padding: 12
-  },
-
-  input: {
-    width: 175
+    paddingHorizontal: 30
   },
 
   top: {
     flex: 1,
-    justifyContent: 'space-around',
-    alignItems: 'center'
+    justifyContent: 'space-evenly'
   },
 
   bottom: {
-    alignItems: 'center',
+    flex: 0.5,
     justifyContent: 'center'
   },
 
+  description: {
+    fontSize: 12,
+    color: colors.black,
+    textAlign: 'center'
+  },
+
+  input: {
+    marginBottom: 15,
+    marginTop: 10
+  },
+
   button: {
-    padding: 8
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+    backgroundColor: colors.lightGray
   }
 });
