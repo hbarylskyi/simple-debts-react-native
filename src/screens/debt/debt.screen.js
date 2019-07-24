@@ -496,7 +496,7 @@ export default class DebtScreen extends Component {
       <TouchableWithoutFeedback>
         <View style={mainScreenStyles.placeholderContainer}>
           {debt.status === 'UNCHANGED' ? (
-            <View>
+            <View style={{ alignItems: 'center' }}>
               <IonIcon name="ios-paper" size={40} color={colors.black} />
               <Text style={mainScreenStyles.placeholderText}>
                 There are no records yet. You can create one by tapping on

@@ -76,9 +76,20 @@ export default class MainScreen extends Component {
     navigation.addListener('didFocus', this.onFocus);
 
     this.requestPushNotificationsPermissions();
+
+    // if app was in background
+    this.onNotificationOpened = firebase
+      .notifications()
+      .onNotificationOpened(this.handleOpenedNotification);
+  }
+
+  componentWillUnmount() {
+    // remove the callback
+    this.onNotificationOpened();
   }
 
   requestPushNotificationsPermissions = async () => {
+    const { uploadPushToken } = this.props;
     const enabled = await firebase.messaging().hasPermission();
 
     if (enabled) {
@@ -94,9 +105,15 @@ export default class MainScreen extends Component {
 
     const fcmToken = await firebase.messaging().getToken();
     if (fcmToken) {
-      this.props.uploadPushToken(fcmToken);
+      uploadPushToken(fcmToken);
     } else {
       console.log('could not get push token from firebase');
+    }
+  };
+
+  handleOpenedNotification = ({ notification }) => {
+    if (notification && notification.data.debtsId) {
+      this.goToDebt(notification.data.debtsId);
     }
   };
 
@@ -114,6 +131,11 @@ export default class MainScreen extends Component {
     this.setState({ refreshing: true });
     await this.props.fetchDebts();
     this.setState({ refreshing: false });
+  };
+
+  goToDebt = debtId => {
+    const { navigation } = this.props;
+    navigation.navigate('DebtScreen', { debtId });
   };
 
   toggleAddPopup = () =>
@@ -193,12 +215,7 @@ export default class MainScreen extends Component {
           <FlatList
             data={debts}
             renderItem={({ item }) => (
-              <Debt
-                debt={item}
-                onPress={async () =>
-                  navigation.navigate('DebtScreen', { debtId: item.id })
-                }
-              />
+              <Debt debt={item} onPress={() => this.goToDebt(item.id)} />
             )}
             keyExtractor={item => item.id}
             ListEmptyComponent={this.renderEmptyPlaceholder}

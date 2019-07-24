@@ -8,7 +8,7 @@ import './utils/NetworkLogFix';
 import NavigationService from './utils/NavigationService';
 
 class App extends React.Component {
-  componentDidMount() {
+  async componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
   }
 
