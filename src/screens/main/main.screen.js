@@ -6,11 +6,13 @@ import {
   FlatList,
   Image,
   RefreshControl,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  ActivityIndicator
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import Debt from '../../components/Debt/Debt.presenter';
+import debtScreenStyles from '../debt/debt.styles';
 import styles from './main.styles';
 import * as colors from '../../utils/colors';
 import TouchableArea from '../../components/TouchableArea/TouchableArea';
@@ -52,11 +54,13 @@ export default class MainScreen extends Component {
     navigation: PropTypes.object.isRequired,
     fetchDebts: PropTypes.func.isRequired,
     debts: PropTypes.array.isRequired,
-    uploadPushToken: PropTypes.func.isRequired
+    uploadPushToken: PropTypes.func.isRequired,
+    signOut: PropTypes.func.isRequired
   };
 
   state = {
     refreshing: false,
+    loading: false,
     popupVisible: false,
     userToAdd: {}
   };
@@ -96,16 +100,15 @@ export default class MainScreen extends Component {
     }
   };
 
-  onFocus = () => {
+  onFocus = async () => {
     const { fetchDebts } = this.props;
-    fetchDebts().catch(({ message }) =>
-      console.log(`Error while fetching debt: ${message}`)
-    );
+
+    this.setState({ loading: true });
+    await fetchDebts();
+    this.setState({ loading: false });
   };
 
-  signOut = () => {
-    this.props.signOut();
-  };
+  signOut = () => this.props.signOut();
 
   onRefresh = async () => {
     this.setState({ refreshing: true });
@@ -121,16 +124,22 @@ export default class MainScreen extends Component {
       confirmationPopupVisible: !prevState.confirmationPopupVisible
     }));
 
-  renderEmptyPlaceholder = () => (
-    <TouchableWithoutFeedback>
-      <View style={styles.placeholderContainer}>
-        <IonIcon name="ios-paper" size={40} color={colors.black} />
-        <Text style={styles.placeholderText}>
-          There are no records yet. Tap '+' to add one!
-        </Text>
-      </View>
-    </TouchableWithoutFeedback>
-  );
+  renderEmptyPlaceholder = () => {
+    const { loading } = this.state;
+
+    return loading ? (
+      <ActivityIndicator size="large" style={debtScreenStyles.spinner} />
+    ) : (
+      <TouchableWithoutFeedback>
+        <View style={styles.placeholderContainer}>
+          <IonIcon name="ios-paper" size={40} color={colors.black} />
+          <Text style={styles.placeholderText}>
+            There are no records yet. Tap '+' to add one!
+          </Text>
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  };
 
   renderAddPopup = () => (
     <AddPopup
