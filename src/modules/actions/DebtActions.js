@@ -44,18 +44,19 @@ const deleteDebtAction = debtId => ({
   [RSAA]: {
     endpoint: `${baseUrl}/debts/${debtId}`,
     method: 'DELETE',
-    types: deleteDebtTypes,
+    types: [
+      DELETE_DEBT_REQUEST,
+      { type: DELETE_DEBT_SUCCESS, meta: debtId },
+      DELETE_DEBT_FAILURE
+    ],
     headers: { 'Content-Type': 'application/json' }
   },
 
   authorize: true
 });
 
-export const deleteDebt = debtId => async dispatch => {
-  const res = await dispatch(deleteDebtAction(debtId));
-  if (res.error) throw new Error(res.payload.message);
-  return res;
-};
+export const deleteDebt = debtId => async dispatch =>
+  dispatch(deleteDebtAction(debtId));
 
 // accept debt creation request
 

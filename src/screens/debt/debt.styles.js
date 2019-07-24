@@ -11,7 +11,8 @@ export default StyleSheet.create({
     flex: 1.5,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 30
+    paddingTop: 30,
+    paddingHorizontal: 20
   },
 
   summaryGiven: { backgroundColor: colors.green },

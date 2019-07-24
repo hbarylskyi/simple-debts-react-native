@@ -38,6 +38,7 @@ export default class DebtPopup extends Component {
             keyboardType="numeric"
             autoFocus
             style={styles.input}
+            maxLength={50}
           />
         </View>
 
@@ -50,6 +51,7 @@ export default class DebtPopup extends Component {
             autoCapitalize="sentences"
             returnKeyType="done"
             style={styles.inputBlack}
+            maxLength={50}
           />
 
           <ButtonDeprecated

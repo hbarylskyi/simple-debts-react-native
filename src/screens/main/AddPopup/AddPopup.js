@@ -60,6 +60,7 @@ export default class AddPopup extends Component {
               autoCapitalize="sentences"
               autoCorrect={false}
               style={styles.input}
+              maxLength={50}
             />
 
           </View>

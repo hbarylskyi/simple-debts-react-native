@@ -78,15 +78,16 @@ export default StyleSheet.create({
     minWidth: 120,
     padding: 16,
     borderRadius: 10,
-    backgroundColor: colors.lightGray
+    backgroundColor: colors.lightGray,
+    height: 50
   },
 
   fbBtn: {
     backgroundColor: colors.fb,
     flexDirection: 'row',
     borderRadius: 10,
-    height: 50,
-    paddingHorizontal: 14
+    paddingHorizontal: 14,
+    height: 50
   },
 
   fbText: {

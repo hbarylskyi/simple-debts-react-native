@@ -36,7 +36,6 @@ export default (state = initialState, action) => {
       break;
     }
 
-    case DebtActions.DELETE_DEBT_SUCCESS:
     case DebtActions.ACCEPT_DEBT_SUCCESS: {
       const debt = action.payload;
 
@@ -49,6 +48,16 @@ export default (state = initialState, action) => {
 
       nextState = { ...state, debts: newDebts };
       console.log(newDebts, nextState, state.debts, state);
+      break;
+    }
+
+    case DebtActions.DELETE_DEBT_SUCCESS: {
+      const debtId = action.meta;
+
+      // remove debt with debtId from state
+      const newDebts = state.debts.filter(stateDebt => stateDebt.id !== debtId);
+
+      nextState = { ...state, debts: newDebts };
       break;
     }
 

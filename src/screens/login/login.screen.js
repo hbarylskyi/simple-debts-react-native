@@ -115,6 +115,7 @@ export default class LoginScreen extends Component {
                 underlineColorAndroid="transparent"
                 autoCorrect={false}
                 autoCapitalize="none"
+                maxLength={50}
               />
             </View>
 
@@ -133,6 +134,7 @@ export default class LoginScreen extends Component {
                 underlineColorAndroid="transparent"
                 autoCorrect={false}
                 secureTextEntry
+                maxLength={50}
               />
             </View>
           </View>
