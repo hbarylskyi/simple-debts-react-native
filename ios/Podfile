@@ -8,6 +8,10 @@ target 'SimpleDebts' do
   pod 'Firebase/Core', '~> 4.2.0'
   pod 'Firebase/Messaging', '~> 4.2.0'
   
+  pod 'FacebookSDK', '5.0.0'
+  pod 'FacebookSDK/LoginKit', '5.0.0'
+  pod 'FacebookSDK/ShareKit', '5.0.0'
+
   target 'SimpleDebtsTests' do
     inherit! :search_paths
     # Pods for testing

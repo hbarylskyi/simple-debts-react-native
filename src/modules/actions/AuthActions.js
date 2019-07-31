@@ -49,7 +49,13 @@ const fbLoginAction = fbToken => ({
 
 export const fbLogin = () => async dispatch => {
   try {
-    await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
+    const { isCancelled } = await LoginManager.logInWithPermissions([
+      'public_profile',
+      'email'
+    ]);
+
+    if (isCancelled) throw new Error('Log in was cancelled');
+
     const data = await AccessToken.getCurrentAccessToken();
 
     if (!data) throw new Error('access token was empty');

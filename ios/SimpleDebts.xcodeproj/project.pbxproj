@@ -61,14 +61,10 @@
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
 		F0AF2A6D758D8396544E72F7 /* libPods-SimpleDebts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF00A0A508B5BC818ED710B3 /* libPods-SimpleDebts.a */; };
 		F500EBFE6B0E426698647F92 /* libRCTMaterialKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E8BA595A45E4C6B81BC78A9 /* libRCTMaterialKit.a */; };
-		F50CC0CF22E0E115006D35E0 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F50CC0CB22E0E0CB006D35E0 /* FBSDKCoreKit.framework */; };
-		F50CC0D022E0E115006D35E0 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F50CC0C922E0E0CB006D35E0 /* FBSDKLoginKit.framework */; };
-		F50CC0D122E0E115006D35E0 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F50CC0CA22E0E0CB006D35E0 /* FBSDKShareKit.framework */; };
 		F50CC19A22E60DBC006D35E0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F50CC16922E60DBB006D35E0 /* GoogleService-Info.plist */; };
 		F518997A22E6E249008AD3C1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F518997922E6E23A008AD3C1 /* libRCTGeolocation.a */; };
 		F51899D722E6E478008AD3C1 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F51899AB22E6E3F4008AD3C1 /* libRCTFBSDK.a */; };
 		F5520ACD22E77FA800D89672 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		F55F220022BA8D7D00471348 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F55F21FD22BA8D7D00471348 /* Bolts.framework */; };
 		F587DC1522BA54B400546A17 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F587DC1422BA54B400546A17 /* Ionicons.ttf */; };
 		F587DC1622BA54B400546A17 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F587DC1422BA54B400546A17 /* Ionicons.ttf */; };
 		F587DC1922BA7F9D00546A17 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F587DC1822BA7F9D00546A17 /* Images.xcassets */; };
@@ -511,14 +507,10 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F0EB840C598A43EFB261C528 /* libRNDeviceInfo-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNDeviceInfo-tvOS.a"; sourceTree = "<group>"; };
-		F50CC0C922E0E0CB006D35E0 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		F50CC0CA22E0E0CB006D35E0 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
-		F50CC0CB22E0E0CB006D35E0 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		F50CC16922E60DBB006D35E0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F50CC25622E624D5006D35E0 /* SimpleDebts.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SimpleDebts.entitlements; path = SimpleDebts/SimpleDebts.entitlements; sourceTree = "<group>"; };
 		F518997422E6E23A008AD3C1 /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "../node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = "<group>"; };
 		F51899A122E6E3F4008AD3C1 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
-		F55F21FD22BA8D7D00471348 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../../Documents/FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
 		F587DC1422BA54B400546A17 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		F587DC1822BA7F9D00546A17 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F587DC1B22BA822D00546A17 /* icon-transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-transparent.png"; sourceTree = "<group>"; };
@@ -548,9 +540,6 @@
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
-				F50CC0CF22E0E115006D35E0 /* FBSDKCoreKit.framework in Frameworks */,
-				F50CC0D022E0E115006D35E0 /* FBSDKLoginKit.framework in Frameworks */,
-				F50CC0D122E0E115006D35E0 /* FBSDKShareKit.framework in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
@@ -560,7 +549,6 @@
 				A27ED7B537F04C5C9AC0353D /* libRNDeviceInfo.a in Frameworks */,
 				F500EBFE6B0E426698647F92 /* libRCTMaterialKit.a in Frameworks */,
 				9F7DEF30FE044BFA9819102C /* libSplashScreen.a in Frameworks */,
-				F55F220022BA8D7D00471348 /* Bolts.framework in Frameworks */,
 				251D574DEE18461AAE47C7CB /* libRNVectorIcons.a in Frameworks */,
 				6012C26AC75A4EC1A3AB181B /* libRNGestureHandler.a in Frameworks */,
 				D8D7446CCD4F48D4A5815FA4 /* libRNFirebase.a in Frameworks */,
@@ -713,10 +701,6 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F50CC0CB22E0E0CB006D35E0 /* FBSDKCoreKit.framework */,
-				F50CC0C922E0E0CB006D35E0 /* FBSDKLoginKit.framework */,
-				F50CC0CA22E0E0CB006D35E0 /* FBSDKShareKit.framework */,
-				F55F21FD22BA8D7D00471348 /* Bolts.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
@@ -983,6 +967,7 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				9409ECCAD717B87E716CDB0D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1641,6 +1626,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9409ECCAD717B87E716CDB0D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SimpleDebts/Pods-SimpleDebts-resources.sh",
+				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SimpleDebts/Pods-SimpleDebts-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		ADA3218EDED384E9346AFCCD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1852,6 +1855,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS/**",
 				);
 				INFOPLIST_FILE = SimpleDebts/Info.plist;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
@@ -1895,6 +1899,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS/**",
 				);
 				INFOPLIST_FILE = SimpleDebts/Info.plist;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";

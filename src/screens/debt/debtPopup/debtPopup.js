@@ -60,7 +60,6 @@ export default class DebtPopup extends Component {
             placeholder="Description"
             onChangeText={this.onChangeDescr}
             onSubmitEditing={this.onSubmit}
-            autoCorrect={false}
             autoCapitalize="sentences"
             returnKeyType="done"
             style={styles.inputBlack}

@@ -10,6 +10,7 @@
 #import <Firebase.h>
 #import "RNFirebaseNotifications.h"
 #import "RNFirebaseMessaging.h"
+#import <RCTLinkingManager.h>
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <React/RCTBridge.h>
@@ -40,6 +41,21 @@
   [RNSplashScreen show];
   
   return YES;
+}
+
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  if ([[FBSDKApplicationDelegate sharedInstance] application:app openURL:url options:options]) {
+    return YES;
+  }
+  
+  if ([RCTLinkingManager application:app openURL:url options:options]) {
+    return YES;
+  }
+  
+  return NO;
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {

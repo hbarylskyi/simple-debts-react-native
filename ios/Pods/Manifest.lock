@@ -1,4 +1,30 @@
 PODS:
+  - FacebookSDK (5.0.0):
+    - FacebookSDK/CoreKit (= 5.0.0)
+    - FacebookSDK/MarketingKit (= 5.0.0)
+  - FacebookSDK/CoreKit (5.0.0):
+    - FBSDKCoreKit (= 5.0.0)
+  - FacebookSDK/LoginKit (5.0.0):
+    - FacebookSDK/CoreKit
+    - FBSDKLoginKit (= 5.0.0)
+  - FacebookSDK/MarketingKit (5.0.0):
+    - FacebookSDK/CoreKit
+    - FBSDKMarketingKit (= 5.0.0)
+  - FacebookSDK/ShareKit (5.0.0):
+    - FacebookSDK/CoreKit
+    - FBSDKShareKit (= 5.0.0)
+  - FBSDKCoreKit (5.0.0):
+    - FBSDKCoreKit/Basics (= 5.0.0)
+    - FBSDKCoreKit/Core (= 5.0.0)
+  - FBSDKCoreKit/Basics (5.0.0)
+  - FBSDKCoreKit/Core (5.0.0):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (5.0.0):
+    - FBSDKCoreKit (= 5.0.0)
+  - FBSDKMarketingKit (5.0.0):
+    - FBSDKCoreKit (= 5.0.0)
+  - FBSDKShareKit (5.0.0):
+    - FBSDKCoreKit (= 5.0.0)
   - Firebase/Core (4.2.0):
     - FirebaseAnalytics (= 4.0.3)
     - FirebaseCore (= 4.0.7)
@@ -34,11 +60,19 @@ PODS:
   - Protobuf (3.9.0)
 
 DEPENDENCIES:
+  - FacebookSDK (= 5.0.0)
+  - FacebookSDK/LoginKit (= 5.0.0)
+  - FacebookSDK/ShareKit (= 5.0.0)
   - Firebase/Core (~> 4.2.0)
   - Firebase/Messaging (~> 4.2.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - FacebookSDK
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKMarketingKit
+    - FBSDKShareKit
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -49,6 +83,11 @@ SPEC REPOS:
     - Protobuf
 
 SPEC CHECKSUMS:
+  FacebookSDK: ad10680cfa5a2f02213113f3e2a21bec726fff34
+  FBSDKCoreKit: ba361d4a9d4dc29ff218822b849b22d4f869c7bb
+  FBSDKLoginKit: c6d0dc187bd076e370dffa10f7fc8a3562a6892c
+  FBSDKMarketingKit: 4b8d3c6b53b5397cd0b6ba39b1e7034bc9f3a45e
+  FBSDKShareKit: edf3450bf82ce0c626b31943f370d3729082746d
   Firebase: 9548cae14d69718add12d75a5b312893f7ef89c7
   FirebaseAnalytics: 76f754d37ca5b04f36856729b6af3ca0152d1069
   FirebaseCore: 9a6cc1e3eaf75905390f9220596ad4fd8f92faee
@@ -58,6 +97,6 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
 
-PODFILE CHECKSUM: bde54a46a0dd4ba0f8c89ffc1ea8f2d46a9e324d
+PODFILE CHECKSUM: a78a6d3c27ac26dd41967820bf05f2b6b2896654
 
 COCOAPODS: 1.7.5

@@ -6,7 +6,8 @@ import {
   RefreshControl,
   ActivityIndicator,
   Image,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  BackHandler
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import PropTypes from 'prop-types';
@@ -77,6 +78,7 @@ export default class DebtScreen extends Component {
 
   async componentDidMount() {
     const { navigation, fetchDebt, debt } = this.props;
+
     navigation.setParams({
       hamburgerData: this.getHamburgerData()
     });
@@ -84,6 +86,15 @@ export default class DebtScreen extends Component {
     this.setState({ loading: true });
     await fetchDebt(debt.id);
     this.setState({ loading: false });
+
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      this.goBack();
+      return true;
+    });
+  }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
   }
 
   getHamburgerData = () => {
@@ -183,7 +194,7 @@ export default class DebtScreen extends Component {
 
   hideOpPopup = () => this.setState({ opPopupShown: false });
 
-  goBack = async () => {
+  goBack = () => {
     const { navigation } = this.props;
     navigation.goBack();
   };
@@ -298,9 +309,6 @@ export default class DebtScreen extends Component {
 
     const isTaken = debt.moneyReceiver === user.id;
     const style = isTaken ? styles.summaryTaken : styles.summaryGiven;
-    const debtText = `${
-      isTaken ? `you owe ${debt.user.name}` : `${debt.user.name} owes you`
-    }\n${currencyToSymbol(debt.currency)}${debt.summary}`;
 
     return (
       <View style={[styles.summaryContainer, style]}>
@@ -308,7 +316,11 @@ export default class DebtScreen extends Component {
           source={{ uri: debt.user.picture }}
           style={styles.summaryAvatar}
         />
-        <Text style={styles.moneyAmount}>{debtText}</Text>
+        <Text style={styles.moneyAmount}>
+          {debt.user.name}
+          {isTaken ? 'borrowed from you' : 'owes you'}
+          {currencyToSymbol(debt.currency) + debt.summary}
+        </Text>
 
         {this.shouldRenderAcceptAll() ? (
           <Button
