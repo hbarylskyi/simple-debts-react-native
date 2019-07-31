@@ -45,7 +45,11 @@ export default class DebtPopup extends Component {
       <Popup {...rest}>
         <View style={[styles.top, backgr]}>
           <TextInput
-            placeholder={`How much you ${isGivePopup ? 'gave' : 'took'}?`}
+            placeholder={
+              isGivePopup
+                ? 'How much you did you give?'
+                : 'How much did you take?'
+            }
             onChangeText={this.onChangeVal}
             placeholderTextColor="white"
             keyboardType="numeric"
