@@ -317,8 +317,8 @@ export default class DebtScreen extends Component {
           style={styles.summaryAvatar}
         />
         <Text style={styles.moneyAmount}>
-          {debt.user.name}
-          {isTaken ? 'borrowed from you' : 'owes you'}
+          {isTaken ? `you owe ${debt.user.name}` : `${debt.user.name} owes you`}
+          {'\n'}
           {currencyToSymbol(debt.currency) + debt.summary}
         </Text>
 

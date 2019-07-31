@@ -15,7 +15,12 @@ const OperationPopup = ({ operation, user, debt, onClosePress, ...rest }) => {
   const topText = currencyToSymbol(debt.currency) + moneyAmount;
   const userName =
     operation.moneyReceiver === user.id ? user.name : debt.user.name;
-  const date = moment(new Date()).format('ll');
+  const date = moment(new Date(operation.date)).format('ll');
+
+  let cancelledBy = '';
+
+  if (debt.status === 'CANCELLED') {
+  }
 
   return (
     <Popup {...rest}>
@@ -28,6 +33,9 @@ const OperationPopup = ({ operation, user, debt, onClosePress, ...rest }) => {
           <Text style={[styles.text, styles.big]}>{date}</Text>
         </View>
         <Text style={styles.text}>{description}</Text>
+        {cancelledBy ? (
+          <Text style={styles.text}>Cancelled by {cancelledBy}</Text>
+        ) : null}
         <ButtonDeprecated
           onPress={onClosePress}
           title={'Close'}

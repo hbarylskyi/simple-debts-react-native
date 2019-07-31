@@ -1,38 +1,38 @@
 {
   "project_info": {
-    "project_number": "35427873415",
-    "firebase_url": "https://simple-debts-api-dev.firebaseio.com",
-    "project_id": "simple-debts-api-dev",
-    "storage_bucket": "simple-debts-api-dev.appspot.com"
+    "project_number": "478529226778",
+    "firebase_url": "https://simple-debts-api.firebaseio.com",
+    "project_id": "simple-debts-api",
+    "storage_bucket": "simple-debts-api.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:35427873415:android:065f8f6a2fc8c213",
+        "mobilesdk_app_id": "1:478529226778:android:065f8f6a2fc8c213",
         "android_client_info": {
           "package_name": "com.simpledebts"
         }
       },
       "oauth_client": [
         {
-          "client_id": "35427873415-3lhkd5q4fc992ep5h3nl77qkq9tt8gg0.apps.googleusercontent.com",
+          "client_id": "478529226778-83ie2v4tk8rnk41v0d50u9aafmel1qkj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDsrnMU7bev8Y3xn_i28D8RFeh2S-NcOYg"
+          "current_key": "AIzaSyD916v-JXV_mE0N-S3Fc-ffw7k1LqmxJvU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "35427873415-3lhkd5q4fc992ep5h3nl77qkq9tt8gg0.apps.googleusercontent.com",
+              "client_id": "478529226778-83ie2v4tk8rnk41v0d50u9aafmel1qkj.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "35427873415-iu4q7ihsgu30g6vg77fo0ncmbj544ocs.apps.googleusercontent.com",
+              "client_id": "478529226778-d6342rpdnpccd795pkruht2p10v6qsgb.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.simpledebts"
